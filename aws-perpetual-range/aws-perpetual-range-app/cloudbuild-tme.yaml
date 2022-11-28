@@ -7,7 +7,7 @@ steps:
       - '$_GCR_HOSTNAME/$_SOURCE_PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - .
       - '-f'
-      - Dockerfile
+      - ./aws-perpetual-range/aws-perpetual-range-app/Dockerfile
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:
@@ -36,7 +36,7 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _PLATFORM: managed
-  _SERVICE_NAME: aws-cryptomining-detection
+  _SERVICE_NAME: aws-perpetual-range-app
   _LABELS: gcb-trigger-id=bc757e86-1561-483d-844e-9761cae95f36
   _TARGET_PROJECT: vectra-tme-dev
   _DEFAULT_COMPUTE_SA: 173641785431-compute@developer.gserviceaccount.com
@@ -46,4 +46,4 @@ substitutions:
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
-  - aws-cryptomining-detection
+  - aws-perpetual-range-app
