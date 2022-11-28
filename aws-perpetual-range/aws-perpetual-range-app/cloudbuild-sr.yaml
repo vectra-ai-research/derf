@@ -7,7 +7,7 @@ steps:
       - '$_GCR_HOSTNAME/$_SOURCE_PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - .
       - '-f'
-      - Dockerfile
+      - ./aws-perpetual-range/aws-perpetual-range-app/Dockerfile
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:
