@@ -1,0 +1,8 @@
+To install deps:
+pip install flask boto3 aws-requests-auth request requests-aws4auth
+
+To execute tests:
+./test.py
+
+To start development server
+./run.py

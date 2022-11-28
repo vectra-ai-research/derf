@@ -1,0 +1,6 @@
+region                  =   ""
+awsProfile              =   ""
+awsAccountId            =   ""
+awsExternalProfile      =   ""
+awsExternalAccountId    =   ""
+pathToAWSConfig         =   ""
