@@ -58,7 +58,7 @@ RUN mkdir ~/.aws && touch ~/.aws/credentials
 # Copy local code to the container image.
 ENV APP_HOME /
 WORKDIR $APP_HOME
-COPY . ./
+COPY . ./aws-perpetual-range/aws-perpetual-range-app/
 
 
 # Run the web service on container startup.
