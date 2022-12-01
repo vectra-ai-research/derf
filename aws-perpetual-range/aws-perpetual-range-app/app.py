@@ -5,25 +5,9 @@ from flask import Flask, json, request, abort, jsonify
 import requests as requests
 app = Flask(__name__)
 
-@app.route('/resetRange', methods=['GET','POST'])
+@app.route('/apply', methods=['GET'])
 def resetRange():
-  data = request.json
-  if 'HOST' not in data:
-    abort(400, description='missing HOST')
-  elif 'REGION' not in data:
-    abort(400, description='missing REGION')
-  elif 'SERVICE' not in data:
-    abort(400, description='missing SERVICE')
-  elif 'ENDPOINT' not in data:
-    abort(400, description='missing ENDPOINT')
-  else:
-    return terraform_apply(), 200, {'Content-Type': 'application/json; charset=utf-8'}
-
-
-#return errors as JSON, otherwise it would be HTML
-@app.errorhandler(400)
-def bad_request(message):
-  return jsonify(error=str(message)), 400
+  return terraform_apply(), 200, {'Content-Type': 'application/json; charset=utf-8'}
 
 
 def terraform_apply():
