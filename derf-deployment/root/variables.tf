@@ -1,13 +1,11 @@
 variable "aws_primary_id" {
   description = "The Account ID of the primary AWS Account which DeRF Resources will be deployed and attacker are executed"
   type        = string
-  default     = null
 }
 
 variable "aws_secondary_id" {
   description = "The Account ID of the secondary AWS Account used as an 'external account' when attacks which rely on an valid external account are executed"
   type        = string
-  default     = null
 }
 
 variable "aws_primary_profile" {
@@ -30,4 +28,8 @@ variable "pathToAWSConfig" {
   type = string
 }
 
+variable "gcp_deployment_project_id" {
+  description = "The ID of the project to deploy DeRF core resources"
+  type        = string
+}
 
