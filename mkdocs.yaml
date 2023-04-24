@@ -1,0 +1,94 @@
+site_name: DEtection Replay Framework
+site_url: 
+repo_url: 
+repo_name: 
+plugins:
+  - search
+  - awesome-pages
+theme:
+  name: material
+  logo: 
+  favicon: 
+  palette:
+    - scheme: default
+      primary: deep-purple
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep-purple
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+  - navigation.expand
+  - navigation.indexes
+  - navigation.top
+  - navigation.tabs
+  - navigation.tabs.sticky
+  icon:
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+use_directory_urls: true
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.magiclink
+  - tables
+  - meta
+  - abbr
+  - def_list
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - footnotes
+  - pymdownx.tabbed:
+      alternate_style: true 
+
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
+  - javascripts/tablesort.js
+extra_css:
+  - css/extra.css
+  - css/w3.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/nightmareJS
+copyright: 
+
+
+nav:
+  - DeRF:
+      - index.md
+      - Frequently Asked Questions: faq.md
+      - DeRF vs. Other Tools: comparison.md
+      - Contributing: contributing.md
+  - User Guide:
+      - Getting Started: user-guide/getting-started.md
+      - Examples: user-guide/examples.md
+      - Usage: user-guide/usage.md
+      - Troubleshooting: user-guide/troubleshooting.md
+      - Programmatic Usage: user-guide/programmatic-usage.md
+  - Attack Techniques Reference:
+      - All Attack Techniques: attack-techniques/list.md
+      - Philosophy: attack-techniques/philosophy.md
+      - Supported Platforms: attack-techniques/supported-platforms.md
+      - ... | attack-techniques/*/*.md
