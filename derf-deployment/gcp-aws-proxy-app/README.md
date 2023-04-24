@@ -1,4 +1,4 @@
-# DeRF Deployment
+# DeRF AWS Proxy App
 
 ## Requirements
 

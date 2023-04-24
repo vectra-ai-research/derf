@@ -11,6 +11,7 @@ locals {
     "workflowexecutions.googleapis.com",
     "workflows.googleapis.com",
     "containerregistry.googleapis.com",
+    "sourcerepo.googleapis.com",
   ]
   gcp_deployment_project_id = var.gcp_deployment_project_id
 }
