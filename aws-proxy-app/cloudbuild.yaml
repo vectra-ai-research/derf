@@ -36,7 +36,7 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _PLATFORM: managed
-  _SERVICE_NAME: aws-proxy-app
+  _SERVICE_NAME: awsproxyapp
   _LABELS: gcb-trigger-id=$BUILD_ID
   _DEFAULT_CB_SA: service-$PROJECT_NUMBER@gcp-sa-cloudbuild.iam.gserviceaccount.com
   _DEPLOY_REGION: us-central1
