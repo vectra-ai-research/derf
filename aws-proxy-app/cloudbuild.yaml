@@ -1,0 +1,49 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$_SOURCE_PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$_SOURCE_PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+    id: Push
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=managed'
+      - '--service-account=$_DEFAULT_COMPUTE_SA'
+      - '--image=$_GCR_HOSTNAME/$_SOURCE_PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID,$_LABELS'
+      - '--region=$_DEPLOY_REGION'
+      - '--update-secrets=AWS_ACCESS_KEY_ID_USER02=projects/$PROJECT_ID/secrets/derf-user02-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER02=projects/$PROJECT_ID/secrets/derf-user02-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER01=projects/$PROJECT_ID/secrets/derf-user01-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER01=projects/$PROJECT_ID/secrets/derf-user01-accessKeySecret-AWS:latest'
+      - '--project=$_TARGET_PROJECT'
+      - '--quiet'
+    id: Deploy
+    entrypoint: gcloud
+images:
+  - '$_GCR_HOSTNAME/$_SOURCE_PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _PLATFORM: managed
+  _SERVICE_NAME: aws-proxy-app
+  _LABELS: gcb-trigger-id=bc757e86-1561-483d-844e-9761cae95f37
+  _TARGET_PROJECT: vectra-sr-workflows
+  _DEFAULT_COMPUTE_SA: $PROJECT_ID-compute@developer.gserviceaccount.com
+  _DEPLOY_REGION: us-central1
+  _SOURCE_PROJECT_ID: vectra-sr-workflows
+  _GCR_HOSTNAME: us.gcr.io
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - aws-submit-request-asuser
