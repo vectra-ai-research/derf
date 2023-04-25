@@ -7,7 +7,7 @@ steps:
       - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - .
       - '-f'
-      - ./Dockerfile
+      - ../Dockerfile
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:
@@ -36,7 +36,7 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _PLATFORM: managed
-  _SERVICE_NAME: awsproxyapp
+  _SERVICE_NAME: aws-proxy-app
   _LABELS: gcb-trigger-id=$BUILD_ID
   _DEFAULT_CB_SA: service-$PROJECT_NUMBER@gcp-sa-cloudbuild.iam.gserviceaccount.com
   _DEPLOY_REGION: us-central1
