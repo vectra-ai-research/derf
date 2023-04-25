@@ -23,7 +23,7 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
   }
 
   git_file_source {
-    path      = "derf-vectra-private /aws-proxy-app/cloudbuild.yaml"
+    path      = "aws-proxy-app/cloudbuild.yaml"
     uri       = "https://github.com/vectra-ai-research/derf-vectra-private.git"
     revision  = "refs/heads/main"
     repo_type = "GITHUB"
