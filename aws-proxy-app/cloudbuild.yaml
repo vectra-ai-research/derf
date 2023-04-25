@@ -21,7 +21,7 @@ steps:
       - update
       - $_SERVICE_NAME
       - '--platform=managed'
-      - '--service-account=$_DEFAULT_COMPUTE_SA'
+      - '--service-account=$_DEFAULT_CB_SA'
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_LABELS'
       - '--region=$_DEPLOY_REGION'
@@ -38,7 +38,7 @@ substitutions:
   _PLATFORM: managed
   _SERVICE_NAME: aws-proxy-app
   _LABELS: gcb-trigger-id=$BUILD_ID
-  _DEFAULT_COMPUTE_SA: $PROJECT_NUMBER-compute@developer.gserviceaccount.com
+  _DEFAULT_CB_SA: service-$PROJECT_NUMBER@gcp-sa-cloudbuild.iam.gserviceaccount.com
   _DEPLOY_REGION: us-central1
   _GCR_HOSTNAME: us.gcr.io
 tags:
