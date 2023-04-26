@@ -66,7 +66,7 @@ resource "google_cloud_run_service" "aws-proxy-app" {
   template {
     spec {
       containers {
-        image = "us.gcr.io/vectra-sr-derf-deployment/derf-vectra-private/aws-proxy-app"
+        image = "us.gcr.io/${local.gcp_deployment_project_id}/${local.git_repo_name}/${local.service_name}"
       }
       service_account_name = "${google_service_account.aws-proxy-app-service-account.email}"
     }
