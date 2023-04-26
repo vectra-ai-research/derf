@@ -6,6 +6,7 @@ locals {
   gcr_region                      = "us-central1"
   image_name                      = "derf-aws-proxy-app-image"
   repository_name                 = "derf-aws-proxy-app-repo"
+  git_repo_name                   = "derf-vectra-private"
   branch_name                     = "main"
   service_name                    = "aws-proxy-app"
   gcr_hostname                    = "us.gcr.io"
