@@ -1,4 +1,11 @@
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE A CONTAINER REGIGISTY WHERE CLOUD BUILD WILL STORE ARITFACTS AND CLOUD BUILD WILL PULL FROM
+# ---------------------------------------------------------------------------------------------------------------------
 
+resource "google_container_registry" "derf-vectra-private" {
+  project  = var.gcp_deployment_project_id
+  location = "US"
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A CLOUD BUILD TRIGGER
@@ -53,11 +60,13 @@ resource "google_cloud_run_service" "aws-proxy-app" {
   name     = "aws-proxy-app"
   location = "us-central1"  
 
+
   template {
     spec {
       containers {
         image = "us.gcr.io/vectra-sr-derf-deployment/derf-vectra-private/aws-proxy-app:61b5a6900b93724dff4f3a4520c79f6ce9bdb1b1"
       }
+      service_account_name = "${google_service_account.aws-proxy-app-service-account.email}"
     }
   }
 
