@@ -36,3 +36,23 @@ resource "google_secret_manager_secret_iam_member" "binding_secret_02" {
   role = "roles/secretmanager.secretAccessor"
   member =  google_service_account.aws-proxy-app-service-account.member
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Assign Cloud Run Developer Role to the Default Cloud Build SA - (Cloud Build Role automatically assigned)
+# ---------------------------------------------------------------------------------------------------------------------
+
+data "google_project" "project" {
+}
+
+output "project_number" {
+  value = data.google_project.project.number
+}
+
+resource "google_project_iam_member" "project_iam_assignment_01" {
+  project = var.gcp_deployment_project_id
+  role    = "roles/run.developer"
+  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+  depends_on = [
+    google_cloudbuild_trigger.aws_proxy_app_cloudbuild_trigger
+  ]
+}
