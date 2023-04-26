@@ -23,7 +23,7 @@ steps:
       - '--platform=managed'
       - '--service-account=cloudbuild-deploy-cloudrun-sa@$PROJECT_ID.iam.gserviceaccount.com'
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
-      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-trigger-id=$_LABELS'
+      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA'
       - '--region=$_DEPLOY_REGION'
       - '--update-secrets=AWS_ACCESS_KEY_ID_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeySecret-AWS:latest'
       - '--project=$PROJECT_ID'
@@ -37,7 +37,6 @@ options:
 substitutions:
   _PLATFORM: managed
   _SERVICE_NAME: aws-proxy-app
-  _LABELS: gcb-trigger-id=$BUILD_ID
   _DEPLOY_REGION: us-central1
   _GCR_HOSTNAME: us.gcr.io
 tags:
