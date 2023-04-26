@@ -57,14 +57,20 @@ resource "google_project_iam_member" "project_iam_assignment_01" {
   member  = google_service_account.cloudbuild-to-cloudrun-deployment-service-account.member
 }
 
-
 resource "google_project_iam_member" "project_iam_assignment_02" {
+  project = var.gcp_deployment_project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+}
+
+
+resource "google_project_iam_member" "project_iam_assignment_03" {
   project = var.gcp_deployment_project_id
   role = "roles/storage.objectViewer"
   member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
 }
 
-resource "google_project_iam_member" "project_iam_assignment_03" {
+resource "google_project_iam_member" "project_iam_assignment_04" {
   project = var.gcp_deployment_project_id
   role = "roles/artifactregistry.reader"
   member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
