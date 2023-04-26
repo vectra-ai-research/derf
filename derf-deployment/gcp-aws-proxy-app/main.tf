@@ -1,8 +1,4 @@
 
-# ---------------------------------------------------------------------------------------------------------------------
-# DEPLOY A GOOGLE CLOUD STORAGE BUCKET AND UPLOAD PROXY APP CODE
-# ---------------------------------------------------------------------------------------------------------------------
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A CLOUD BUILD TRIGGER
@@ -37,16 +33,32 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
 
 # Substitutions key names must begin with underscore and will swap out values in the cloudbuild yaml file.
   substitutions = {
-    # _LOCATION             = local.location
-    # _GCR_REGION           = local.gcr_region
-    # _SERVICE_NAME         = local.service_name
-    # _PLATFORM             = "managed"
-    # _SERVICE_NAME         = local.service_name
-    # _TARGET_PROJECT       = local.source_project_id
-    # _DEFAULT_COMPUTE_SA   =  local.default_compute_sa
-    # _DEPLOY_REGION        = local.deploy_region
-    # _SOURCE_PROJECT_ID    = local.source_project_id
-    # _GCR_HOSTNAME         = local.gcr_hostname 
+      # Defined in cloudbuild.yaml
   }
 
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE A CLOUD RUN SERVICE
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "google_cloud_run_service" "aws-proxy-app" {
+  name     = "aws-proxy-app"
+  location = "us-central1"  
+
+  template {
+    spec {
+      containers {
+        image = "us.gcr.io/${local.gcp_deployment_project_id}/${git_repo_name}/${service_name}:latest"
+      }
+    }
+  }
+
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }
+  depends_on = [
+    google_cloudbuild_trigger.aws_proxy_app_cloudbuild_trigger
+  ]
 }
