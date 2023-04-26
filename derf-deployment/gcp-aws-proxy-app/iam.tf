@@ -51,7 +51,7 @@ output "project_number" {
 resource "google_project_iam_member" "project_iam_assignment_01" {
   project = var.gcp_deployment_project_id
   role    = "roles/run.developer"
-  member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
   depends_on = [
     google_cloudbuild_trigger.aws_proxy_app_cloudbuild_trigger
   ]

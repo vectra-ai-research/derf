@@ -33,7 +33,7 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
   }
 
 
-  ignored_files = ["README.md", "./derf-deployment/**/*", "./docs/**/*", "./aws-perpetual-range/**/*", "mkdocs.yaml"]
+  ignored_files = ["README.md", "/derf-deployment/**/*", "/docs/**/*", "/aws-perpetual-range/**/*", "mkdocs.yaml"]
 
 # Substitutions key names must begin with underscore and will swap out values in the cloudbuild yaml file.
   substitutions = {
