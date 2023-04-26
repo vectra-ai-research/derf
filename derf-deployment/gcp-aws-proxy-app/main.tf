@@ -47,37 +47,3 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
 
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# CREATE A CLOUD RUN SERVICE
-# ---------------------------------------------------------------------------------------------------------------------
-
-data "google_container_registry_image" "aws-proxy-app" {
-  name      = "derf-vectra-private/aws-proxy-app"
-  project   = local.gcp_deployment_project_id
-  region    = "us"
-  tag       = "" 
-}
-
-resource "google_cloud_run_service" "aws-proxy-app" {
-  name     = "aws-proxy-app"
-  location = "us-central1"  
-
-
-  template {
-    spec {
-      containers {
-        image = "us.gcr.io/${local.gcp_deployment_project_id}/${local.git_repo_name}/${local.service_name}"
-      }
-      service_account_name = "${google_service_account.aws-proxy-app-service-account.email}"
-    }
-  }
-
-  traffic {
-    percent         = 100
-    latest_revision = true
-  }
-  depends_on = [
-    google_cloudbuild_trigger.aws_proxy_app_cloudbuild_trigger,
-    google_project_iam_member.project_iam_assignment_01
-  ]
-}
