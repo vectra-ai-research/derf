@@ -21,7 +21,7 @@ steps:
       - update
       - $_SERVICE_NAME
       - '--platform=managed'
-      - '--service-account=cloudbuild-deploy-cloudrun-sa@$PROJECT_ID.iam.gserviceaccount.com
+      - '--service-account=cloudbuild-deploy-cloudrun-sa@$PROJECT_ID.iam.gserviceaccount.com'
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_LABELS'
       - '--region=$_DEPLOY_REGION'
