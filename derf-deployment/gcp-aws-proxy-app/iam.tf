@@ -48,22 +48,15 @@ resource "google_secret_manager_secret_iam_member" "binding_secret_02" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# Assign Permissions to the Customer-Managed SA used in the CloudBuild Deployment Phase
+# Project-Level IAM
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_project_iam_member" "project_iam_assignment_01" {
   project = var.gcp_deployment_project_id
   role    = "roles/run.admin"
   member  = google_service_account.cloudbuild-to-cloudrun-deployment-service-account.member
-  depends_on = [
-    google_cloudbuild_trigger.aws_proxy_app_cloudbuild_trigger
-  ]
 }
 
-resource "google_container_registry" "derf-vectra-private" {
-  project  = var.gcp_deployment_project_id
-  location = "US"
-}
 
 resource "google_project_iam_member" "project_iam_assignment_02" {
   project = var.gcp_deployment_project_id

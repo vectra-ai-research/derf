@@ -7,6 +7,7 @@ resource "google_container_registry" "derf-vectra-private" {
   location = "US"
 }
 
+
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A CLOUD BUILD TRIGGER
 # ---------------------------------------------------------------------------------------------------------------------
@@ -34,6 +35,7 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
     approval_config {
      approval_required = true 
   }
+
 
 
   ignored_files = ["README.md", "./derf-deployment", "./docs", "./aws-perpetual-range", "mkdocs.yaml"]
@@ -64,7 +66,7 @@ resource "google_cloud_run_service" "aws-proxy-app" {
   template {
     spec {
       containers {
-        image = "us.gcr.io/vectra-sr-derf-deployment/derf-vectra-private/aws-proxy-app:61b5a6900b93724dff4f3a4520c79f6ce9bdb1b1"
+        image = "us.gcr.io/vectra-sr-derf-deployment/derf-vectra-private/aws-proxy-app"
       }
       service_account_name = "${google_service_account.aws-proxy-app-service-account.email}"
     }
