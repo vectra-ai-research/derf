@@ -11,7 +11,7 @@ RUN pip install flask requests gunicorn requests-aws4auth xmltodict
 # Copy local code to the container image.
 ENV APP_HOME /
 WORKDIR $APP_HOME
-COPY ./ ./
+COPY . .
 
 # Run the web service on container startup.
 # Use gunicorn webserver with one worker process and 8 threads.
