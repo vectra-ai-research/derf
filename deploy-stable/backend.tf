@@ -1,6 +1,6 @@
 ##########################################################################################
 # Complete the example-backend.conf for profile and region
-# Once completed Run `tereraform init -backend-config=example-backend.conf
+# Once completed Run `terraform init -backend-config=example-backend.conf`
 ##########################################################################################
 
 terraform {

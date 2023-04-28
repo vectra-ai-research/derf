@@ -108,13 +108,13 @@ DescribeInstanceAttribute:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "SUCCESS - AWS EC2 Download User Data Attack"
+          - "SUCCESS - AWS EC2 Get User Data Attack"
 
     - error:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE - AWS EC2 Download User Data Attack"
+          - "FAILURE - AWS EC2 Get User Data Attack"
 
   EOF
 
