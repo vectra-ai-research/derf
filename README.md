@@ -1,4 +1,4 @@
-# DeRF
+# DEtection Replay Framework - DERF
 
 
 Read the [Full Documentation](docs/index.md)

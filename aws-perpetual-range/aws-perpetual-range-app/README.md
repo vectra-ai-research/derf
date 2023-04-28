@@ -1,1 +1,0 @@
-## Service: aws-perpetual-range-app

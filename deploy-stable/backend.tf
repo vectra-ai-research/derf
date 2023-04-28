@@ -1,8 +1,11 @@
+##########################################################################################
+# Complete the example-backend.conf for profile and region
+# Once completed Run `tereraform init -backend-config=example-backend.conf
+##########################################################################################
+
 terraform {
   backend "s3" {
-    region         = "us-east-1"
     encrypt        = true
     key            = "terraform.tfstate"
-    profile        = "${var.aws_primary_profile}"
   }
 }

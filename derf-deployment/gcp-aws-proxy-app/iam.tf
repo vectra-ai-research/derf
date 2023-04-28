@@ -23,6 +23,19 @@ resource "google_service_account" "workflows-to-cloudrun-service-account" {
 }
 
 
+# ---------------------------------------------------------------------------------------------------------------------
+# CLoud Run Service-Level IAM Role Binding
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+resource "google_cloud_run_service_iam_member" "workflow_service_account" {
+  location = local.location
+  project = local.gcp_deployment_project_id
+  service = google_cloud_run_service.aws-proxy-app.name
+  role = "roles/run.developer"
+  member = google_service_account.workflows-to-cloudrun-service-account.member
+}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Secret-Level Roles: Secret Accessor Role to the Service Accounts used by the Cloud Run App 
@@ -114,11 +127,7 @@ resource "google_project_iam_member" "project_iam_assignment_04" {
   member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
 }
 
-resource "google_project_iam_member" "project_iam_assignment_05" {
-  project = var.gcp_deployment_project_id
-  role = "roles/run.invoker"
-  member = google_service_account.workflows-to-cloudrun-service-account.member
-}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Assign Service Account User Role to the Default Cloud Build SA so it can impersonate the  Customer-Managed SA

@@ -47,5 +47,41 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
 
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# DEPLOY A CLOUD RUN SERVICE
+# ------------------------------------------------------------------------------------------
 
+
+resource "google_cloud_run_service" "aws-proxy-app" {
+  name     = "aws-proxy-app"
+  location = local.location
+
+  template {
+    metadata {
+      annotations = {
+        "client.knative.dev/user-image"         =   local.image_name
+        "run.googleapis.com/client-name"        =    "terraform"
+
+      }
+    }
+
+    spec {
+      containers {
+        image = "us-docker.pkg.dev/cloudrun/container/hello"
+      }
+      service_account_name  = "${google_service_account.aws-proxy-app-service-account.email}"
+    }
+  }
+  traffic {
+    percent         = 100
+    latest_revision = true
+  }  
+  depends_on = [ google_cloudbuild_trigger.aws_proxy_app_cloudbuild_trigger ]
+  
+  lifecycle {
+    ignore_changes = all
+  }
+
+
+}
 
