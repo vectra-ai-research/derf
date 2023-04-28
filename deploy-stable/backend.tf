@@ -3,6 +3,6 @@ terraform {
     region         = "us-east-1"
     encrypt        = true
     key            = "terraform.tfstate"
-    profile        = "vectra-sr"
+    profile        = "${var.aws_primary_profile}"
   }
 }

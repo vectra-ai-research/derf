@@ -23,8 +23,3 @@ variable "derf_user02_accessKeySecret_AWS_SMID" {
   type        = string
 }
 
-# variable "github_token" {
-#   description = "A GitHub Personal Access Token used to pull the derf-vectra-private repo and connect into GCP CloudBuild"
-#   type        = string
-#   default     = null
-# }

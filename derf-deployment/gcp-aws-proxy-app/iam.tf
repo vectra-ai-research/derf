@@ -15,6 +15,15 @@ resource "google_service_account" "cloudbuild-to-cloudrun-deployment-service-acc
 
 }
 
+## Cloud Workflows will run as this SA to invoke Cloud Run
+resource "google_service_account" "workflows-to-cloudrun-service-account" {
+  account_id   = "workflows-to-cloudrun-sa"
+  display_name = "Service Account Cloud Workflows will used to inbvoke the AWS proxy app in Cloud Run"
+
+}
+
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Secret-Level Roles: Secret Accessor Role to the Service Accounts used by the Cloud Run App 
 # and Cloud Build SA during Deployment Phase
@@ -103,6 +112,12 @@ resource "google_project_iam_member" "project_iam_assignment_04" {
   project = var.gcp_deployment_project_id
   role = "roles/artifactregistry.reader"
   member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "project_iam_assignment_05" {
+  project = var.gcp_deployment_project_id
+  role = "roles/run.invoker"
+  member = google_service_account.workflows-to-cloudrun-service-account.member
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

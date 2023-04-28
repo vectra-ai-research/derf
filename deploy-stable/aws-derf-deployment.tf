@@ -2,7 +2,7 @@
 # DeRF Execution Users
 ##########################################################################################
 module "aws_derf_execution_users" {
-  source = "../aws-derf-execution-users"
+  source = "../derf-deployment/aws-derf-execution-users"
 
   aws_primary_id          = local.aws_primary_id
 
@@ -17,7 +17,7 @@ module "aws_derf_execution_users" {
 # AWS Perpetual Range Deployment
 ##########################################################################################
 module "aws_perpetual_range" {
-  source = "../aws-perpetual-range"
+  source = "../derf-deployment/aws-perpetual-range"
 
   aws_primary_id          = local.aws_primary_id
   aws_secondary_id        = local.aws_secondary_id

@@ -1,7 +1,12 @@
+data "google_service_account" "workflows-to-cloudrun-sa" {
+  account_id   = "workflows-to-cloudrun-sa"
+
+}
+
 resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_get_user_data_attack" {
   name            = "aws-ec2-get-user-data"
   description     = "A workflow intended to match the functionality of the  Status Red Team attack technique 'EC2 Download User Data': https://stratus-red-team.cloud/attack-techniques/AWS/aws.discovery.ec2-download-user-data/"
-  service_account = var.serviceAccount
+  service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId
   source_contents = <<-EOF
 
@@ -38,7 +43,7 @@ main:
     - getCloudRunURL:
         call: googleapis.run.v2.projects.locations.services.get
         args:
-          name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-submit-request-asuser"}'
+          name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint 
     - DescribeInstanceAttribute1:
         call: DescribeInstanceAttribute
@@ -95,7 +100,7 @@ DescribeInstanceAttribute:
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
-            next: permissionError
+            next: returnValidation
           - condition: $${response.body.responseCode == 400}
             next: error
 
@@ -104,11 +109,7 @@ DescribeInstanceAttribute:
           - $${response.body.responseBody}
           - $${response.body.responseCode}
           - "SUCCESS - AWS EC2 Download User Data Attack"
-    - permissionError:
-        return: 
-          - $${response.body.responseBody}
-          - $${response.body.responseCode}
-          - "FAILURE - AWS EC2 Download User Data Attack | This is typically a permission error"
+
     - error:
         return: 
           - $${response.body.responseBody}

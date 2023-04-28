@@ -3,9 +3,3 @@ variable "projectId" {
   type = string
   default = ""
 }
-
-variable "serviceAccount" {
-  description = "The Service Account which the workflow will execute as"
-  type = string
-  default = ""
-}
