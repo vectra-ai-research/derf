@@ -1,19 +1,29 @@
 # DEtection Replay Framework - DERF
 
 
-Read the [Full Documentation](docs/index.md)
+[!Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf-vectra-private)](http://golang.org)  ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf-vectra-private/total)
+Read the 
+[Full Documentation](docs/index.md)
+
+Detection Replay Framework (DeRF) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or have possession of credentials.
+
+## Installation
+DeRF is deployed as Terraform module.
 
 
 **Note:** This projects's documentation is build using [mkdocs with material](https://squidfunk.github.io/mkdocs-material/). From the root of this project you can always run mkdocs to see the rendered documentation [locally](http://localhost:8000) or use the handle Makedocs shortcut, `make docs-serve`.
 
-## Using this Template
 
-After using this template be sure to modify this README.md file and remove this section!
 
-After using this template you will want to modify at minimum the following files:
+### Building the Documentation
 
-- README.md
-- mkdocs.yaml
-- docs/index.md
+For local usage:
+```
+pip install mkdocs-material mkdocs-awesome-pages-plugin
 
-These files all reference the template project and it's github repository and path, this should all be updated to reflect the new repository.
+make docs
+mkdocs serve
+
+### Acknowledgments
+
+Maintainer: [@KatTraxler](https://twitter.com/nightmareJs)
