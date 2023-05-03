@@ -1,7 +1,7 @@
 # DeRF
 
 
-[!Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf-vectra-private)](http://golang.org)  ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf-vectra-private/total)  
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf-vectra-private)          ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf-vectra-private/total)  
 
 Read the [Full Documentation](docs/index.md)  
 
