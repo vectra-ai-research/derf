@@ -41,11 +41,13 @@ module "gcp_derf_user_secrets" {
 module "gcp-aws-proxy-app" {
   source = "../derf-deployment/gcp-aws-proxy-app"
 
-  gcp_deployment_project_id             = local.gcp_deployment_project_id
-  derf_user01_accessKeyId_AWS_SMID      = module.gcp_derf_user_secrets.derf_user01_accessKeyId_AWS_SMID
-  derf_user01_accessKeySecret_AWS_SMID  = module.gcp_derf_user_secrets.derf_user01_accessKeySecret_AWS_SMID
-  derf_user02_accessKeyId_AWS_SMID      = module.gcp_derf_user_secrets.derf_user02_accessKeyId_AWS_SMID
-  derf_user02_accessKeySecret_AWS_SMID  = module.gcp_derf_user_secrets.derf_user02_accessKeySecret_AWS_SMID
+  gcp_deployment_project_id              = local.gcp_deployment_project_id
+  derf_user01_accessKeyId_AWS_SMID       = module.gcp_derf_user_secrets.derf_user01_accessKeyId_AWS_SMID
+  derf_user01_accessKeySecret_AWS_SMID   = module.gcp_derf_user_secrets.derf_user01_accessKeySecret_AWS_SMID
+  derf_user02_accessKeyId_AWS_SMID       = module.gcp_derf_user_secrets.derf_user02_accessKeyId_AWS_SMID
+  derf_user02_accessKeySecret_AWS_SMID   = module.gcp_derf_user_secrets.derf_user02_accessKeySecret_AWS_SMID
+  derf_default_accessKeyId_AWS_SMID      = module.gcp_derf_user_secrets.derf_default_accessKeyId_AWS_SMID
+  derf_default_accessKeySecret_AWS_SMID  = module.gcp_derf_user_secrets.derf_default_accessKeySecret_AWS_SMID
 
   providers = {
     google          = google.derf

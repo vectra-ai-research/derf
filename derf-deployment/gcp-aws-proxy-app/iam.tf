@@ -42,6 +42,7 @@ resource "google_cloud_run_service_iam_member" "workflow_service_account" {
 # and Cloud Build SA during Deployment Phase
 # ---------------------------------------------------------------------------------------------------------------------
 
+#Secrets Stored for DeRF User 1
 resource "google_secret_manager_secret_iam_member" "binding_id_01_app" {
   project = var.gcp_deployment_project_id
   secret_id = var.derf_user01_accessKeyId_AWS_SMID
@@ -69,6 +70,9 @@ resource "google_secret_manager_secret_iam_member" "binding_secret_01_cloudbuild
   role = "roles/secretmanager.secretAccessor"
   member =  google_service_account.cloudbuild-to-cloudrun-deployment-service-account.member
 }
+
+
+#Secrets Stored for DeRF User 2
 
 resource "google_secret_manager_secret_iam_member" "binding_id_02_app" {
   project = var.gcp_deployment_project_id
@@ -98,6 +102,36 @@ resource "google_secret_manager_secret_iam_member" "binding_secret_02_cloudbuild
   member =  google_service_account.cloudbuild-to-cloudrun-deployment-service-account.member
 }
 
+
+## Secrets Stored for the Default User
+
+resource "google_secret_manager_secret_iam_member" "binding_id_default_app" {
+  project = var.gcp_deployment_project_id
+  secret_id = var.derf_default_accessKeyId_AWS_SMID
+  role = "roles/secretmanager.secretAccessor"
+  member =  google_service_account.aws-proxy-app-service-account.member
+}
+
+resource "google_secret_manager_secret_iam_member" "binding_id_default_cloudbuild" {
+  project = var.gcp_deployment_project_id
+  secret_id = var.derf_default_accessKeyId_AWS_SMID
+  role = "roles/secretmanager.secretAccessor"
+  member = google_service_account.cloudbuild-to-cloudrun-deployment-service-account.member
+}
+
+resource "google_secret_manager_secret_iam_member" "binding_secret_default_app" {
+  project = var.gcp_deployment_project_id
+  secret_id = var.derf_default_accessKeySecret_AWS_SMID
+  role = "roles/secretmanager.secretAccessor"
+  member =  google_service_account.aws-proxy-app-service-account.member
+}
+
+resource "google_secret_manager_secret_iam_member" "binding_secret_default_cloudbuild" {
+  project = var.gcp_deployment_project_id
+  secret_id = var.derf_default_accessKeySecret_AWS_SMID
+  role = "roles/secretmanager.secretAccessor"
+  member =  google_service_account.cloudbuild-to-cloudrun-deployment-service-account.member
+}
 # ---------------------------------------------------------------------------------------------------------------------
 # Project-Level IAM
 # ---------------------------------------------------------------------------------------------------------------------
