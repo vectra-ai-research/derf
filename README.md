@@ -5,12 +5,14 @@
 
 Read the [Full Documentation](docs/index.md)  
 
-DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or have possession of credentials.
+DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or posses credentials.
 
 
 ## Installation
 DeRF is a framework for executing attacks and generating detection samples against an AWS account.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
-1. DeRF Framework Installation. For details instructions on installation see:
+1. DeRF Framework Installation. For detailed instructions on installation see:
+
+From the `./env-prod` directory, deploy the framework with terraform.
 ```
 terraform init -backend-config=derf.conf
 ```

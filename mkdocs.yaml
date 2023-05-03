@@ -27,6 +27,7 @@ theme:
   - navigation.tabs
   - navigation.tabs.sticky
   - content.code.copy
+  - content.code.annotate
   icon:
     admonition:
       note: octicons/tag-16
@@ -45,6 +46,9 @@ use_directory_urls: true
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde      
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
