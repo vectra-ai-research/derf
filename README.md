@@ -10,7 +10,16 @@ DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/Data
 
 ## Installation
 DeRF is a framework for executing attacks and generating detection samples against an AWS account.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
-1. DeRF Framework Installation:
+1. DeRF Framework Installation. For details instructions on installation see:
+```
+terraform init -backend-config=derf.conf
+```
+```
+terraform plan -var-file=derf.tfvars
+```
+```
+terraform apply -var-file=derf.tfvars
+```
 
 
 ## Attack Execution
@@ -60,6 +69,16 @@ mkdocs serve --livereload
 3. Navigate to the locally hosted documentation with your browser [127.0.0.1:8000](http://127.0.0.1:8000/)
 
 
-### Acknowledgments
+## Acknowledgments
 
 Maintainer: [@KatTraxler](https://twitter.com/nightmareJs)
+
+
+### Similar projects 
+- [Status Red Team](https://stratus-red-team.cloud)
+- [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) by Red Canary
+- [Leonidas](https://github.com/FSecureLABS/leonidas) by F-Secure
+- [pacu](https://github.com/RhinoSecurityLabs/pacu) by Rhino Security Labs
+- [Amazon GuardDuty Tester](https://github.com/awslabs/amazon-guardduty-tester)
+- [CloudGoat](https://github.com/RhinoSecurityLabs/cloudgoat) by Rhino Security Labs
+
