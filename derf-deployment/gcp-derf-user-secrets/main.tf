@@ -66,3 +66,37 @@ resource "google_secret_manager_secret_version" "derf_user02_accessKeySecret_val
   secret_data = local.derf_user02_accessKeySecret_AWS
 
 }
+
+##########################################################################################
+# DeRF Default User Access Key ID and Secret Storage in Secret Manager
+##########################################################################################
+resource "google_secret_manager_secret" "derf_default_accessKeyId_AWS" {
+  
+  secret_id = "derf-default-accessKeyId-AWS"
+  replication {
+    automatic = true
+  }
+
+}
+
+resource "google_secret_manager_secret_version" "derf_default_accessKeyId_value" {
+  secret = google_secret_manager_secret.derf_default_accessKeyId_AWS.id
+  secret_data = local.derf_default_accessKeyId_AWS
+
+
+}
+
+resource "google_secret_manager_secret" "derf_default_accessKeySecret_AWS" {
+  
+  secret_id = "derf-default-accessKeySecret-AWS"
+  replication {
+    automatic = true
+  }
+
+}
+
+resource "google_secret_manager_secret_version" "derf_default_accessKeySecret_value" {
+  secret = google_secret_manager_secret.derf_default_accessKeySecret_AWS.id
+  secret_data = local.derf_default_accessKeySecret_AWS
+
+}

@@ -16,11 +16,13 @@ module "gcp_bootstrapping" {
 module "gcp_derf_user_secrets" {
   source = "../derf-deployment/gcp-derf-user-secrets"
 
-  gcp_deployment_project_id       = local.gcp_deployment_project_id
-  derf_user01_accessKeyId_AWS     = module.aws_derf_execution_users.aws_iam_access_key_id_user_01
-  derf_user01_accessKeySecret_AWS = module.aws_derf_execution_users.aws_iam_access_key_secret_user_01
-  derf_user02_accessKeyId_AWS     = module.aws_derf_execution_users.aws_iam_access_key_id_user_02
-  derf_user02_accessKeySecret_AWS = module.aws_derf_execution_users.aws_iam_access_key_secret_user_02
+  gcp_deployment_project_id        = local.gcp_deployment_project_id
+  derf_user01_accessKeyId_AWS      = module.aws_derf_execution_users.aws_iam_access_key_id_user_01
+  derf_user01_accessKeySecret_AWS  = module.aws_derf_execution_users.aws_iam_access_key_secret_user_01
+  derf_user02_accessKeyId_AWS      = module.aws_derf_execution_users.aws_iam_access_key_id_user_02
+  derf_user02_accessKeySecret_AWS  = module.aws_derf_execution_users.aws_iam_access_key_secret_user_02
+  derf_default_accessKeyId_AWS     = module.aws_derf_execution_users.aws_iam_access_key_id_default_user
+  derf_default_accessKeySecret_AWS = module.aws_derf_execution_users.aws_iam_access_key_secret_default_user 
 
   providers = {
     google          = google.derf
