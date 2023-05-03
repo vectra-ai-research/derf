@@ -1,21 +1,46 @@
-# DEtection Replay Framework - DERF
+# DeRF
 
 
-[!Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf-vectra-private)](http://golang.org)  ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf-vectra-private/total)
-Read the 
-[Full Documentation](docs/index.md)
+[!Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf-vectra-private)](http://golang.org)  ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf-vectra-private/total)  
 
-Detection Replay Framework (DeRF) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or have possession of credentials.
+Read the [Full Documentation](docs/index.md)  
+
+DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or have possession of credentials.
+
 
 ## Installation
-DeRF is deployed as Terraform module.
+DeRF is a framework for executing attacks and generating detection samples against an AWS account.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
+1. DeRF Framework Installation:
 
 
-**Note:** This projects's documentation is build using [mkdocs with material](https://squidfunk.github.io/mkdocs-material/). From the root of this project you can always run mkdocs to see the rendered documentation [locally](http://localhost:8000) or use the handle Makedocs shortcut, `make docs-serve`.
+## Attack Execution
+Attacks execution is performed by invoking a Google Cloud Workflow. Workflows can be invoked either on the Google Cloud Console or programmatically with the `gcloud cli`
 
+### Executing Attacks on the Console
+1. Log into the [Google Cloud Console](https://console.cloud.google.com/workflows/) and and navigate to the workflows page.
+2. Click on the name of the workflow that matches the attach you want to execute.
+![](/images/select-a-workflow.png)
+
+3. Click on the execute button.
+
+### Executing Attacks Programmatically
+1. Ensure the Google command line tool is installed locally.  Reference Google maintained [documentation](https://cloud.google.com/sdk/docs/install) for instructions on installing `gcloud cli`
+2. Authenticate to Google Cloud Project which DeRF is deployed
+```
+gcloud auth login --project 
+```
+3. Invoke a particular attack techniques' workflow with the `gcloud cli`. See Google [documentation](https://cloud.google.com/sdk/gcloud/reference/workflows/run) for more complete instructions on the workflows service.
+
+```
+gcloud workflows run aws-ec2-get-user-data `--data={"user": "user01"}` 
+```
+
+
+## Documentation
 
 
 ### Building the Documentation Locally
+This projects's documentation is build using [mkdocs with material](https://squidfunk.github.io/mkdocs-material/). From the root of this project you can always run mkdocs to see the rendered documentation [locally](http://localhost:8000) or use the handle Makedocs shortcut, `make docs-serve`.
 
 1. Install Python Requirements
 ```
@@ -25,7 +50,7 @@ pip install mkdocs-material mkdocs-awesome-pages-plugin
 ```
 mkdocs serve --livereload
 ```
-3. Navigate to the locally hosted documentation with your browser [127.0.0.1:800](http://127.0.0.1:8000/)
+3. Navigate to the locally hosted documentation with your browser [127.0.0.1:8000](http://127.0.0.1:8000/)
 
 
 ### Acknowledgments
