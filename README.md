@@ -15,14 +15,18 @@ DeRF is deployed as Terraform module.
 
 
 
-### Building the Documentation
+### Building the Documentation Locally
 
-For local usage:
+1. Install Python Requirements
 ```
 pip install mkdocs-material mkdocs-awesome-pages-plugin
+```
+2. Start mkdocs servcer
+```
+mkdocs serve --livereload
+```
+3. Navigate to the locally hosted documentation with your browser ![127.0.0.1:800](http://127.0.0.1:8000/)
 
-make docs
-mkdocs serve
 
 ### Acknowledgments
 

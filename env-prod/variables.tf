@@ -3,20 +3,12 @@ variable "aws_primary_id" {
   type        = string
 }
 
-variable "aws_secondary_id" {
-  description = "The Account ID of the secondary AWS Account used as an 'external account' when attacks which rely on an valid external account are executed"
-  type        = string
-}
 
 variable "aws_primary_profile" {
   description = "The AWS Profile used to deploy the perpetual range in the Primary Account"
   type = string
 }
 
-variable "aws_secondary_profile" {
-  description = "The AWS Profile used to authenticate to the secondardy AWS Account"
-  type = string
-}
 
 variable "region" {
   description = "The AWS Region to deploy resources unless noted otherwsise"
