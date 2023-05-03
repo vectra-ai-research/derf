@@ -1,4 +1,3 @@
-## Attack Execution
 Attacks execution is performed by invoking a Google Cloud Workflow. Workflows can be invoked either on the Google Cloud Console or programmatically with the `gcloud cli`
 
 ### Executing Attacks on the Console
