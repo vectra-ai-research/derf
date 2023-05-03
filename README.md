@@ -25,7 +25,7 @@ pip install mkdocs-material mkdocs-awesome-pages-plugin
 ```
 mkdocs serve --livereload
 ```
-3. Navigate to the locally hosted documentation with your browser ![127.0.0.1:800](http://127.0.0.1:8000/)
+3. Navigate to the locally hosted documentation with your browser [127.0.0.1:800](http://127.0.0.1:8000/)
 
 
 ### Acknowledgments
