@@ -5,6 +5,6 @@ gcloud auth login --project
 ```
 1. Invoke a particular attack techniques' workflow with the `gcloud cli`. See Google [documentation](https://cloud.google.com/sdk/gcloud/reference/workflows/run) for more complete instructions on the workflows service.
 ``` bash
-gcloud workflows run aws-ec2-get-user-data `--data={"user": "user01"}` 
+gcloud workflows run WORKFLOW-NAME `--data={"user": "user01"}` 
 ```
 

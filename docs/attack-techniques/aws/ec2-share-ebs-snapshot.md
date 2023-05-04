@@ -1,8 +1,8 @@
 ---
-title: Delete CloudTrail Trail
+title: EC2 Shared EBS Snapshot
 ---
 
-# Delete CloudTrail Trail
+# EC2 Shared EBS Snapshot
 
 
 Platform: AWS
@@ -10,18 +10,18 @@ Platform: AWS
 ## MITRE ATT&CK Tactics
 
 
-- Defense Evasion
+- Exfiltration
 
 ## Description
 
 
-Delete a CloudTrail trail simulating an attacker disrupting logging to evade detection.
+This attack shares an EBS Snapshot with an external, fictitious AWS account, (012345678912)
 
 #### Attacker Actions: 
 
-- Deletes a CloudTrail trail.
-  - Resulting event name: `DeleteTrail`
-  - Assigned IAM Permission: `cloudtrail:DeleteTrail`
+- Updated the attributes of an EBS Snapshot to an external, fictitious AWS account.
+  - Resulting event name: `ModifySnapshotAttribute`
+  - Assigned IAM Permission: `ec2:ModifySnapshotAttribute`
 
 #### Workflow Inputs: 
 Specify which user this attack should run as.   
