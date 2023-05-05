@@ -1,6 +1,6 @@
 site_name: DEtection Replay Framework
 site_url: 
-repo_url: https://github.com/vectra-ai-research/derf-vectra-private
+repo_url: https://github.com/vectra-ai-research/derf
 repo_name: DeRF
 plugins:
   - search

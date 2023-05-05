@@ -25,9 +25,4 @@ variable "gcp_deployment_project_id" {
   type        = string
 }
 
-variable "github_token" {
-  description = "A GitHub Personal Access Token used to pull the derf-vectra-private repo and connect into GCP CloudBuild"
-  type        = string
-  default     = null
-}
 

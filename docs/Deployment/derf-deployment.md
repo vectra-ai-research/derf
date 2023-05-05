@@ -4,7 +4,7 @@
 2. Complete System Requirements (see below).
 3. Clone the Github repo to your local system.
 ``` bash
-git clone https://github.com/vectra-ai-research/derf-vectra-private.git
+git clone https://github.com/vectra-ai-research/derf.git
 ```
 4. Deploy the DeRF via Terraform from the `./env-prod` directory.
 ``` tf

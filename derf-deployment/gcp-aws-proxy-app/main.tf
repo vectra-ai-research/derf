@@ -2,7 +2,7 @@
 # CREATE A CONTAINER REGIGISTY WHERE CLOUD BUILD WILL STORE ARITFACTS AND CLOUD BUILD WILL PULL FROM
 # ---------------------------------------------------------------------------------------------------------------------
 
-resource "google_container_registry" "derf-vectra-private" {
+resource "google_container_registry" "derf-aws-app-proxy" {
   project  = var.gcp_deployment_project_id
   location = "US"
 }
@@ -19,7 +19,7 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
   
   github {
     owner = "vectra-ai-research"
-    name  = "derf-vectra-private"
+    name  = "derf"
     push {
       branch = "^main$"
     }
@@ -28,7 +28,7 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
 
   git_file_source {
     path      = "aws-proxy-app/cloudbuild.yaml"
-    uri       = "https://github.com/vectra-ai-research/derf-vectra-private.git"
+    uri       = "https://github.com/vectra-ai-research/derf.git"
     revision  = "refs/heads/main"
     repo_type = "GITHUB"
   }
