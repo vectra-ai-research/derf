@@ -6,9 +6,7 @@ module "gcp_bootstrapping" {
 
   gcp_deployment_project_id  = local.gcp_deployment_project_id
 
-  providers = {
-    google          = google.derf
-  }
+
 }
 #########################################################################################
 # Store AWS Access Keys and Secrets as GCP Secrets
@@ -24,9 +22,7 @@ module "gcp_derf_user_secrets" {
   derf_default_accessKeyId_AWS     = module.aws_derf_execution_users.aws_iam_access_key_id_default_user
   derf_default_accessKeySecret_AWS = module.aws_derf_execution_users.aws_iam_access_key_secret_default_user 
 
-  providers = {
-    google          = google.derf
-  }
+
     depends_on = [
     module.aws_derf_execution_users,
     module.gcp_bootstrapping
@@ -49,9 +45,7 @@ module "gcp-aws-proxy-app" {
   derf_default_accessKeyId_AWS_SMID      = module.gcp_derf_user_secrets.derf_default_accessKeyId_AWS_SMID
   derf_default_accessKeySecret_AWS_SMID  = module.gcp_derf_user_secrets.derf_default_accessKeySecret_AWS_SMID
 
-  providers = {
-    google          = google.derf
-  }
+
     depends_on = [
     module.aws_derf_execution_users,
     module.gcp_bootstrapping,
