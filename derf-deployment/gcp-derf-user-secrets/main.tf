@@ -7,6 +7,7 @@ resource "google_secret_manager_secret" "derf_user01_accessKeyId_AWS" {
   replication {
     automatic = true
   }
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -23,6 +24,7 @@ resource "google_secret_manager_secret" "derf_user01_accessKeySecret_AWS" {
   replication {
     automatic = true
   }
+  project = local.gcp_deployment_project_id
   
 
 }
@@ -42,6 +44,7 @@ resource "google_secret_manager_secret" "derf_user02_accessKeyId_AWS" {
   replication {
     automatic = true
   }
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -58,6 +61,7 @@ resource "google_secret_manager_secret" "derf_user02_accessKeySecret_AWS" {
   replication {
     automatic = true
   }
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -76,6 +80,7 @@ resource "google_secret_manager_secret" "derf_default_accessKeyId_AWS" {
   replication {
     automatic = true
   }
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -92,6 +97,7 @@ resource "google_secret_manager_secret" "derf_default_accessKeySecret_AWS" {
   replication {
     automatic = true
   }
+  project = local.gcp_deployment_project_id
 
 }
 

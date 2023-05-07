@@ -9,6 +9,31 @@ resource "google_container_registry" "derf-aws-app-proxy" {
 
 
 # ---------------------------------------------------------------------------------------------------------------------
+# CONNECT TO PUBLIC DERF REPO VIA CLOUDBUILD GITHUB APP
+# ---------------------------------------------------------------------------------------------------------------------
+
+# resource "google_cloudbuildv2_connection" "github-cloudbuild-app-connection" {
+#   provider = google-beta
+#   location = "us-central1"
+#   name = "github-cloudbuild-app"
+
+#   github_config {
+#     app_installation_id = 123123
+#     authorizer_credential {
+#       oauth_token_secret_version = google_secret_manager_secret_version.github-token-secret-version.id
+#     }
+#   }
+# }
+
+# resource "google_cloudbuildv2_repository" "derf-public" {
+#   provider = google-beta
+#   location = "us-central1"
+#   name = "derf-public"
+#   parent_connection = google_cloudbuildv2_connection.github-cloudbuild-app-connection.name
+#   remote_uri = "https://github.com/vectra-ai-research/derf.git"
+# }
+
+# ---------------------------------------------------------------------------------------------------------------------
 # CREATE A CLOUD BUILD TRIGGER
 # ---------------------------------------------------------------------------------------------------------------------
 
@@ -55,6 +80,7 @@ resource "google_cloudbuild_trigger" "aws_proxy_app_cloudbuild_trigger" {
 resource "google_cloud_run_service" "aws-proxy-app" {
   name     = "aws-proxy-app"
   location = local.location
+  project  = var.gcp_deployment_project_id
 
   template {
     metadata {

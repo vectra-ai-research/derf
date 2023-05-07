@@ -5,6 +5,7 @@
 resource "google_service_account" "aws-proxy-app-service-account" {
   account_id   = "aws-proxy-app-service-account"
   display_name = "Service Account for AWS Proxy App"
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -12,6 +13,7 @@ resource "google_service_account" "aws-proxy-app-service-account" {
 resource "google_service_account" "cloudbuild-to-cloudrun-deployment-service-account" {
   account_id   = "cloudbuild-deploy-cloudrun-sa"
   display_name = "Service Account Cloud Build used to deploy to the proxy app to Cloud Run"
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -19,6 +21,7 @@ resource "google_service_account" "cloudbuild-to-cloudrun-deployment-service-acc
 resource "google_service_account" "workflows-to-cloudrun-service-account" {
   account_id   = "workflows-to-cloudrun-sa"
   display_name = "Service Account Cloud Workflows will used to inbvoke the AWS proxy app in Cloud Run"
+  project = local.gcp_deployment_project_id
 
 }
 
@@ -168,6 +171,7 @@ resource "google_project_iam_member" "project_iam_assignment_04" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 data "google_project" "project" {
+  project_id = local.gcp_deployment_project_id
 }
 
 output "project_number" {

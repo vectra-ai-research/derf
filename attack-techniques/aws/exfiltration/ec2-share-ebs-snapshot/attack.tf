@@ -100,18 +100,18 @@ ModifySnapshotAttribute:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "SUCCESS - Suspect Public EBS Change (Case 1) Detection DeRF"
+          - "SUCCESS - AWS EC2 Share EBS Snapshot Attack"
 
     - permissionError:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE - Suspect Public EBS Change (Case 1) Detection DeRF | This is typically a permission error"
+          - "FAILURE - AWS EC2 Share EBS Snapshot Attack | This is typically a permission error"
     - error:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE - Suspect Public EBS Change (Case 1) Detection DeRF"
+          - "FAILURE - AWS EC2 Share EBS Snapshot Attack"
 
 
 RevertModifySnapshotAttribute:

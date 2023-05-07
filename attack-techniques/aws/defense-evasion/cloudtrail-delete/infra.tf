@@ -8,7 +8,7 @@ resource "aws_cloudtrail" "derf-test-trail" {
 ### Cloudtrail Bucket
 resource "aws_s3_bucket" "derf-cloudtrail-bucket" {
   bucket_prefix        = "derf-cloudtrail-bucket-"
-  force_destroy        = false
+  force_destroy        = true
 }
 
 resource "aws_s3_bucket_policy" "derf-cloudtrail-bucket-policy" {

@@ -7,7 +7,19 @@ title: Troubleshooting
 
 ### "*You are not authenticated against AWS, or you have not set your region.*"
 
-You must be authenticated to AWS before deploying the DeRF via Terraform.
+You must be authenticated to AWS (and GCP) before deploying the DeRF via Terraform.
+```bash
+aws sso login --profile PROFILE_NAME
+```
+
+### │ Error: error configuring S3 Backend: no valid credential sources for S3 Backend found.
+│
+│ Please see https://www.terraform.io/docs/language/settings/backends/s3.html
+│ for more information about providing credentials.
+│
+│ Error: SSOProviderInvalidToken: the SSO session has expired or is invalid
+
+You must be authenticated to AWS (and GCP) before deploying the DeRF via Terraform.
 ```bash
 aws sso login --profile PROFILE_NAME
 ```
