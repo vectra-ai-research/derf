@@ -89,15 +89,13 @@ nav:
   - Deployment:
       - DeRF Deployment: Deployment/derf-deployment.md  
       - Deployment Permissions: Deployment/deployment-permissions.md  
-  - Attack Execution:
+  - User Guide:
       - Getting Started: user-guide/getting-started.md
-      - Examples: user-guide/examples.md
       - Executing An Attack: user-guide/usage.md
       - Programmatic Execution: user-guide/programmatic-usage.md
       - DeRF User Permissions: user-guide/execution-user-permissions.md
-      - Troubleshooting Execution: user-guide/troubleshooting.md      
+      - Troubleshooting Execution: user-guide/troubleshooting.md  
+      - Attack Creation: user-guide/attack-creation.md        
   - Attack Techniques Reference:
       - All Attack Techniques: attack-techniques/list.md
-      - Philosophy: attack-techniques/philosophy.md
-      - Supported Platforms: attack-techniques/supported-platforms.md
       - ... | attack-techniques/*/*.md

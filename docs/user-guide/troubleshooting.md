@@ -5,7 +5,7 @@ title: Troubleshooting
 
 ## Troubleshooting Deployment
 
-### "*You are not authenticated against AWS, or you have not set your region.*"
+### | "*You are not authenticated against AWS, or you have not set your region.*"
 
 You must be authenticated to AWS (and GCP) before deploying the DeRF via Terraform.
 ```bash
@@ -31,3 +31,12 @@ When running `terraform apply` the program must be to find your variables file
 
 
 ## Troubleshooting Attack Execution
+
+### | KeyError: key not found: user
+
+![](../images/workflow-error-1.png)
+
+All workflows need to be executed with either User01 or User02. Do so by sending JSON input during workflow execution.
+Input Required:
+- INPUT: {"user":"user01"}
+- INPUT: {"user":"user02"}

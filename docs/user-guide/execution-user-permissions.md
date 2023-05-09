@@ -5,7 +5,7 @@ The permissions assigned to the `derf-execution-users` or the `DeRF-Default-User
 Both User 01 and 02 are members of the `derf-execution-users` group, allowing them to perform all the same attack techniques outlined in the DeRF.
 
 ### DeRF Execution User Policy Assignments
-Every attack technique responsible for creating a policy containing the permissions needed to execute the attack and assigning it to the  `derf-execution-users` group.
+Every attack technique is responsible for creating a policy containing the permissions needed to execute the attack and assigning it to the  `derf-execution-users` group.
 The policy and group assignments are found in the `iam-permissions.tf` file within every attack technique module.   
 
 ### DeRF Execution User Policy Assignments
