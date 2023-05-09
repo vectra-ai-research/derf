@@ -15,6 +15,8 @@ locals {
     "workflows.googleapis.com",
     "containerregistry.googleapis.com",
     "sourcerepo.googleapis.com",
+    "eventarc.googleapis.com",
+    "eventarcpublishing.googleapis.com"
   ]
   gcp_deployment_project_id = var.gcp_deployment_project_id
 }

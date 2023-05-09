@@ -8,15 +8,17 @@ Stratus Red Team is a self-contained GO binary that can be used to detonate offe
 It consists of a CLI tool which operators can 'detonate' individual attack techniques against an AWS, GCP or Azure target.  Each attack technique is a self-contained module which creates the infrastructure required for the attack in a *warm-up* phase, following which the attack is performed.  Finally, any created infrastructure is destroyed.
 While Stratus Red Team is an *awesome* tool for an individual operator, its not great for those less technical or making attack execution available to larger teams. 
 
-DeRF has chosen to release with AWS attack techniques in parity with Stratus Red Team to provide consistency between the publicly available tools.
+DeRF has chosen to release with a set of pre-defined AWS attack techniques in parity with Stratus Red Team to provide consistency between the publicly available tools. However, DeRF is extensible.  Users are encouraged to create their own modules.
 
-Use Stratus Red Team when: There is an individual, technical operator who needs to execute attack techniques in AWS.
+^^Use Stratus Red Team when^^: There is an individual, technical operator who needs to execute a set of pre-defined attack techniques in AWS, Azure, K8s or GCP.
 
-Use DeRF when: There are a group of individuals who needs to execute attack techniques in AWS. Especially consider the use of DeRF when the End User is less technical or attacks need to be automated and automation can easily authenticate against Google Cloud.
+^^Use DeRF when^^:   
+1. There are a group of individuals who needs to execute attack techniques in AWS. Especially consider the use of DeRF when the End User is less technical or attacks need to be automated and automation can easily authenticate against Google Cloud.  
+2. Or when you need to extend a tool, creating your own attack sequences.
 
 
 ## [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) by Red Canary
-#### Credit: Description by Status Red Team 
+Credit: Description by Status Red Team
 
 > Atomic Red Team™ is library of tests mapped to the MITRE ATT&CK® framework. Security teams can use Atomic Red Team to quickly, portably, and reproducibly test their environments.
 
@@ -29,7 +31,7 @@ For instance, [AWS - Create Access Key and Secret Key](https://github.com/redcan
 However, the attack technique format of Atomic Red Team is [based on YAML](https://github.com/redcanaryco/atomic-red-team/blob/7576aff377781ba3546c0835e48bffc980b4cbc8/atomics/T1098.001/T1098.001.yaml#L169-L196), and it's therefore easier to add new TTPs, even if they are not in the core of Atomic Red Team.
 
 ## [Leonidas](https://github.com/FSecureLABS/leonidas) by F-Secure (Nick Jones)
-#### Credit: Description by Status Red Team 
+Credit: Description by Status Red Team 
 
 > Leonidas is a framework for executing attacker actions in the cloud. It provides a YAML-based format for defining cloud attacker tactics, techniques and procedures (TTPs) and their associated detection properties
 
