@@ -57,7 +57,17 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "iam:UpdateAccountEmailAddress",
         "iam:UpdateAccountName",
         "iam:UpdateGroup",
-        "iam:UpdateUser"
+        "iam:UpdateUser",
+        "cloudtrail:CreateTrail",
+        "s3:CreateBucket",
+        "s3:PutBucketPolicy",
+        "s3:GetBucketPolicy",
+        "s3:PutLifecycleConfiguration",
+        "ec2:DescribeSnapshotTierStatus",
+        "ec2:DescribeSnapshotTierStatus",
+        "ec2:RestoreSnapshotTier",
+        "ec2:DescribeSnapshots"
+
       ],
       "Effect": "Allow",
       "Resource": "*"
