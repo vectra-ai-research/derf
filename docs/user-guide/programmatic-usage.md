@@ -1,3 +1,7 @@
+---
+title: Programmatic Usage
+---
+
 1. Ensure the Google command line tool is installed locally.  Reference Google maintained [documentation](https://cloud.google.com/sdk/docs/install) for instructions on installing `gcloud cli`
 2. Authenticate to Google Cloud Project which DeRF is deployed
 ``` bash

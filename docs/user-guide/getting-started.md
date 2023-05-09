@@ -1,4 +1,6 @@
-# Getting Started with the DERF
+---
+title: Getting Started
+---
 
 
 ## Step 1 - Deployment

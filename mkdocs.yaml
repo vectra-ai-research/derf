@@ -94,7 +94,7 @@ nav:
       - Executing An Attack: user-guide/usage.md
       - Programmatic Execution: user-guide/programmatic-usage.md
       - DeRF User Permissions: user-guide/execution-user-permissions.md
-      - Troubleshooting Execution: user-guide/troubleshooting.md  
+      - Troubleshooting: user-guide/troubleshooting.md  
       - Attack Creation: user-guide/attack-creation.md        
   - Attack Techniques Reference:
       - All Attack Techniques: attack-techniques/list.md

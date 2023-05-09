@@ -1,5 +1,10 @@
+---
+title: DeRF Execution User Permissions
+---
+
+
 ## DeRF Execution Permissions
-The permissions assigned to the `derf-execution-users` or the `DeRF-Default-User` is NOT documented here.  Rather, this is a guide as to where you can find those permissions and how to update them.
+The permissions assigned to the `derf-execution-users` or the `DeRF-Default-User` are NOT documented here.  Rather, this is a guide as to where you can find those permissions and how to update them.
 
 ### Execution User Group Membership
 Both User 01 and 02 are members of the `derf-execution-users` group, allowing them to perform all the same attack techniques outlined in the DeRF.

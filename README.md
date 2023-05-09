@@ -10,7 +10,7 @@ DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/Data
 
 ## Deployment
 DeRF is a framework for executing attacks and generating detection samples against an AWS account.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
-1. DeRF Framework Deployment. For more detailed instructions on deployment see: `/docs/Deployment/derf-deployment.md`
+1. DeRF Framework Deployment. For more detailed instructions on deployment see [here](/docs/Deployment/derf-deployment.md)
 
 From the `./env-prod` directory, deploy the framework with terraform.
 ```
