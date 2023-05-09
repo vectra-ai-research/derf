@@ -21,13 +21,13 @@ aws sso login --profile PROFILE_NAME
 
 You must be authenticated to AWS (and GCP) before deploying the DeRF via Terraform.
 ```bash
-aws sso login --profile PROFILE_NAME
+aws sso login --profile PROFILE-NAME
 ```
 
 ### "*│ Error: Failed to read variables file*"
-When running `terraform apply` the program must be to find your variables file
-1. Ensure you in the `./env-prod` folder when applying the terraform.
-2. Ensure the `.tfvars` file you specified is in your path
+When running `terraform apply -var-file=derf.tfvars` the program must be to find the specified variables file.
+1. Ensure you are in the `./env-prod` directory when applying the terraform.
+2. Ensure the `.tfvars` file you specified is in your path.
 
 
 ## Troubleshooting Attack Execution
