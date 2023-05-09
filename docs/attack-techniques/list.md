@@ -5,7 +5,7 @@ hide:
 
 # Supported Platforms
 
-Currently, DeRF only comes with attack techniques for AWS.  See ![Getting Started](../Deployment/derf-deployment.md) for deployment instructions.
+Currently, DeRF only comes with attack techniques for AWS.  See [Getting Started](../Deployment/derf-deployment.md) for deployment instructions.
 
 # List of all Attack Techniques
 

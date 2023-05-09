@@ -5,7 +5,7 @@
 
 Read the [Full Documentation](docs/index.md)  
 
-DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or posses credentials.
+DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or possess credentials.
 
 
 ## Deployment
