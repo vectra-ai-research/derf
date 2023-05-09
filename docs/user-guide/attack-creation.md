@@ -3,4 +3,8 @@ Its likely you will want to expand the library of built in attack techniques and
 
 1. Fork the `derf` repo found ![here](https://github.com/vectra-ai-research/derf)
 
-2. 
+2. Create a new top level folder in the repo called `attacks-internal`
+
+3. Inside the `attacks-internal` folder, create your attack module.
+
+4. From the `
