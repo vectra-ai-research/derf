@@ -26,7 +26,6 @@ module "gcp_derf_user_secrets" {
     depends_on = [
     module.aws_derf_execution_users,
     module.gcp_bootstrapping
-
   ]
 
 }
@@ -54,3 +53,36 @@ module "gcp-aws-proxy-app" {
   ]
 
 }
+
+
+
+#########################################################################################
+# Deploy a infrastructure to invoke the Cloud Build Trigger on first launch
+##########################################################################################
+module "gcp-eventarc-trigger" {
+  source = "../derf-deployment/gcp-eventarc-trigger"
+
+  gcp_deployment_project_id              = local.gcp_deployment_project_id
+  google_cloudbuild_trigger_id           = module.gcp-aws-proxy-app.google_cloudbuild_trigger_id
+
+
+    depends_on = [
+    module.gcp_bootstrapping,
+    module.gcp-aws-proxy-app
+
+  ]
+
+}
+
+resource "google_project_service" "random_apis" {
+  project = local.gcp_deployment_project_id
+  service = "vision.googleapis.com"
+  disable_on_destroy = true
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+  disable_dependent_services=true
+  depends_on = [ module.gcp-eventarc-trigger ]
+}
+
