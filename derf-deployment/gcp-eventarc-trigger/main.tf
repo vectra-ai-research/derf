@@ -1,3 +1,9 @@
+resource "time_sleep" "wait_90_seconds" {
+
+  create_duration = "90s"
+
+}
+
 resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
     name = "run-initial-cloud-build-trigger"
     project = var.gcp_deployment_project_id

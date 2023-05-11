@@ -48,6 +48,12 @@ resource "google_project_iam_member" "project_iam_assignment2_eventarc_cmsa" {
   depends_on = [ google_service_account.eventarc-service-account ]
 }
 
+resource "time_sleep" "wait_90_seconds" {
+
+  create_duration = "90s"
+
+}
+
 resource "google_project_iam_member" "project_iam_assignment_eventarc_agent" {
   project = var.gcp_deployment_project_id
   role    = "roles/eventarc.serviceAgent"
