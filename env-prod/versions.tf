@@ -18,6 +18,11 @@ terraform {
       version = "~> 3.1.0"
     }
 
+    time = {
+      source = "hashicorp/time"
+      version = "0.9.1"
+    }
+
   }
 }
 

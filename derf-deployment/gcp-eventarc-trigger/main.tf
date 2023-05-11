@@ -1,11 +1,12 @@
-data "google_service_account" "workflows-to-cloudrun-sa" {
-  account_id      = "workflows-to-cloudrun-sa"
-  project         = var.projectId
+resource "time_sleep" "wait_30_seconds" {
+
+  create_duration = "90s"
 
 }
 
 resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
     name = "run-initial-cloud-build-trigger"
+    project = var.gcp_deployment_project_id
     location = "us-central1"
     matching_criteria {
         attribute = "methodName"
@@ -19,15 +20,20 @@ resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
         attribute = "serviceName"
         value = "cloudbuild.googleapis.com"
     }
-    }
     destination {
-        workflow {
-            service = "projects/${var.projectId}/locations/us-central1/workflows/aws-attack-tools"
-            region = "us-central1"
-        }
+        workflow = "projects/${var.gcp_deployment_project_id}/locations/us-central1/workflows/run-cloudbuild-trigger"
     }
     service_account = google_service_account.eventarc-service-account.name
+    
     labels = {
         tag = "derf"
     }
+
+    depends_on = [ 
+        google_project_iam_member.project_iam_assignment_eventarc_agent,
+        google_project_iam_member.project_iam_assignment1_eventarc_cmsa,
+        google_project_iam_member.project_iam_assignment2_eventarc_cmsa,
+        time_sleep.wait_30_seconds
+        ]
 }
+

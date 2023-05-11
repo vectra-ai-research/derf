@@ -46,9 +46,12 @@ provider "google" {
   alias   = "derf"
   region  = "us-central1"
   project = "${var.gcp_deployment_project_id}"
+  request_reason  = "derf-deployment"
 }
 
 provider "google-beta" {
   region  = "us-central1"
   project = "${var.gcp_deployment_project_id}"
+  request_reason  = "derf-deployment"
 }
+

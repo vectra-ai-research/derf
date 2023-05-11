@@ -25,10 +25,15 @@ aws sso login --profile PROFILE_NAME
 aws sso login --profile PROFILE-NAME
 ```
 
-2. CLI Error Message:
+3. CLI Error Message:
 > "*│ Error: Failed to read variables file*"
 
     - When running `terraform apply -var-file=derf.tfvars` the program must be to find the specified variables file. Ensure you are in the `./env-prod` directory when applying the terraform. Ensure the `.tfvars` file you specified is in your path.
+
+4. CLI Error Message:
+> Error: Error creating Trigger: googleapi: Error 400: Repository mapping does not exist. Please visit https://console.cloud.google.com/i connect a repository to your project.
+
+    - Connect Cloud Build to the `derf` github repo.  Following instructions in [Deployment](../Deployment/connect-to-github-repo.md).
 
 
 ### Troubleshooting Attack Execution

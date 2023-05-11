@@ -1,12 +1,13 @@
 ### Deployment Steps
 
 1. Complete Prerequisites (see below).
-2. Complete System Requirements (see below).
-3. Clone the Github repo to your local system.
+2. Connect Cloud Build to Github. See [instructions](connect-to-github-repo.md).
+3. Complete System Requirements (see below).
+4. Clone the Github repo to your local system.
 ``` bash
 git clone https://github.com/vectra-ai-research/derf.git
 ```
-4. Deploy the DeRF via Terraform from the `./env-prod` directory.
+1. Deploy the DeRF via Terraform from the `./env-prod` directory.
 ``` tf
 terraform init -backend-config=derf.conf
 ```
@@ -30,6 +31,7 @@ This will deploy the CORRECT image into Cloud Run. If you don't manually run thi
         - This is your targeted AWS Account where attacks will run.
     - ==One GCP Project==: 
         - A Google Cloud Project which will house the DeRF `aws-proxy-app` , a CI/CD pipeline enabling updates to the `aws-proxy-app` and a collection of cloud workflows needed for attack technique execution. 
+        - ^^Manual Step^^: Connect Cloud Build with the `derf` github repository. See [instructions](connect-to-github-repo.md)
 2. Terraform Variables
     - Fill out the values the `TEMPLATE.tfvars` file located in `./env-prod` directory.
     - Rename this file to be `derf.tfvars`

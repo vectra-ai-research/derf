@@ -18,7 +18,7 @@ DeRF has chosen to release with a set of pre-defined AWS attack techniques in pa
 
 
 ## [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) by Red Canary
-Credit: Description by Status Red Team
+**Credit: Description by Status Red Team**
 
 > Atomic Red Team™ is library of tests mapped to the MITRE ATT&CK® framework. Security teams can use Atomic Red Team to quickly, portably, and reproducibly test their environments.
 
@@ -31,7 +31,7 @@ For instance, [AWS - Create Access Key and Secret Key](https://github.com/redcan
 However, the attack technique format of Atomic Red Team is [based on YAML](https://github.com/redcanaryco/atomic-red-team/blob/7576aff377781ba3546c0835e48bffc980b4cbc8/atomics/T1098.001/T1098.001.yaml#L169-L196), and it's therefore easier to add new TTPs, even if they are not in the core of Atomic Red Team.
 
 ## [Leonidas](https://github.com/FSecureLABS/leonidas) by F-Secure (Nick Jones)
-Credit: Description by Status Red Team 
+**Credit: Description by Status Red Team**
 
 > Leonidas is a framework for executing attacker actions in the cloud. It provides a YAML-based format for defining cloud attacker tactics, techniques and procedures (TTPs) and their associated detection properties
 
@@ -47,7 +47,7 @@ While Stratus Red Team and Leonidas have similar goals, their implementation is 
 Stratus Red Team aims at being simpler to use (single binary) and does not require you to have prior infrastructure or configuration in your AWS account. Stratus Red Team focuses on a single thing: executing cloud attack tactics against a live environment, with minimal overhead. You can also use Stratus Red Team [programmatically](user-guide/programmatic-usage.md), from Go code, as a library.
 
 ## [Pacu](https://github.com/RhinoSecurityLabs/pacu) by Rhino Security Labs
-#### Credit: Description by Status Red Team 
+**Credit: Description by Status Red Team** 
 
 > Pacu is an open-source AWS exploitation framework, designed for offensive security testing against cloud environments. Created and maintained by Rhino Security Labs, Pacu allows penetration testers to exploit configuration flaws within an AWS account, using modules to easily expand its functionality.
 
@@ -56,7 +56,7 @@ Pacu is an offensive AWS exploitation framework, aimed at penetration testers. I
 Stratus Red Team is self-contained and does not necessitate prior infrastructure or configuration in your cloud environment. You can also use it [programmatically](user-guide/programmatic-usage.md), from Go code, as a library.
 
 ## [Amazon GuardDuty Tester](https://github.com/awslabs/amazon-guardduty-tester) by AWS
-#### Credit: Description by Status Red Team
+**Credit: Description by Status Red Team**
 
 Amazon GuardDuty Tester is helpful to trigger GuardDuty findings. However, it is tightly coupled with GuardDuty and is a product-specific tool, even within the AWS ecosystem.
 If GuardDuty doesn't detect an attack technique, you won't find it in here.
@@ -71,7 +71,7 @@ The attacker behavior implemented by AWS Cloud Saga emulates several stages of t
 Finally, AWS CloudSaga is by design specific to AWS, while Stratus Red Team supports AWS, Azure, GCP and even Kubernetes.
 
 ## [CloudGoat](https://github.com/RhinoSecurityLabs/cloudgoat) by Rhino Security Labs
-#### Credit: Description by Status Red Team 
+**Credit: Description by Status Red Team**
 
 > CloudGoat is Rhino Security Labs' "Vulnerable by Design" AWS deployment tool. It allows you to hone your cloud cybersecurity skills by creating and completing several "capture-the-flag" style scenarios.
 

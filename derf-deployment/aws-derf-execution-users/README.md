@@ -23,10 +23,8 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_primary_ids"></a> [account\_id](#input\_account\_id) | Account ID of primary AWS Account targeted  | `string` | n/a | yes |
- <a name="User01"></a> [user\_username](#input\_user\_username) | The username for DeRF Execution User01 | `string` | "DeRF-Execution-User01" | yes |
- <a name="User02"></a> [user\_username](#input\_user\_username) | The username for DeRF Execution User02 | `string` | "DeRF-Execution-User02" | yes | 
+
 
 ## Outputs
-
-No outputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
