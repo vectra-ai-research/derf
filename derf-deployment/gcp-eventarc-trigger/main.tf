@@ -1,9 +1,3 @@
-resource "time_sleep" "wait_90_seconds" {
-
-  create_duration = "90s"
-
-}
-
 resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
     name = "run-initial-cloud-build-trigger"
     project = var.gcp_deployment_project_id
@@ -31,8 +25,13 @@ resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
 
     depends_on = [ 
         google_project_iam_member.project_iam_assignment1_eventarc_cmsa,
-        google_project_iam_member.project_iam_assignment2_eventarc_cmsa,
-        time_sleep.wait_90_seconds
+        google_project_iam_member.project_iam_assignment2_eventarc_cmsa
         ]
+}
+
+resource "time_sleep" "wait_90_seconds" {
+
+  create_duration = "90s"
+
 }
 
