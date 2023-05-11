@@ -1,4 +1,4 @@
-resource "time_sleep" "wait_30_seconds" {
+resource "time_sleep" "wait_90_seconds" {
 
   create_duration = "90s"
 
@@ -30,10 +30,9 @@ resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
     }
 
     depends_on = [ 
-        google_project_iam_member.project_iam_assignment_eventarc_agent,
         google_project_iam_member.project_iam_assignment1_eventarc_cmsa,
         google_project_iam_member.project_iam_assignment2_eventarc_cmsa,
-        time_sleep.wait_30_seconds
+        time_sleep.wait_90_seconds
         ]
 }
 

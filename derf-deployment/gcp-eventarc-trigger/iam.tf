@@ -52,6 +52,7 @@ resource "google_project_iam_member" "project_iam_assignment_eventarc_agent" {
   project = var.gcp_deployment_project_id
   role    = "roles/eventarc.serviceAgent"
   member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-eventarc.iam.gserviceaccount.com"
+  depends_on = [ google_eventarc_trigger.run-initial-cloud-build-trigger ]
 }
 
 resource "google_project_iam_member" "project_iam_assignment1_workflow_cmsa" {
