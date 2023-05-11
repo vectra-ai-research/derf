@@ -1,4 +1,4 @@
-resource "time_sleep" "wait_90_seconds" {
+resource "time_sleep" "wait_90_seconds_1" {
 
   create_duration = "90s"
 
@@ -35,7 +35,7 @@ resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
         ]
 }
 
-resource "time_sleep" "wait_90_seconds" {
+resource "time_sleep" "wait_90_seconds_2" {
 
   create_duration = "90s"
 

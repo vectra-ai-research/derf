@@ -48,7 +48,7 @@ resource "google_project_iam_member" "project_iam_assignment2_eventarc_cmsa" {
   depends_on = [ google_service_account.eventarc-service-account ]
 }
 
-resource "time_sleep" "wait_90_seconds" {
+resource "time_sleep" "wait_90_seconds_3" {
 
   create_duration = "90s"
 
