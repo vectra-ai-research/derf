@@ -9,21 +9,6 @@ module "gcp_bootstrapping" {
 
 }
 
-#########################################################################################
-# Deploy a infrastructure to invoke the Cloud Build Trigger on first launch
-##########################################################################################
-module "gcp-eventarc-trigger" {
-  source = "../derf-deployment/gcp-eventarc-trigger"
-
-  gcp_deployment_project_id              = local.gcp_deployment_project_id
-
-
-    depends_on = [
-    module.gcp_bootstrapping
-
-  ]
-
-}
 
 #########################################################################################
 # Store AWS Access Keys and Secrets as GCP Secrets
@@ -65,13 +50,28 @@ module "gcp-aws-proxy-app" {
     depends_on = [
     module.aws_derf_execution_users,
     module.gcp_bootstrapping,
-    module.gcp_derf_user_secrets,
-    module.gcp-eventarc-trigger
+    module.gcp_derf_user_secrets
 
   ]
 
 }
 
+#########################################################################################
+# Deploy a infrastructure to invoke the Cloud Build Trigger on first launch
+##########################################################################################
+module "gcp-trigger-cloudbuild" {
+  source = "../derf-deployment/gcp-trigger-cloudbuid"
+
+  gcp_deployment_project_id              = local.gcp_deployment_project_id
+
+
+    depends_on = [
+    module.gcp_bootstrapping,
+    module.gcp-aws-proxy-app
+
+  ]
+
+}
 
 
 

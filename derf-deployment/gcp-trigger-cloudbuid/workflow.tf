@@ -109,3 +109,10 @@ ApproveBuild:
   EOF
 
 }
+
+resource "null_resource" "default" {
+  provisioner "local-exec" {
+    command = "gcloud workflows run run-cloudbuild-trigger --location us-central1 --project ${var.gcp_deployment_project_id}"
+  }
+  depends_on = [ google_workflows_workflow.workflow_to_run_cloudbuild_trigger ]
+}
