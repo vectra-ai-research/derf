@@ -48,9 +48,9 @@ resource "google_project_iam_member" "project_iam_assignment2_eventarc_cmsa" {
   depends_on = [ google_service_account.eventarc-service-account ]
 }
 
-resource "time_sleep" "wait_90_seconds_3" {
+resource "time_sleep" "wait_300_seconds_3" {
 
-  create_duration = "90s"
+  create_duration = "300s"
 
 }
 
@@ -58,7 +58,12 @@ resource "google_project_iam_member" "project_iam_assignment_eventarc_agent" {
   project = var.gcp_deployment_project_id
   role    = "roles/eventarc.serviceAgent"
   member  = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-eventarc.iam.gserviceaccount.com"
-  depends_on = [ google_eventarc_trigger.run-initial-cloud-build-trigger ]
+}
+
+resource "time_sleep" "wait_300_seconds_4" {
+
+  create_duration = "300s"
+
 }
 
 resource "google_project_iam_member" "project_iam_assignment1_workflow_cmsa" {

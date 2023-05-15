@@ -1,9 +1,3 @@
-resource "time_sleep" "wait_90_seconds_1" {
-
-  create_duration = "90s"
-
-}
-
 resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
     name = "run-initial-cloud-build-trigger"
     project = var.gcp_deployment_project_id
@@ -11,6 +5,10 @@ resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
     matching_criteria {
         attribute = "methodName"
         value = "google.devtools.cloudbuild.v1.CloudBuild.CreateBuildTrigger"
+    }
+    timeouts {
+    create = "30m"
+    update = "40m"
     }
      matching_criteria {   
         attribute = "type"
@@ -31,13 +29,9 @@ resource "google_eventarc_trigger" "run-initial-cloud-build-trigger" {
 
     depends_on = [ 
         google_project_iam_member.project_iam_assignment1_eventarc_cmsa,
-        google_project_iam_member.project_iam_assignment2_eventarc_cmsa
+        google_project_iam_member.project_iam_assignment2_eventarc_cmsa,
+        google_project_iam_member.project_iam_assignment_eventarc_agent
         ]
 }
 
-resource "time_sleep" "wait_90_seconds_2" {
-
-  create_duration = "90s"
-
-}
 
