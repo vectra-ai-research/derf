@@ -80,10 +80,11 @@ def submit_request():
     elif data['USER'] == "user02":
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER02']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER02']
-    elif data['CREDSPASSED'] == "true":
+    elif data['CREDSPASSED'] == "yes":
+      print("CREDSPASSED is yes beginning of block")
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
-      print("CREDSPASSED is true")
+      print("CREDSPASSED is yes end of block")
     else:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
