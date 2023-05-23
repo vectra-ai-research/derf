@@ -83,12 +83,15 @@ def submit_request():
     elif data['CREDSPASSED'] == "true":
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
+      print("CREDSPASSED is true")
     else:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+      print("else, default user")
   except:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']  
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
+      print("except, default user") 
 
   
   auth = AWS4Auth(  accessKeyId,
