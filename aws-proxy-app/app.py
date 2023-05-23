@@ -74,6 +74,7 @@ def submit_request():
 
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
+    print(data['CREDSPASSED'])
     if data['USER'] == "user01":
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER01']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER01']  
@@ -81,7 +82,6 @@ def submit_request():
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER02']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER02']
     elif data['CREDSPASSED'] == "yes":
-      print("CREDSPASSED is yes beginning of block")
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
       print("CREDSPASSED is yes end of block")
