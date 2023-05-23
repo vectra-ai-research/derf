@@ -108,6 +108,7 @@ def submit_request():
   
 
 # Load up the auth object with AWS credentials 
+  print(accessKeyId + accessKeySecret) 
   auth = AWS4Auth(  accessKeyId,
                     accessKeySecret,
                     data['REGION'],
