@@ -78,9 +78,20 @@ def submit_request():
     if data['USER'] == "user01":
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER01']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER01']  
-    if data['USER'] == "user02":
+    elif data['USER'] == "user02":
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER02']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER02']
+    else:
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+      print("else, default user")
+  except:
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
+      print("except, default user") 
+
+## Handle the passing of access keys directly to the app so the detection can be run as custom users
+  try:
     if data['CREDSPASSED'] == "yes":
       print("CREDSPASSED is yes beginning of block")
       accessKeyId = data['ACCESSKEYID']
@@ -94,8 +105,9 @@ def submit_request():
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
       print("except, default user") 
-
   
+
+# Load up the auth object with AWS credentials 
   auth = AWS4Auth(  accessKeyId,
                     accessKeySecret,
                     data['REGION'],
