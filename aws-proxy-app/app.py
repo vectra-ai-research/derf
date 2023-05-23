@@ -74,21 +74,22 @@ def submit_request():
 
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
-    print(data)
     if data['USER'] == "user01":
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER01']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER01']  
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER01']
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
     elif data['USER'] == "user02":
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER02']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER02']
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
     else:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      print("else, default user")
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
-      print("except, default user") 
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
 
 ## Handle the passing of access keys directly to the app so the detection can be run as custom users
   try:
@@ -96,24 +97,27 @@ def submit_request():
       print("CREDSPASSED is yes beginning of block")
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
+      accessKeySessionToken = data['SESSIONTOKEN']
       print("CREDSPASSED is yes end of block")
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], session_token=accessKeySessionToken)
     else:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      print("else, default user")
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
       print("except, default user") 
   
 
-# Load up the auth object with AWS credentials 
-  print(accessKeyId + accessKeySecret) 
-  auth = AWS4Auth(  accessKeyId,
-                    accessKeySecret,
-                    data['REGION'],
-                    data['SERVICE']
-                  )
+# # Load up the auth object with AWS credentials 
+#   print(accessKeyId + accessKeySecret) 
+#   auth = AWS4Auth(  accessKeyId,
+#                     accessKeySecret,
+#                     data['REGION'],
+#                     data['SERVICE']
+#                   )
 
 
 ## POST HTTP Requests
