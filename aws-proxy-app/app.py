@@ -99,16 +99,18 @@ def submit_request():
       accessKeySecret = data['ACCESSKEYSECRET']
       accessKeySessionToken = data['SESSIONTOKEN']
       print("CREDSPASSED is yes end of block")
+      print(accessKeyId +accessKeySecret + accessKeySessionToken)
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], session_token=accessKeySessionToken)
     else:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
+      print("id CREDSPASSED yes block - else")
   except:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
-      print("except, default user") 
+      print("2nd except, default user") 
   
 
 # # Load up the auth object with AWS credentials 
