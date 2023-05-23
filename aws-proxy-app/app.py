@@ -94,32 +94,19 @@ def submit_request():
 ## Handle the passing of access keys directly to the app so the detection can be run as custom users
   try:
     if data['CREDSPASSED'] == "yes":
-      print("CREDSPASSED is yes beginning of block")
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
       accessKeySessionToken = data['SESSIONTOKEN']
-      print("CREDSPASSED is yes end of block")
-      print(accessKeyId +accessKeySecret + accessKeySessionToken)
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], session_token=accessKeySessionToken)
     else:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
-      print("id CREDSPASSED yes block - else")
   except:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
-      print("2nd except, default user") 
   
-
-# # Load up the auth object with AWS credentials 
-#   print(accessKeyId + accessKeySecret) 
-#   auth = AWS4Auth(  accessKeyId,
-#                     accessKeySecret,
-#                     data['REGION'],
-#                     data['SERVICE']
-#                   )
 
 
 ## POST HTTP Requests
