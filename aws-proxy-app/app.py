@@ -91,9 +91,11 @@ def submit_request():
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
 
-## Handle the passing of access keys directly to the app so the detection can be run as custom users
+## Handle the passing of temporary session credentials directly to the app so the detection can be 
+## run as a role on the fly
+
   try:
-    if data['CREDSPASSED'] == "yes":
+    if data['TEMPCREDSPASSED'] == "yes":
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
       accessKeySessionToken = data['SESSIONTOKEN']
