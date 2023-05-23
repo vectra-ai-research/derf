@@ -6,7 +6,7 @@
 
 Stratus Red Team is a self-contained GO binary that can be used to detonate offensive attack techniques against a live cloud environments (AWS, GCP and Azure).
 It consists of a CLI tool which operators can 'detonate' individual attack techniques against an AWS, GCP or Azure target.  Each attack technique is a self-contained module which creates the infrastructure required for the attack in a *warm-up* phase, following which the attack is performed.  Finally, any created infrastructure is destroyed.
-While Stratus Red Team is an *awesome* tool for an individual operator, its not great for those less technical or making attack execution available to larger teams. 
+While Stratus Red Team is an *awesome* tool for an individual operator, its not great for those less technical or when you need to democratize attack execution, making it invocation available to larger teams. 
 
 DeRF has chosen to release with a set of pre-defined AWS attack techniques in parity with Stratus Red Team to provide consistency between the publicly available tools. However, DeRF is extensible.  Users are encouraged to create their own modules.
 

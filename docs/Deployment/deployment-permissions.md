@@ -65,6 +65,7 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "s3:PutBucketPolicy",
         "s3:GetBucketPolicy",
         "s3:PutAccessPointPublicAccessBlock",
+        "s3:PutBucketPolicy",
         "s3:GetObject",
         "s3:PutObject",
         "s3:DeleteObject",
@@ -82,8 +83,9 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "lambda:CreateFunction",
         "lambda:GetFunction",
         "lambda:GetPolicy",
-        "lambda:AddPermission"
-
+        "lambda:AddPermission",
+        "cloudtrail:CreateTrail",
+        "cloudtrail:DeleteTrail"
       ],
       "Effect": "Allow",
       "Resource": "*"
