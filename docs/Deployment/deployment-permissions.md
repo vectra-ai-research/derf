@@ -125,8 +125,6 @@ Below are the Google Managed Roles required to deploy the DeRF into a Google Pro
     - Required to deploy and invoke Google Workflows
 - **roles/resourcemanager.projectIamAdmin** applied at the Project-Level
     - Required to set IAM Policy at the Project level.
-- **roles/eventarc.admin** applied at the Project-Level
-    - Required to deploy the EventArc trigger which listen for the deployment of the initial cloudbuild trigger creation and runs the first build.
 
 
 

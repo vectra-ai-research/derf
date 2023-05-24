@@ -11,6 +11,7 @@ DeRF Deployment and Execution targeting AWS
 
 
 ## **DeRF User Personas**
+See the [User Guide](./user-guide/execution-user-permissions.md) for more detailed descriptions of the permissions assigned to the DeRF Execution and Default Users.
 
 ![](./images/DeRF_Deployment_User.png){ align=left width=300 } 
 

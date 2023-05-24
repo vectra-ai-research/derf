@@ -3,7 +3,7 @@ title: Troubleshooting
 ---
 
 
-### Troubleshooting DeRF Deployment
+## Troubleshooting DeRF Deployment
 
 1. CLI Error Message:
 > "*You are not authenticated against AWS, or you have not set your region.*"  
@@ -36,7 +36,7 @@ aws sso login --profile PROFILE-NAME
     - Connect Cloud Build to the `derf` github repo.  Following instructions in [Deployment](../Deployment/connect-to-github-repo.md).
 
 
-### Troubleshooting Attack Execution
+## Troubleshooting Attack Execution
 
 
 1. Error Message on the Google Cloud Console:

@@ -5,7 +5,7 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 
 
 resource "google_workflows_workflow" "workflow_to_invoke_delete_cloudtrail" {
-  name            = "aws-delete-cloudtrail-trail"
+  name            = "aws-delete-cloudtrail-trail-srt"
   description     = "A workflow intended to match the functionality of the  Status Red Team attack technique 'AWS Delete Cloudtrail Trail': https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-delete/"
   service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId

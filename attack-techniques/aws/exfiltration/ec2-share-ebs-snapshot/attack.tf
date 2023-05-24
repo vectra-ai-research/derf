@@ -4,7 +4,7 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 }
 
 resource "google_workflows_workflow" "workflow_to_invoke_aws-ec2-share-ebs-snapshot_attack" {
-  name            = "aws-ec2-share-ebs-snapshot"
+  name            = "aws-ec2-share-ebs-snapshot-srt"
   description     = "A  workflow intended to match the functionality of the  Status Red Team attack technique 'AWS EC2 Share EBS Snapshot': https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/"
   service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId

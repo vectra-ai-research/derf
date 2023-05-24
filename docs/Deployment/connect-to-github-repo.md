@@ -14,4 +14,5 @@ To connect a GitHub repository to a host connection, complete the following step
 
 
 ## Approving Builds
-With this connection between Cloud Build and Github, whenever there is an update to the `aws-proxy-app` a Build will be queued in your GCP Project.  The Build requires your manual approval in order to run and deploy a new version to Cloud Run.
+With this connection between Cloud Build and Github, whenever there is an update to the `aws-proxy-app` a Build will be queued in your GCP Project.  
+The Build requires your manual approval in order to run and deploy a new version to Cloud Run.

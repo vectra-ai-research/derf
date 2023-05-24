@@ -4,7 +4,7 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 }
 
 resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_get_user_data_attack" {
-  name            = "aws-ec2-get-user-data"
+  name            = "aws-ec2-get-user-data-srt"
   description     = "A workflow intended to match the functionality of the  Status Red Team attack technique 'EC2 Download User Data': https://stratus-red-team.cloud/attack-techniques/AWS/aws.discovery.ec2-download-user-data/"
   service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId
