@@ -1,13 +1,13 @@
 ### Deployment Steps
 
-1. Complete Prerequisites (see below).
+1. Complete Prerequisites [see below](#prerequisites).
 2. Connect Cloud Build to Github. See [instructions](connect-to-github-repo.md).
-3. Complete System Requirements (see below).
+3. Complete System Requirements [see below](#system-requirements).
 4. Clone the Github repo to your local system.
 ``` bash
 git clone https://github.com/vectra-ai-research/derf.git
 ```
-1. Deploy the DeRF via Terraform from the `./env-prod` directory.
+5. Deploy the DeRF via Terraform from the `./env-prod` directory.
 ``` tf
 terraform init -backend-config=derf.conf
 ```
@@ -17,12 +17,7 @@ terraform plan -var-file=derf.tfvars
 ``` tf
 terraform apply -var-file=derf.tfvars
 ```
-![](https://img.shields.io/badge/-ATTENTION-red) If this is your first installation - follow the additional   
-      - Navigate the the [CloudBuild console](https://console.cloud.google.com/cloud-build/triggers) in your GCP Project
-      - Click on 'Triggers' and find the 'Github-Trigger-derf-aws-proxy-app-repo-main' Trigger.  
-      - Select 'Run' to invoke this Trigger.  
-      - Then click on the 'History' tab to approve the build. 
-This will deploy the CORRECT image into Cloud Run. If you don't manually run this on initial deployment, the `aws-proxy-app` will not work.
+
 
    
 ## Prerequisites
@@ -56,11 +51,12 @@ This will deploy the CORRECT image into Cloud Run. If you don't manually run thi
 
 ## System Requirements
 
-![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) version v1.4.5
 
-#### Terraform Installation
+<div class="grid" markdown>
 
-The DeRF has only been tested with Terraform version 1.4.5.  In order to manage multiple versions of Terraform on your system, install `tfenv` command line tool, allowing you to switch between different versions of terraform.  
+=== "Terraform Installation" 
+
+    The DeRF has only been tested with Terraform version 1.4.5.  In order to manage multiple versions of Terraform on your system, install `tfenv` command line tool, allowing you to switch between different versions of terraform. 
 
 1. Install `tfenv`
 ``` bash
@@ -73,10 +69,26 @@ tfenv install 1.4.5
 3. Set version 1.4.5 as your default version
 ``` bash
 tfenv use 1.4.5
-``` 
+```     
+
+</div>
 
 
-**Troubleshooting**  
+<div class="grid" markdown>
+
+=== "gcloud Installation"
+
+During deployment, the `gcloud` cli is invoked to trigger Cloud Build and deploy the `aws-proxy-app` to Cloud Run. As a result, `gcloud`  will need to be installed on your local system in order to deploy The DeRF.  
+
+Download and install the `gcloud` cli per instructions located [here](https://cloud.google.com/sdk/docs/install).
+
+
+</div>
+
+
+
+
+## Troubleshooting 
 If you already have Terraform on your system, you may need to unlink the cask with the following command before `tfenv` will take over Terraform installation.
 ``` bash
 brew unlink terraform
