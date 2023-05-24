@@ -5,6 +5,7 @@ repo_name: DeRF
 plugins:
   - search
   - awesome-pages
+  - glightbox
 theme:
   name: material
   logo: 

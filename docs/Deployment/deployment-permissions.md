@@ -90,7 +90,16 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "lambda:GetPolicy",
         "lambda:AddPermission",
         "cloudtrail:CreateTrail",
-        "cloudtrail:DeleteTrail"
+        "cloudtrail:DeleteTrail",
+        "kms:CreateKey",
+        "kms:DeleteAlias",
+        "kms:CreateAlias",
+        "kms:EnableKey",
+        "kms:DisableKey",
+        "kms:GenerateDataKey",
+        "kms:ListAliases",
+        "kms:UpdateKeyDescription",
+        "kms:DescribeKey"
       ],
       "Effect": "Allow",
       "Resource": "*"
