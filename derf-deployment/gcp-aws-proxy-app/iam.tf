@@ -164,7 +164,12 @@ resource "google_project_iam_member" "project_iam_assignment_04" {
   member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
 }
 
-
+## Allow the Workflows SA to call other Workflows
+resource "google_project_iam_member" "project_iam_assignment_05" {
+  project = var.gcp_deployment_project_id
+  role = "roles/workflows.invoker"
+  member = google_service_account.workflows-to-cloudrun-service-account.member
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Assign Service Account User Role to the Default Cloud Build SA so it can impersonate the  Customer-Managed SA
