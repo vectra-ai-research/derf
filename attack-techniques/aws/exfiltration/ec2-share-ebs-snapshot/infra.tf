@@ -1,6 +1,19 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+resource "aws_ebs_volume" "derf-ebs-volume" {
+  availability_zone = data.aws_availability_zones.available.names[0]
+  size              = 1
+
+  tags = {
+    Name = "derf-ebs-volume"
+  }
+}
+
 data "aws_ebs_volume" "derf-ebs-volume" {
   most_recent = true
-
+  depends_on = [ aws_ebs_volume.derf-ebs-volume ]
 
 }
 

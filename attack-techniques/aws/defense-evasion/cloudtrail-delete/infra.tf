@@ -3,6 +3,7 @@ resource "aws_cloudtrail" "derf-test-trail" {
   s3_bucket_name                = aws_s3_bucket.derf-cloudtrail-bucket.id
   s3_key_prefix                 = "prefix"
   include_global_service_events = false
+  depends_on = [ aws_s3_bucket_policy.derf-cloudtrail-bucket-policy ]
 }
 
 ### Cloudtrail Bucket
@@ -44,6 +45,7 @@ resource "aws_s3_bucket_policy" "derf-cloudtrail-bucket-policy" {
 }
 POLICY
 }
+
 
 resource "aws_s3_bucket_lifecycle_configuration" "bucket-config" {
   bucket = aws_s3_bucket.derf-cloudtrail-bucket.id
