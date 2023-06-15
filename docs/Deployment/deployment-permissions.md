@@ -51,7 +51,12 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "kms:GenerateDataKey",
         "kms:ListAliases",
         "kms:UpdateKeyDescription",
-        "kms:DescribeKey"
+        "kms:DescribeKey",
+        "ssm:DeleteParameter",
+        "ssm:DeleteParameters",
+        "ssm:GetParameter",
+        "ssm:DescribeParameters",
+        "ssm:PutParameter"
       ],
       "Effect": "Allow",
       "Resource": "*"

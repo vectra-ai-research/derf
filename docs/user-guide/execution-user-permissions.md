@@ -11,8 +11,8 @@ Both User 01 and 02 are members of the `derf-execution-users` group, allowing th
 
 ### ^^DeRF Execution User^^ - Policy Assignments
 Every attack technique is responsible for creating a policy containing the permissions needed to execute the attack and assigning it to the  `derf-execution-users` group.
-The policy and group assignments are found in the `iam-permissions.tf` file within every attack technique module.   
+The policy and group assignments are found in the `iam-permissions.tf` file within the `/attack-techniques/aws/permissions-required` module.   
 
 ### ^^DeRF Default^^ User - Policy Assignments
 If an attack technique needs the default user to reverse a state changing action or perform another task that should not be attributed to the execution users, the module is responsible for creating a policy containing the necessary permissions and attaching it to the `DeRF-Default-User`.
-The policy is found in the `iam-permissions.tf` file within every attack technique module.  
+The policy and group assignments are found in the `iam-permissions.tf` file within the `/attack-techniques/aws/permissions-required` module.    
