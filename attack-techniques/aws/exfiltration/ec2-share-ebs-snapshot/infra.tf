@@ -7,7 +7,7 @@ resource "aws_ebs_volume" "derf-ebs-volume" {
   size              = 1
 
   tags = {
-    Name = "derf-ebs-volume"
+    Name = "derf-ebs-volume-to-snapshot"
   }
 }
 
