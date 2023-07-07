@@ -3,7 +3,6 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 
 }
 
-## WIP
 
 resource "google_workflows_workflow" "workflow_to_invoke_ec2_steal_instance_credentials" {
   name            = "aws-ec2-steal-instance-credentials-srt"
