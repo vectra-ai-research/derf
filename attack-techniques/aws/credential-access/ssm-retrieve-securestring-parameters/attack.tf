@@ -17,7 +17,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_ssm_retrieve_securestri
 
 ## Retrieves and decrypts a high number (30) of SSM Parameters available in an AWS region.
 ## First, this attack runs ssm:DescribeParameters to list SSM Parameters in the current region
-## Next, ssm:GetParameters API is used to batch of 10 (maximal supported value) and 
+## Next, ssm:GetParameters API is used to batch of 10 (max supported value) and 
 ## retrieve the values of the SSM Parameters
 
 #####################################################################################
@@ -54,9 +54,15 @@ main:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
         result: DescribeParametersResponse
+    - GetParameters:
+        call: GetParameters
+        args:
+            user: $${user}
+            appEndpoint: $${appEndpoint.uri}
+        result: GetParametersResponse
     - return:
         return: 
-          - $${DescribeParametersResponse}     
+          - $${GetParametersResponse}     
 
 
 ######################################################################################
@@ -78,7 +84,7 @@ DescribeParameters:
               REGION: "us-east-1"
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.us-east-1.amazonaws.com"
-              BODY: ''
+              BODY: "{}"
               UA: '$${"Derf-SSM-Retrieve-SecureString=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
               CONTENT: "application/x-amz-json-1.1"
               USER: $${user}
@@ -107,7 +113,47 @@ DescribeParameters:
           - $${response.body.responseCode}
           - "FAILURE - AWS Retrieve and Decrypt SSM Parameters Attack"            
  
-
+GetParameters:
+  params: [user, appEndpoint]
+  steps:  
+    - assignStep:
+        assign:
+          - sum: 0
+    - loopStep:
+        for:
+          value: v                    
+          range: [1, 30]               
+          steps:  
+            - buildQuery:
+                assign:
+                - a: '{"Name": "/credentials/derf/credentials-'
+                - b: '", "WithDecryption": true}'
+                - c: '$${a+v+b}'          
+            - GetParameter:
+                call: http.post
+                args:
+                  url: '$${appEndpoint+"/submitRequest"}'
+                  auth:
+                      type: OIDC
+                  headers:
+                    Content-Type: application/json
+                  body:
+                      HOST: ssm.us-east-1.amazonaws.com
+                      REGION: "us-east-1"
+                      SERVICE: "ssm" 
+                      ENDPOINT: "https://ssm.us-east-1.amazonaws.com"
+                      BODY: '$${c}'
+                      UA: '$${"Derf-SSM-Retrieve-SecureString=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                      CONTENT: "application/x-amz-json-1.1"
+                      USER: $${user}
+                      VERB: POST
+                      TARGET: AmazonSSM.GetParameter
+                result: response
+            - sumStep:
+                assign:
+                  - sum: $${sum + v}
+    - return:
+        return: "SUCCESS - AWS Retrieve and Decrypt SSM Parameters"
 
   EOF
 
