@@ -19,3 +19,4 @@ This page contains the list of all DeRF Attack Techniques.
 | [Retrieve EC2 Password Data](./aws/ec2-get-password-data.md) | [AWS](./AWS/index.md) | Credential Access |
 | [Steal EC2 Instance Credentials](./aws/ec2-steal-instance-credentials.md) | [AWS](./AWS/index.md) | Credential Access |
 | [Retrieve and Decrypt SSM Parameters](./aws/ssm-retrieve-securestring-parameters.md) | [AWS](./AWS/index.md) | Credential Access |
+| [AWS Retrieve a High Number of Secrets Manager secrets](./aws/secretsmanager-retrieve-secrets.md) | [AWS](./AWS/index.md) | Credential Access |
