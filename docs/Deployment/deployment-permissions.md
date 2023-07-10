@@ -43,6 +43,7 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "lambda:UpdateFunctionCode",
         "cloudtrail:CreateTrail",
         "cloudtrail:DeleteTrail",
+        "cloudtrail:GetTrailStatus",
         "kms:CreateKey",
         "kms:DeleteAlias",
         "kms:CreateAlias",
@@ -56,7 +57,9 @@ Below are the documented AWS IAM Permissions required to deploy the DeRF into a 
         "ssm:DeleteParameters",
         "ssm:GetParameter",
         "ssm:DescribeParameters",
-        "ssm:PutParameter"
+        "ssm:PutParameter",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:GetSecretValue"
       ],
       "Effect": "Allow",
       "Resource": "*"

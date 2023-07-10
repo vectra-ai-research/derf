@@ -20,7 +20,9 @@ resource "aws_iam_policy" "policy" {
         "ssm:DescribeParameters",
         "ssm:GetParameter",
         "ssm:SendCommand",
-        "ssm:GetCommandInvocation"
+        "ssm:GetCommandInvocation",
+        "secretsmanager:ListSecrets",
+        "secretsmanager:GetSecretValue"
       ],
       "Effect": "Allow",
       "Resource": "*"
