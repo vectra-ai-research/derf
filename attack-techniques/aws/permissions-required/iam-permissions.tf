@@ -16,6 +16,7 @@ resource "aws_iam_policy" "policy" {
         "cloudtrail:CreateTrail",
         "cloudtrail:DeleteTrail",
         "ec2:ModifySnapshotAttribute",
+        "ec2:GetPasswordData",
         "ssm:DescribeParameters",
         "ssm:GetParameter",
         "ssm:SendCommand",
