@@ -100,10 +100,10 @@ def submit_request():
       accessKeySecret = data['ACCESSKEYSECRET']
       accessKeySessionToken = data['SESSIONTOKEN']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], session_token=accessKeySessionToken)
-    else:
-      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
+    # else:
+    #   accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+    #   accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+    #   auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
