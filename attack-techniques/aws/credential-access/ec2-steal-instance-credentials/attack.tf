@@ -118,7 +118,7 @@ runRetrieveAccessKeyId:
               REGION: "us-east-1"
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.us-east-1.amazonaws.com/"
-              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${local.role_name} | jq -rj .AccessKeyId"]}}'
+              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${var.iam_ec2_role_name} | jq -rj .AccessKeyId"]}}'
               CONTENT: "application/x-amz-json-1.1"
               TARGET: "AmazonSSM.SendCommand"
               VERB: POST
@@ -142,7 +142,7 @@ runRetrieveAccessKeySecret:
               REGION: "us-east-1"
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.us-east-1.amazonaws.com/"
-              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${local.role_name} | jq -rj .SecretAccessKey "]}}'
+              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${var.iam_ec2_role_name} | jq -rj .SecretAccessKey "]}}'
               CONTENT: "application/x-amz-json-1.1"
               TARGET: "AmazonSSM.SendCommand"
               VERB: POST
@@ -166,7 +166,7 @@ runRetrieveSessionToken:
               REGION: "us-east-1"
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.us-east-1.amazonaws.com/"
-              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${local.role_name} | jq -rj .Token "]}}'
+              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["curl http://169.254.169.254/latest/meta-data/iam/security-credentials/${var.iam_ec2_role_name} | jq -rj .Token "]}}'
               CONTENT: "application/x-amz-json-1.1"
               TARGET: "AmazonSSM.SendCommand"
               VERB: POST

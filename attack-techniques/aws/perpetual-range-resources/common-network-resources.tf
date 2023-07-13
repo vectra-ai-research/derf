@@ -14,3 +14,23 @@ module "vpc" {
   enable_vpn_gateway = false
 
 }
+
+
+## Security Groups
+resource "aws_security_group" "derf-ec2-with-ssm" {
+  name        = "derf-ec2-with-ssm-sg"
+  description = "Security group rules for EC2 accessible via SSM."
+  vpc_id      = module.vpc.vpc_id
+
+  #all outbound
+  egress {
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+  create_before_destroy = true
+  }
+}
