@@ -112,9 +112,10 @@ def submit_request():
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       print("if TEMPCREDSPASSED except")
-      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
+      raise
+  #     accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+  #     accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+  #     auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
   
 
 
