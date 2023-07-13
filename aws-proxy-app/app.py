@@ -75,18 +75,22 @@ def submit_request():
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
     if data['USER'] == "user01":
+      print("if data['USER'] == user01")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER01']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER01']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
     elif data['USER'] == "user02":
+      print("elif data['USER'] == user02")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER02']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER02']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
     else:
+      print("else")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
+      print("except")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
@@ -96,15 +100,18 @@ def submit_request():
 
   try:
     if data['TEMPCREDSPASSED'] == "yes":
+      print("if TEMPCREDSPASSED == YES")
       accessKeyId = data['ACCESSKEYID']
       accessKeySecret = data['ACCESSKEYSECRET']
       accessKeySessionToken = data['SESSIONTOKEN']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], session_token=accessKeySessionToken)
-    # else:
-    #   accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-    #   accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-    #   auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
+    else:
+      print("if TEMPCREDSPASSED else")
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
+      print("if TEMPCREDSPASSED except")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
@@ -122,7 +129,6 @@ def submit_request():
 
     if "application/json" in contentType:
       try:
-        print("In TRY block 1")
         jsonResponse = response.json()
       except:
         print("In except block 1")
