@@ -4,9 +4,9 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 }
 
 
-resource "google_workflows_workflow" "workflow_to_invoke_delete_cloudtrail" {
-  name            = "aws-delete-cloudtrail-trail-srt"
-  description     = "A workflow intended to match the functionality of the  Status Red Team attack technique 'AWS Delete Cloudtrail Trail': https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-delete/"
+resource "google_workflows_workflow" "workflow_to_invoke_cloudtrail_event_selector" {
+  name            = "aws-cloudtrail-event-selector-srt"
+  description     = "A workflow intended to match the functionality of the Status Red Team attack technique 'AWS Disable CloudTrail Logging Through Event Selectors': https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors/"
   service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId
   source_contents = <<-EOF
@@ -15,8 +15,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_delete_cloudtrail" {
 ## Attack Description
 ######################################################################################
 
-## Delete a CloudTrail trail. Simulates an attacker disrupting CloudTrail logging.
-## Trail is recreated by the default DeRF User
+## Disrupt CloudTrail Logging by creating an event selector on the Trail, filtering out all management events.
 
 #####################################################################################
 ## Input
@@ -28,7 +27,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_delete_cloudtrail" {
 ######################################################################################
 ## User Agent
 ######################################################################################
-#### Workflow executes with the User-Agent string: "Derf-AWS-Delete-CloudTrail-WORKFLOWEXECUTIONID"
+#### Workflow executes with the User-Agent string: "Derf-AWS-Disable-CloudTrail-EventSelector-WORKFLOWEXECUTIONID"
 
 ######################################################################################
 ## Main Workflow Execution
@@ -127,7 +126,7 @@ RecreateTrail:
               REGION: "us-east-1"
               SERVICE: "cloudtrail" 
               ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
-              BODY: '{"Name": "derf-trail", "S3BucketName": "${var.CloudTrailBucketName}", "IsMultiRegionTrail": true, "S3KeyPrefix": "prefix"}'
+              BODY: '{"Name": "derf-trail", "S3BucketName": "${local.CloudTrailBucketName}", "IsMultiRegionTrail": true, "S3KeyPrefix": "prefix"}'
               UA: "aws-cli/2.7.30 Python/3.9.11 Darwin/21.6.0 exe/x86_64 prompt/off command/cloudtrail.create-trail"
               CONTENT: "application/x-amz-json-1.1"
               VERB: POST

@@ -23,3 +23,14 @@ output "iam_ec2_role_name" {
   description = "The name of the role used for DeRF EC2 instances"
 }
 
+output "CloudTrailBucketName" {
+  value       = aws_s3_bucket.derf-cloudtrail-bucket.id
+  description = "The name of the bucket backing the DeRF CloudTrail"
+}
+
+
+output "TrailName" {
+  value       = aws_cloudtrail.derf-test-trail.name
+  description = "The name of the DeRF CloudTrail Trali"
+}
+

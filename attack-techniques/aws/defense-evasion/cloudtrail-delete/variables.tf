@@ -5,3 +5,15 @@ variable "projectId" {
 }
 
 
+variable "CloudTrailBucketName" {
+  type = string
+  default = ""
+  description = "The name of the bucket backing the DeRF CloudTrail"
+}
+
+
+variable "TrailName" {
+  type = string
+  default = ""
+  description = "The name of the DeRF CloudTrail Trali"
+}

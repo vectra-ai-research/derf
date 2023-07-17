@@ -167,7 +167,9 @@ module "aws_ec2_get_user_data" {
 module "aws_cloudtrail_trail_delete" {
   source = "../attack-techniques/aws/defense-evasion/cloudtrail-delete"
 
-  projectId          = local.gcp_deployment_project_id
+  projectId            = local.gcp_deployment_project_id
+  CloudTrailBucketName = module.aws_perpetual_range_resources.CloudTrailBucketName
+  TrailName            = module.aws_perpetual_range_resources.TrailName
 
   providers = {
     google          = google.derf

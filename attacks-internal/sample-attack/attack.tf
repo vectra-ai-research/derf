@@ -7,7 +7,7 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 
 resource "google_workflows_workflow" "sample_attack" {
   name            = "aws-sample-attack"
-  description     = "A template for created your own AWS Attack using the DeRF"
+  description     = "A template for creating your own custom AWS Attack Technique using the DeRF"
   service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId
   source_contents = <<-EOF
@@ -36,20 +36,21 @@ resource "google_workflows_workflow" "sample_attack" {
 main:
   params: [args]
   steps:
- # Assign step always required to pull the User and current GCP Project Id 
+ # NOTE: Assign step always required to pull the User and current GCP Project Id 
     - assign:
         assign:
         - user: $${args.user}
         - projectID: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}  
 
-# This step is always required to pull the correct URL for the Cloud Run app
+# # NOTE: This step is always required to pull the correct URL for the Cloud Run app
     - getCloudRunURL:
         call: googleapis.run.v2.projects.locations.services.get
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint 
 
-# Call a subworkflow, passing in the user and URL of the Cloud Run App
+## NOTE: Call a subworkflow, passing in the user and URL of the Cloud Run App.  When modifing the name of 
+## the submodule called, update to the same name in the Submodules section.
     - SampleSubWorkflow:
         call: SampleSubWorkflow
         args:
@@ -79,13 +80,13 @@ SampleSubWorkflow:
             Content-Type: application/json
 
 # Specifiy the details of the request to make to AWS. These details can be found if you make the
-# request with the AWS CLI and proxy the request through a tool such as Burp
+# request with the AWS CLI and proxy the request through a tool such as Burp.
           body:
               HOST: SERVICENAME.amazonaws.com
               REGION: REGION
               SERVICE: NAME OF AWS SERVICE 
               ENDPOINT: "https://SERVICENAME.amazonaws.com"
-              BODY: IF SENDING A POST REQUEST, INCLUDE THE POST BODY HERE
+              BODY: IF SENDING A POST REQUEST, INCLUDE THE POST BODY HERE. Otherwise, remove.
               UA: '$${"SAMPLE-ATTACK=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
               CONTENT: "application/x-amz-json-1.1"
               USER: $${user}
