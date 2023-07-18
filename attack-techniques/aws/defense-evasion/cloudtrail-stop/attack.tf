@@ -58,8 +58,8 @@ main:
         result: ReStartLoggingResponse
     - return:
         return: 
-          - $${StopLoggingResponse}
-          - $${ReStartLoggingResponse}          
+            - $${StopLoggingResponse}
+          
 
 
 ######################################################################################
@@ -69,25 +69,39 @@ StopLogging:
   params: [user, appEndpoint]
   steps: 
     - StopLogging:
-        call: http.post
-        args:
-          url: '$${appEndpoint+"/submitRequest"}'
-          auth:
-              type: OIDC
-          headers:
-            Content-Type: application/json
-          body:
-              HOST: cloudtrail.us-east-1.amazonaws.com
-              REGION: "us-east-1"
-              SERVICE: "cloudtrail" 
-              ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
-              BODY: '{"Name": "${var.TrailName}"}'
-              UA: '$${"Derf-AWS-Stop-CloudTrail=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
-              CONTENT: "application/x-amz-json-1.1"
-              USER: $${user}
-              VERB: POST
-              TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.StopLogging
-        result: response
+        try:
+            steps:
+                - callStep:
+                    call: http.post
+                    args:
+                      url: '$${appEndpoint+"/submitRequest"}'
+                      auth:
+                          type: OIDC
+                      headers:
+                        Content-Type: application/json
+                      body:
+                          HOST: cloudtrail.us-east-1.amazonaws.com
+                          REGION: "us-east-1"
+                          SERVICE: "cloudtrail" 
+                          ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
+                          BODY: '{"Name": "${var.TrailName}"}'
+                          UA: '$${"Derf-AWS-Stop-CloudTrail=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          CONTENT: "application/x-amz-json-1.1"
+                          USER: $${user}
+                          VERB: POST
+                          TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.StopLogging
+                    result: response
+                - checkNotOK:   
+                    switch:
+                      - condition: $${response.body.responseCode == 409}
+                        raise: $${response}
+        retry:
+            predicate: $${custom_predicate}
+            max_retries: 8
+            backoff:
+                initial_delay: 1
+                max_delay: 60
+                multiplier: 2
 
     - handle_result:
         switch:
@@ -120,24 +134,39 @@ ReStartLogging:
   params: [appEndpoint]
   steps: 
     - ReStartLogging:
-        call: http.post
-        args:
-          url: '$${appEndpoint+"/submitRequest"}'
-          auth:
-              type: OIDC
-          headers:
-            Content-Type: application/json
-          body:
-              HOST: cloudtrail.us-east-1.amazonaws.com
-              REGION: "us-east-1"
-              SERVICE: "cloudtrail" 
-              ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
-              BODY: '{"Name": "${var.TrailName}"}'
-              UA: '$${"Derf-AWS-Stop-CloudTrail=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
-              CONTENT: "application/x-amz-json-1.1"
-              VERB: POST
-              TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.StartLogging
-        result: response
+        try:
+            steps:
+                - callStep:
+                    call: http.post
+                    args:
+                      url: '$${appEndpoint+"/submitRequest"}'
+                      auth:
+                          type: OIDC
+                      headers:
+                        Content-Type: application/json
+                      body:
+                          HOST: cloudtrail.us-east-1.amazonaws.com
+                          REGION: "us-east-1"
+                          SERVICE: "cloudtrail" 
+                          ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
+                          BODY: '{"Name": "${var.TrailName}"}'
+                          UA: '$${"Derf-AWS-Stop-CloudTrail=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          CONTENT: "application/x-amz-json-1.1"
+                          VERB: POST
+                          TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.StartLogging
+                    result: response
+
+                - checkNotOK:   
+                    switch:
+                      - condition: $${response.body.responseCode == 409}
+                        raise: $${response}
+        retry:
+            predicate: $${custom_predicate}
+            max_retries: 8
+            backoff:
+                initial_delay: 1
+                max_delay: 60
+                multiplier: 2
 
     - handle_result:
         switch:
@@ -164,6 +193,19 @@ ReStartLogging:
           - $${response.body.responseCode}
           - "FAILURE restarting the Trail - AWS Stop CloudTrail Trail Attack"  
 
+custom_predicate:
+  params: [response]
+  steps:
+    - what_to_repeat:
+        switch:
+          - condition: $${response.body.responseCode == 400}
+            return: true
+          - condition: $${response.body.responseCode == 409}
+            return: true
+          - condition: $${response.body.responseCode == 500}
+            return: true
+    - otherwise:
+        return: false
 
   EOF
 

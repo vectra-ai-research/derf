@@ -16,6 +16,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_cloudtrail_event_select
 ######################################################################################
 
 ## Disrupt CloudTrail Logging by creating an event selector on the Trail, filtering out all management events.
+## The logging of management plane events is restored by the DeRF Default User.
 
 #####################################################################################
 ## Input
@@ -45,93 +46,64 @@ main:
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint 
-    - DeleteTrail:
-        call: DeleteTrail
+    - PutEventSelector:
+        call: PutEventSelector
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: deleteResponse
-    - RecreateTrail:
-        call: RecreateTrail
+        result: PutEventSelectorResponse
+    - RevertPutEventSelector:
+        call: RevertPutEventSelector
         args:
             appEndpoint: $${appEndpoint.uri}
-        result: reCreateResponse
+        result: RevertPutEventSelectorResponse
     - return:
         return: 
-          - $${deleteResponse}
-          - $${reCreateResponse}          
+          - $${PutEventSelectorResponse}
+         
 
 
 ######################################################################################
 ## Submodules | Sub-Workflows
 ######################################################################################
-DeleteTrail:
+PutEventSelector:
   params: [user, appEndpoint]
   steps: 
-    - DeleteTrail:
-        call: http.post
-        args:
-          url: '$${appEndpoint+"/submitRequest"}'
-          auth:
-              type: OIDC
-          headers:
-            Content-Type: application/json
-          body:
-              HOST: cloudtrail.us-east-1.amazonaws.com
-              REGION: "us-east-1"
-              SERVICE: "cloudtrail" 
-              ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
-              BODY: '{"Name": "derf-trail"}'
-              UA: '$${"Derf-AWS-Delete-CloudTrail=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
-              CONTENT: "application/x-amz-json-1.1"
-              USER: $${user}
-              VERB: POST
-              TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.DeleteTrail
-        result: response
+    - PutEventSelector:
+        try:
+            steps:
+                - callStep:
+                    call: http.post
+                    args:
+                      url: '$${appEndpoint+"/submitRequest"}'
+                      auth:
+                          type: OIDC
+                      headers:
+                        Content-Type: application/json
+                      body:
+                          HOST: cloudtrail.us-east-1.amazonaws.com
+                          REGION: "us-east-1"
+                          SERVICE: "cloudtrail" 
+                          ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
+                          BODY: '{"TrailName": "${var.TrailName}", "EventSelectors": [{"IncludeManagementEvents": true, "DataResources": [{"Type": "AWS::S3::Object", "Values": ["arn:aws:s3"]}, {"Type": "AWS::Lambda::Function", "Values": ["arn:aws:lambda"]}]}]}'
+                          UA: '$${"Derf-AWS-Disable-CloudTrail-EventSelector=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          CONTENT: "application/x-amz-json-1.1"
+                          USER: $${user}
+                          VERB: POST
+                          TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.PutEventSelectors
+                    result: response
+                - checkNotOK:   
+                    switch:
+                      - condition: $${response.body.responseCode == 409}
+                        raise: $${response}
+        retry:
+            predicate: $${custom_predicate}
+            max_retries: 8
+            backoff:
+                initial_delay: 1
+                max_delay: 60
+                multiplier: 2
 
-    - handle_result:
-        switch:
-          - condition: $${response.body.responseCode == 200}
-            next: returnValidation
-          - condition: $${response.body.responseCode == 403}
-            next: error
-          - condition: $${response.body.responseCode == 400}
-            next: error
-
-    - returnValidation:
-        return: 
-          - $${response.body.responseBody}
-          - $${response.body.responseCode}
-          - "SUCCESS - AWS Cloudtrail Trail Deleted Attack"
-
-    - error:
-        return: 
-          - $${response.body.responseBody}
-          - $${response.body.responseCode}
-          - "FAILURE - AWS Cloudtrail Trail Deleted Attack"            
-
-RecreateTrail:
-  params: [appEndpoint]
-  steps: 
-    - RecreateTrail:
-        call: http.post
-        args:
-          url: '$${appEndpoint+"/submitRequest"}'
-          auth:
-              type: OIDC
-          headers:
-            Content-Type: application/json
-          body:
-              HOST: cloudtrail.us-east-1.amazonaws.com
-              REGION: "us-east-1"
-              SERVICE: "cloudtrail" 
-              ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
-              BODY: '{"Name": "derf-trail", "S3BucketName": "${local.CloudTrailBucketName}", "IsMultiRegionTrail": true, "S3KeyPrefix": "prefix"}'
-              UA: "aws-cli/2.7.30 Python/3.9.11 Darwin/21.6.0 exe/x86_64 prompt/off command/cloudtrail.create-trail"
-              CONTENT: "application/x-amz-json-1.1"
-              VERB: POST
-              TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.CreateTrail
-        result: response
     - handle_result:
         switch:
           - condition: $${response.body.responseCode == 200}
@@ -145,18 +117,96 @@ RecreateTrail:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "SUCCESS recreating the Trail - AWS Cloudtrail Trail Deleted Attack"
+          - "SUCCESS - AWS Disable CloudTrail Logging Through Event Selectorsl Attack"
+
     - permissionError:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE recreating the Trail- AWS Cloudtrail Trail Deleted Attack | This is typically a permission error"
+          - "FAILURE - AWS Disable CloudTrail Logging Through Event Selectors| This is typically a permission error"
+
     - error:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE recreating the Trail - AWS Cloudtrail Trail Deleted Attack"  
+          - "FAILURE - AWS Disable CloudTrail Logging Through Event Selectors Attack"            
 
+RevertPutEventSelector:
+  params: [appEndpoint]
+  steps: 
+    - RevertPutEventSelector:
+        try:
+            steps:
+                - callStep:
+                    call: http.post
+                    args:
+                      url: '$${appEndpoint+"/submitRequest"}'
+                      auth:
+                          type: OIDC
+                      headers:
+                        Content-Type: application/json
+                      body:
+                          HOST: cloudtrail.us-east-1.amazonaws.com
+                          REGION: "us-east-1"
+                          SERVICE: "cloudtrail" 
+                          ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
+                          BODY: '{"TrailName": "${var.TrailName}", "EventSelectors": [{"IncludeManagementEvents": true}]}'
+                          UA: '$${"Derf-AWS-Disable-CloudTrail-EventSelector=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          CONTENT: "application/x-amz-json-1.1"
+                          VERB: POST
+                          TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.PutEventSelectors
+                    result: response
+
+                - checkNotOK:   
+                    switch:
+                      - condition: $${response.body.responseCode == 409}
+                        raise: $${response}
+        retry:
+            predicate: $${custom_predicate}
+            max_retries: 8
+            backoff:
+                initial_delay: 1
+                max_delay: 60
+                multiplier: 2
+
+    - handle_result:
+        switch:
+          - condition: $${response.body.responseCode == 200}
+            next: returnValidation
+          - condition: $${response.body.responseCode == 403}
+            next: permissionError
+          - condition: $${response.body.responseCode == 400}
+            next: error
+
+    - returnValidation:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "SUCCESS reverting event selectors on the trail - AWS Disable CloudTrail Logging Through Event Selectors Attack"
+    - permissionError:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "FAILURE reverting event selectors on the trail - AWS Disable CloudTrail Logging Through Event Selectors Attack | This is typically a permission error"
+    - error:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "FAILURE reverting event selectors on the trail - AWS Disable CloudTrail Logging Through Event Selectors"  
+
+custom_predicate:
+  params: [response]
+  steps:
+    - what_to_repeat:
+        switch:
+          - condition: $${response.body.responseCode == 400}
+            return: true
+          - condition: $${response.body.responseCode == 409}
+            return: true
+          - condition: $${response.body.responseCode == 500}
+            return: true
+    - otherwise:
+        return: false
 
   EOF
 

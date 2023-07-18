@@ -17,6 +17,7 @@ resource "aws_iam_policy" "policy" {
         "cloudtrail:DeleteTrail",
         "cloudtrail:StopLogging",
         "cloudtrail:StartLogging",
+        "cloudtrail:PutEventSelectors",
         "ec2:ModifySnapshotAttribute",
         "ec2:GetPasswordData",
         "ec2:DescribeFlowLogs",

@@ -31,7 +31,7 @@ Specify which user this attack should run as.
 ```
 #### Clean Up: 
 
-- Removes event selectors on Cloudtrail trail.
+- Reverts the event selectors on Cloudtrail trail, resuming logging of management-plane events
   - Executed as the `DeRF Default User`
 
 
@@ -41,11 +41,11 @@ Specify which user this attack should run as.
 - Programmatically execute this workflow with the following cli command:
 
 ```
-gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}` 
+gcloud workflows run aws-cloudtrail-event-selector-srt `--data={"user": "user01"}` 
 ```
 
 
 ## Detection Artifacts
 
 
-Identify when the scope of a CloudTrail trail is narrowed, through CloudTrail's <code>PutEventSelectors</code> event.
+Identify when the scope of CloudTrail logging is narrowed through CloudTrail's <code>PutEventSelectors</code> event.
