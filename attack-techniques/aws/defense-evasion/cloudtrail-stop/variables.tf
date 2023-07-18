@@ -4,4 +4,9 @@ variable "projectId" {
   default = ""
 }
 
+variable "TrailName" {
+  description = "The name of the trail created in the perpetual range and used throughout attack techniques"
+  type = string
+  default = ""
+}
 
