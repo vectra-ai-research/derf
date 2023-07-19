@@ -23,13 +23,13 @@ Review the documentation at `docs/user-guide/attack-creation.md` for instruction
 
 ## Can I use the DeRF to execute attack techniques against my own infrastructure?
 
-- AWS: This tool spins up DeRF specific resources in specified AWS account in order for the attack techniques to operate on.  Within each module you can see the required resources in the `infra.tf` file.  If you wanted the attack technique modules to target different infrastructure it would require some terraform surgery
-  1. Comment out the contents of the `infra.tf` file.
-  2. Within the `local.tf` file, replace the values of the local variables with the hardcoded values from your BYO Infrastructure.
-  3. Comment out the variables from the infrastructure no longer used in the `variables.tf` file.
+- AWS: This tool spins up DeRF specific resources in specified AWS account in order for the attack techniques to operate on.  Within each module you can see the required resources in the `infra.tf` file.  If you wanted the attack technique modules to target different infrastructure it would require some terraform surgery.  
+    1. Comment out the contents of the `infra.tf` file.
+    2. Within the `local.tf` file, replace the values of the local variables with the hardcoded values from your BYO Infrastructure.
+    3. Comment out the variables from the infrastructure no longer used in the `variables.tf` file.
 
-## How do I remote the DeRF Infrastructure?
-All deployed resources across both AWS and GCP will be removed by destroying with terraform.
+## How do I destroy the DeRF Infrastructure?
+All deployed resources across both AWS and GCP will be removed with terraform.
 From the `env-prod/` directory:
 ``` tf
 terraform destroy -var-file=derf.tfvars

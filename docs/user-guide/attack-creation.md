@@ -23,43 +23,62 @@ Its possible as your use cases grow, you will want to expand on the library of b
 5. Re-deploy the infrastructure  following instructions [here](../Deployment/derf-deployment.md) including the re-initalizing of terraform.
 
 
-## Specifying Details of an Attack
+## Specifying Details of an AWS Attack Technique
 Details of every API call to AWS is specified in the Google Workflows in the `http.post` request and passed to the `aws-proxy-app` for processing.  Below is a detailed accounting of the variables which can be sent to the `aws-proxy-app` to detail the API call to AWS.
 
 ### Variables
 - **HOST**:   
+    - description:   The value of the `Host` HTTP header to send with the API request.   Most frequently constructed as: servicename.region.amazonaws.com
     - example: *cloudtrail.us-east-1.amazonaws.com*
     - required: yes
 - **REGION**: 
+    - description:  Region the target infrastructure is located. 
     - example: *us-east-1*
     - required: yes
 - **SERVICE**: 
+    - description: Name of the service the targeted API belongs to.
     - example: *cloudtrail*
     - required: yes
 - **ENDPOINT**: 
+    - description: The full URL of the API call. Commonly “https:// + host header value”
     - example: *https://cloudtrail.us-east-1.amazonaws.com*
     - required: yes
 - **VERB**: 
+    - description: HTTP verb to send the request as.
     - example: *POST*
     - required: yes
 - **BODY**: 
+    - description: If POST or PUT request, the Body of the HTTP request to send.
     - example: *'{"Name": "derf-trail"}'*
     - required: no
 - **UA**: 
+    - description: The value of the `User-Agent` HTTP header to send with the API request.  Using the pattern below, they are recorded as unique per workflow execution, helpful in identifying attack executions within logs. 
     - example: *'$${"Derf-AWS-Delete-CloudTrail=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'*
     - required: no
 - **CONTENT**: 
+    - description: The value of the `Content-Type` HTTP header to send with the API request.
     - example: *"application/x-amz-json-1.1"*
     - required: no
 - **USER**: 
+    - description: The DeRF Execution User (either 01 or 02) to run the attack as    
     - example: *$${user}*
     - required: no
 - **TARGET**: 
+    - description: The value of the `X-Amz-Target` HTTP header to send with the API request. Some AWS APIs require this HTTP header to interface with the API. Proxy and record API calls from your AWS CLI traffic to understand if the API you are working with requires this header.         
     - example: *com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.DeleteTrail*
     - required: no
 - **TEMPCREDSPASSED**: 
+    - description: When ‘yes’, indicates to the downstream aws proxy application to except credentials sent in the HTTP header and to run the attack as.    
     - example: yes
     - required: no
+- **ACCESSKEYID, ACCESSKEYSECRET & SESSIONTOKEN**:
+    - description: When included in the Google Workflow request, these temporary credentials are used by the application to run the attack as.    
+    - example:
+        - ACCESSKEYID: '$${ACCESSKEYID}'
+        - ACCESSKEYSECRET: '$${ACCESSKEYSECRET}'
+        - SESSIONTOKEN: '$${SESSIONTOKEN}'
+    - required: no
+
 
 ### Sample Google Workflow Step
 

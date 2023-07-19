@@ -5,9 +5,10 @@ Welcome to the Home Page of the DeRF Documentation.
 
 ## **High Level Architecture**  
 
-DeRF Deployment and Execution targeting AWS
+The DeRF’s unique architecture is wholly deployed via terraform.  It consists of resources spread across AWS and GCP.
   
-![](./images/DeRF%20Architecture.png)
+![](./images/architecture_diagram.png)
+![](./images/diagram_key.png)
 
 
 ## **DeRF User Personas**

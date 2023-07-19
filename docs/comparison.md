@@ -1,5 +1,9 @@
 # Comparison With Other Tools
 
+
+The DeRF, an open-source tool available on GitHub, consisting of Terraform modules and a Cloud Run application written in Python. Within this package, a variety of attack techniques are provided, aligned with the capabilities of the Stratus Red Team. The decision to release the DeRF to have attack technique parody with Stratus Red Team is aimed at eliminating the need for operators to compromise between different attack capabilities. Instead, they can select the tooling that best suits their specific use case instead of the tooling which maintains a particular attack module.
+
+
 ## [Stratus Red Team](https://stratus-red-team.cloud/) by Data Dog
 
 > Stratus Red Team fashions itself as "Atomic Red Team™", but focused on cloud.
@@ -8,7 +12,7 @@ Stratus Red Team is a self-contained GO binary that can be used to detonate offe
 It consists of a CLI tool which operators can 'detonate' individual attack techniques against an AWS, GCP or Azure target.  Each attack technique is a self-contained module which creates the infrastructure required for the attack in a *warm-up* phase, following which the attack is performed.  Finally, any created infrastructure is destroyed.
 While Stratus Red Team is an *awesome* tool for an individual operator, its not great for those less technical or when you need to democratize attack execution, making it invocation available to larger teams. 
 
-DeRF has chosen to release with a set of pre-defined AWS attack techniques in parity with Stratus Red Team to provide consistency between the publicly available tools. However, DeRF is extensible.  Users are encouraged to create their own modules.
+DeRF has made the decision to release a predefined set of AWS attack techniques that aligns with the capabilities of Stratus Red Team. This choice ensures consistency among the publicly available tools. However, it's important to note that DeRF is designed to be extensible. Users are encouraged to develop their own modules, allowing for customization and expansion based on their specific requirements.
 
 ^^Use Stratus Red Team when^^: There is an individual, technical operator who needs to execute a set of pre-defined attack techniques in AWS, Azure, K8s or GCP.
 
