@@ -1,11 +1,11 @@
-# DeRF
+# The DeRF
 
 
 ![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf)          ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf/total)  
 
 Read the [Full Documentation](docs/index.md)  
 
-DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/DataDog/stratus-red-team)" As A Service, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or possess credentials.
+DeRF (Detection Replay Framework) is an "Attacks As A Service" framework, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or possess credentials in the target environment.
 
 
 ## Deployment
@@ -45,7 +45,7 @@ The results of the attack will be displayed on the right-hand side of the screen
 1. Ensure the Google command line tool is installed locally.  Reference Google maintained [documentation](https://cloud.google.com/sdk/docs/install) for instructions on installing `gcloud cli`
 2. Authenticate to Google Cloud Project which DeRF is deployed
 ```
-gcloud auth login --project 
+gcloud auth login --project PROJECT_ID
 ```
 3. Invoke a particular attack techniques' workflow with the `gcloud cli`. See Google [documentation](https://cloud.google.com/sdk/gcloud/reference/workflows/run) for more complete instructions on the workflows service.
 
