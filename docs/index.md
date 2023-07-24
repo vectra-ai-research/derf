@@ -6,7 +6,8 @@ Welcome to the Home Page of the DeRF Documentation.
 ## **High Level Architecture**  
 
 The DeRF’s unique architecture is wholly deployed via terraform.  It consists of resources spread across AWS and GCP.
-  
+
+## DeRF Attack Architecture for AWS  
 ![](./images/architecture_diagram.png)
 ![](./images/diagram_key.png)
 
@@ -24,19 +25,19 @@ See the [User Guide](./user-guide/execution-user-permissions.md) for more detail
 ![](./images/DeRF_Execution_User01.png){ align=left width=300 }   
 
 
-^^The DeRF Execution User 01^^ is one of two built in an AWS IAM Users which attack techniques can run as. Permissions are assigned to the `derf-execution-users` AWS IAM Group and documented within each attack module.  
+^^The DeRF Execution User 01^^ is one of two built in an AWS IAM Users which AS attack techniques can run as. Permissions are assigned to the `derf-execution-users` AWS IAM Group and documented within each attack module.  
 <br></br>
 
 ![](./images/DeRF_Execution_User02.png){ align=left width=300 }  
 
 
-^^The DeRF Execution User 02^^ is one of two built in an AWS IAM Users which attack techniques can run as. Permissions are assigned to the `derf-execution-users` AWS IAM Group and documented within each attack module.  
+^^The DeRF Execution User 02^^ is one of two built in an AWS IAM Users which AWS attack techniques can run as. Permissions are assigned to the `derf-execution-users` AWS IAM Group and documented within each attack module.  
 <br></br>
 
 ![](./images/DeRF_Default_User.png){ align=left width=300 }  
 
 
-^^The DeRF Default User^^ is an AWS IAM User used by attack techniques to revert state changing actions by the attack modules.  If attack techniques are run with the user parameter left blank, the attack with default to run as this user.   
+^^The DeRF Default User^^ is an AWS IAM User used by attack techniques to revert state changing actions by the AWS attack modules.  If AWS attack techniques are run with the user parameter left blank, the attack with default to run as this user.   
 <br></br>
 
 ![](./images/Derf_AWS-IAM-Role.png){ align=left width=300 }   

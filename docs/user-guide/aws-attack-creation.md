@@ -1,5 +1,5 @@
 ---
-title: Attack Technique Creation
+title: AWS Attack Technique Creation
 ---
 
 
@@ -10,13 +10,13 @@ Its possible as your use cases grow, you will want to expand on the library of b
 
 1. Fork the `derf` repo found [here](https://github.com/vectra-ai-research/derf).
 
-2. From the top-level directory, `attacks-internal`, review the `sample-attack` directory for an example of the structure of an attack module.  Every attack module should be a folder containing at least the following files:
-   - `attack.tf`: The Google Workflow, defined in terraform, which outlines the API calls to make in the attack sequence
-   - 'iam-permissions.tf': Any additional permissions need for the DeRF Execution Users to perform the attack.  Refer to the `sample-attack` for an example of the resources to create.
-   - `variable.tf`: Refer to the `sample-attack` for the common variable imported into every attack.
-   - `infra.tf`: If the attack technique requires any new target infrastructure, define it in this file.
+2. From the top-level directory, `attacks-internal`, review the `sample-attack` directory for an example of the structure of an AWS attack module.  Every attack module should be a folder containing at least the following files:   
+      - `attack.tf`: The Google Workflow, defined in terraform, which outlines the API calls to make in the attack sequence
+      - `iam-permissions.tf`: Any additional permissions need for the DeRF Execution Users to perform the attack.  Refer to the `sample-attack` directory for an example of the resources to create.
+      - `variable.tf`: Refer to the `sample-attack` directory for the common variable imported into every attack.
+      - `infra.tf`: If the attack technique requires any new target infrastructure, define it in this file.
 
-3. Create your new custom DeRF attack techqniue as a new folder in the `attacks-internal` directory.
+3. Create your new custom DeRF attack technique as a new folder in the `attacks-internal` directory.
 
 4. From the top-level directory, `env-prod`, review the `aws-attack-techniques-internal.tf` file.  From this file, source the newly created attack module in the style of the `sample-attack-module`.
 

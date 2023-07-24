@@ -13,12 +13,12 @@ See [here](user-guide/attack-execution-access-control.md) for detailed instructi
 
 ## How does the DeRF persist state?
 
-DeRF uses a remote backend for its Terraform configurations and as such, a S3 bucket is required to initialize and deploy the DeRF.  See `./env-prod/TEMPLATE.conf`.    
-This is a requirement because AWS Access Keys are generated during DeRF deployment and the Access Key Secret value will persist in terraform state.  Its better this persists in an encrypted S3 bucket with appropriate access controls rather than the operators local machine.
+The DeRF uses a remote backend for its Terraform configurations and as such, a S3 bucket is required to initialize and deploy The DeRF.  See `./env-prod/TEMPLATE.conf`.    
+This is a requirement because AWS Access Keys are generated during DeRF deployment and the Access Key Secret value will persist in terraform state.  Its better these secrets persists in an encrypted S3 bucket with appropriate access controls rather than the operators local machine. 
 
 ## How can I add my own attack techniques to the DeRF?
 
-Review the documentation at `docs/user-guide/attack-creation.md` for instructions on creating your own attacks.  See sample attack modules under the `attacks-internal` directory.
+Review the documentation at `docs/user-guide/aws-attack-creation.md` for instructions on creating your own attacks targeting AWS resources.  See sample attack modules under the `attacks-internal` directory.
 
 
 ## Can I use the DeRF to execute attack techniques against my own infrastructure?

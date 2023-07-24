@@ -97,7 +97,7 @@ nav:
       - Programmatic Execution: user-guide/programmatic-usage.md
       - DeRF User Permissions: user-guide/execution-user-permissions.md
       - Troubleshooting: user-guide/troubleshooting.md  
-      - Attack Creation: user-guide/attack-creation.md        
+      - AWS Attack Creation: user-guide/aws-attack-creation.md        
   - Attack Techniques Reference:
       - All Attack Techniques: attack-techniques/list.md
       - ... | attack-techniques/*/*.md

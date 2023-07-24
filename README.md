@@ -9,7 +9,7 @@ DeRF (Detection Replay Framework) is "[Stratus Red Team](https://github.com/Data
 
 
 ## Deployment
-DeRF is a framework for executing attacks and generating detection samples against an AWS account.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
+DeRF is a framework for executing attacks and generating detection samples against resource an AWS account or GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
 1. DeRF Framework Deployment. For more detailed instructions on deployment see [here](/docs/Deployment/derf-deployment.md)
 
 From the `./env-prod` directory, deploy the framework with terraform.
@@ -25,7 +25,7 @@ terraform apply -var-file=derf.tfvars
 
 
 ## Attack Execution
-Attacks execution is performed by invoking a Google Cloud Workflow. Workflows can be invoked either on the Google Cloud Console or programmatically with the `gcloud cli`
+Attack execution targeting both AWS and GCP is performed by invoking a Google Cloud Workflow. Workflows can be invoked either on the Google Cloud Console or programmatically with the `gcloud cli`
 
 ### Executing Attacks on the Console
 1. Log into the [Google Cloud Console](https://console.cloud.google.com/workflows/) and and navigate to the workflows page.
