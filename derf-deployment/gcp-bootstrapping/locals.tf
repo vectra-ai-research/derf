@@ -16,7 +16,9 @@ locals {
     "containerregistry.googleapis.com",
     "sourcerepo.googleapis.com",
     "eventarc.googleapis.com",
-    "eventarcpublishing.googleapis.com"
+    "eventarcpublishing.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
   ]
   gcp_deployment_project_id = var.gcp_deployment_project_id
+  gcp_derf_project_id       = var.gcp_derf_project_id
 }

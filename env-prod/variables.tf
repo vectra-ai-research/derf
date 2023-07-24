@@ -25,4 +25,8 @@ variable "gcp_deployment_project_id" {
   type        = string
 }
 
+variable "gcp_derf_project_id" {
+  description = "The ID of the project which attacks will execute in"
+  type        = string
+}
 

@@ -172,7 +172,7 @@ resource "google_project_iam_member" "project_iam_assignment_05" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# Assign Service Account User Role to the Default Cloud Build SA so it can impersonate the  Customer-Managed SA
+# Assign Service Account User Role to the Default Cloud Build SA so it can impersonate the Customer-Managed SA
 # ---------------------------------------------------------------------------------------------------------------------
 
 data "google_project" "project" {

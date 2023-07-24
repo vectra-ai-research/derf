@@ -26,3 +26,4 @@ This page contains the list of all DeRF Attack Techniques.
 | [Retrieve and Decrypt SSM Parameters](./aws/ssm-retrieve-securestring-parameters.md) | [AWS](./AWS/index.md) | Credential Access |
 | [AWS Retrieve a High Number of Secrets Manager secrets](./aws/secretsmanager-retrieve-secrets.md) | [AWS](./AWS/index.md) | Credential Access |
 | [Execute Commands on EC2 Instance via User Data](./aws/ec2-modify-user-data.md) | [AWS](./AWS/index.md) | Execution |
+| [Impersonate GCP Service Accounts](./gcp/impersonate-service-accounts.md) | [GCP](./GCP/index.md) | Privilege Escalation |

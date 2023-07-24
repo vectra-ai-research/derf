@@ -1,7 +1,7 @@
 # Comparison With Other Tools
 
 
-The DeRF, an open-source tool available on GitHub, consisting of Terraform modules and a Cloud Run application written in Python. Within this package, a variety of attack techniques are provided, aligned with the capabilities of the Stratus Red Team. The decision to release the DeRF to have attack technique parody with Stratus Red Team is aimed at eliminating the need for operators to compromise between different attack capabilities. Instead, they can select the tooling that best suits their specific use case instead of the tooling which maintains a particular attack module.
+The DeRF, an open-source tool available on GitHub, consisting of Terraform modules and a Cloud Run application written in Python. Within this package, a variety of attack techniques are provided, aligned with the capabilities of the Stratus Red Team. The decision to release the DeRF to have attack technique parity with Stratus Red Team is aimed at eliminating the need for operators to compromise between different attack capabilities. Instead, they can select the tooling that best suits their specific use case instead of the tooling which maintains a particular attack module.
 
 
 ## [Stratus Red Team](https://stratus-red-team.cloud/) by Data Dog

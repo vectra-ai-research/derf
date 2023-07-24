@@ -1,87 +1,12 @@
 ## Deployment Permissions
 
 ### AWS
-Below are the documented AWS IAM Permissions required to deploy the DeRF into a targeted AWS Account.  This policy does not take into account the permissions needed to open an AWS, or managed your credentials.
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "Stmt1683153705818",
-      "Action": [
-        "iam:*",
-        "cloudtrail:CreateTrail",
-        "s3:CreateBucket",
-        "s3:DeleteBucket",
-        "s3:PutBucketPolicy",
-        "s3:GetBucketPolicy",
-        "s3:PutBucketPublicAccessBlock",
-        "s3:PutAccountPublicAccessBlock",
-        "s3:PutBucketPolicy",
-        "s3:DeleteBucketPolicy",
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:DeleteObject",
-        "s3:CopyObject",
-        "s3:PutBucketAcl",
-        "s3:PutLifecycleConfiguration",
-        "ec2:DescribeSnapshotTierStatus",
-        "ec2:DescribeSnapshotTierStatus",
-        "ec2:RestoreSnapshotTier",
-        "ec2:DescribeSnapshots",
-        "ssm:PutParameter",
-        "ec2:CreateSubnet",
-        "ec2:CreateSecurityGroup",
-        "ec2:DeleteVpcFlowLogs",
-        "ec2:DescribeVpcFlowLogs",
-        "ec2:CreateVpcFlowLogs",
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:CreateLogDelivery",
-        "logs:DeleteLogGroup",
-        "logs:DeleteLogGroups",
-        "logs:DeleteLogStream",
-        "logs:DeleteLogDelivery",
-        "guardduty:CreateDetector",
-        "events:PutRule",
-        "events:PutTarget",
-        "lambda:CreateFunction",
-        "lambda:GetFunction",
-        "lambda:GetPolicy",
-        "lambda:AddPermission",
-        "lambda:UpdateFunctionCode",
-        "cloudtrail:CreateTrail",
-        "cloudtrail:DeleteTrail",
-        "cloudtrail:GetTrailStatus",
-        "kms:CreateKey",
-        "kms:DeleteAlias",
-        "kms:CreateAlias",
-        "kms:EnableKey",
-        "kms:DisableKey",
-        "kms:GenerateDataKey",
-        "kms:ListAliases",
-        "kms:UpdateKeyDescription",
-        "kms:DescribeKey",
-        "ssm:DeleteParameter",
-        "ssm:DeleteParameters",
-        "ssm:GetParameter",
-        "ssm:DescribeParameters",
-        "ssm:PutParameter",
-        "secretsmanager:PutSecretValue",
-        "secretsmanager:GetSecretValue"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-
-```
+After attempting to document individually the AWS IAM permissions required to deploy and destroy The DeRF via terraform, I gave up when the list of permissions became extensive and were "effective admin".   
+I am recommending The DeRF be deployed to an targeted AWS Account with a user having the [AdministratorAccess Managed Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AdministratorAccess.html).
 
 
 ### GCP Deployment
-Below are the Google Managed Roles required to deploy the DeRF into a Google Project.  It does not take into account the permissions required to create the project in the first place
+Below are the Google Managed Roles required to deploy the DeRF into a Google Project.  It does not take into account the permissions required to create the project in the first place.
 
 - **roles/secretmanager.admin** applied at the Project-Level
     - Required to create Secrets used to store AWS Access Key Id and Secrets and assign Roles at the Secret-Level.
