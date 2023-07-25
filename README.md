@@ -9,7 +9,7 @@ DeRF (Detection Replay Framework) is an "Attacks As A Service" framework, allowi
 
 
 ## Deployment
-DeRF is a framework for executing attacks and generating detection samples against resource an AWS account or GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform. 
+DeRF is a framework for executing attacks and generating detection samples against resource an AWS account and GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform. 
 For more detailed instructions on deployment see [here](https://thederf.cloud/derf/Deployment/derf-deployment/).
 
 ### Deployment Steps
@@ -24,13 +24,13 @@ For more detailed instructions on deployment see [here](https://thederf.cloud/de
 5. Deploy The DeRF via Terraform from the `./env-prod` directory.   
         ``` tf
         terraform init -backend-config=derf.conf
-        ```
+        ```    
         ``` tf
         terraform plan -var-file=derf.tfvars
-        ```
+        ```   
         ``` tf
         terraform apply -var-file=derf.tfvars
-        ```
+        ```   
 
 
 ## Attack Execution
