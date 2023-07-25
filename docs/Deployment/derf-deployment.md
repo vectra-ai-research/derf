@@ -24,8 +24,9 @@ terraform apply -var-file=derf.tfvars
 1. Cloud Accounts:
     - ==One AWS Account==: 
         - This is your targeted AWS Account where attacks will run.
-    - ==One GCP Project==: 
-        - A Google Cloud Project which will house the DeRF `aws-proxy-app` , a CI/CD pipeline enabling updates to the `aws-proxy-app` and a collection of cloud workflows needed for attack technique execution. 
+    - ==TWO GCP Projects==: 
+        - One: A Google Cloud Project which will house the DeRF `aws-proxy-app` , a CI/CD pipeline enabling updates to the `aws-proxy-app` and a collection of cloud workflows needed for attack technique execution. 
+        - Two: A Google Cloud Project for attack execution. 
         - ^^Manual Step^^: Connect Cloud Build with the `derf` github repository. See [instructions](connect-to-github-repo.md)
 2. Terraform Variables
     - Fill out the values the `TEMPLATE.tfvars` file located in `./env-prod` directory.

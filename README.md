@@ -9,17 +9,26 @@ DeRF (Detection Replay Framework) is an "Attacks As A Service" framework, allowi
 
 
 ## Deployment
-DeRF is a framework for executing attacks and generating detection samples against resource an AWS account or GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform.
-1. DeRF Framework Deployment. For more detailed instructions on deployment see [here](/docs/Deployment/derf-deployment.md)
+DeRF is a framework for executing attacks and generating detection samples against resource an AWS account or GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform. 
+For more detailed instructions on deployment see [here](https://vectra-ai-research.github.io/derf/Deployment/derf-deployment/).
 
-From the `./env-prod` directory, deploy the framework with terraform.
+### Deployment Steps
+
+1. Complete Prerequisites - [see Prerequisites Instruction](https://vectra-ai-research.github.io/derf/Deployment/derf-deployment/#prerequisites).
+2. Connect Cloud Build to Github. See [instructions](https://vectra-ai-research.github.io/derf/Deployment/connect-to-github-repo/).
+3. Complete System Requirements [see System Requirements](https://vectra-ai-research.github.io/derf/Deployment/derf-deployment/#system-requirements).
+4. Clone the Github repo to your local system.
+``` bash
+git clone https://github.com/vectra-ai-research/derf.git
 ```
+1. Deploy the DeRF via Terraform from the `./env-prod` directory.
+``` tf
 terraform init -backend-config=derf.conf
 ```
-```
+``` tf
 terraform plan -var-file=derf.tfvars
 ```
-```
+``` tf
 terraform apply -var-file=derf.tfvars
 ```
 
