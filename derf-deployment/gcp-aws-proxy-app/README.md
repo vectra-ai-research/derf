@@ -10,8 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 4.13.0 |
-| <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | 4.13.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.13.0 |
 
 
 ## Modules

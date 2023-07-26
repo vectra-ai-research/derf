@@ -9,11 +9,17 @@ git clone https://github.com/vectra-ai-research/derf.git
 ```
 5. Deploy the DeRF via Terraform from the `./env-prod` directory.
 ``` tf
+export AWS_PROFILE=PROFILE 
+```
+
+``` tf
 terraform init -backend-config=derf.conf
 ```
+
 ``` tf
 terraform plan -var-file=derf.tfvars
 ```
+
 ``` tf
 terraform apply -var-file=derf.tfvars
 ```
@@ -32,22 +38,18 @@ terraform apply -var-file=derf.tfvars
     - Fill out the values the `TEMPLATE.tfvars` file located in `./env-prod` directory.
     - Rename this file to be `derf.tfvars`
     - Terraform **Variables**:
-        - ^^aws_primary_id^^: The AWS Account Number of your targets AWS Account
-        - ^^aws_primary_profile^^: The profile used to when authenticating to the targeted AWS account. Profile can be configured in the `~/.aws/config` file. More on configuring [profiles](https://docs.aws.amazon.com/cli/latest/reference/configure/)
-        - ^^region^^: The AWS region to execute attacks in.
-        - ^^pathToAWSConfig^^: The absolute path to your `~/.aws/config` file. 
-            - *Example: "/Users/computer-name/.aws/config"*
-        - ^^gcp_deployment_project_id^^: The ID of the GCP Project to deploy the DeRF Framework components.  This value will likely consist of both letters and numbers but never numbers alone.
+        - ^^aws_account_id^^: The Account ID to deploy the target AWS resources in.
+        - ^^gcp_deployment_project_id^^: The ID of the GCP Project to deploy the DeRF Framework components.  This value may consist of both letters and numbers but never numbers alone.
+        - ^^gcp_derf_project_id^^: The ID of the GCP Project to deploy target resources. This value may consist of both letters and numbers but never numbers alone.
 3. Backend Configuration
     - Fill out the values the `TEMPLATE.conf` file located in `./env-prod` directory.
     - Rename this file to be `derf.conf`
     - Why run Terraform with a remote backend?
       - Running a remote backend to an encrypted S3 bucket is recommended as AWS Access Keys are generated during this `Terraform Apply` and will otherwise be retained locally in the state file.
     - Backend **configuration values**:
-        - ^^region^^: The AWS region to execute attacks in.
-        - ^^bucket^^: Name of the S3 bucket to store remote Terraform State. This should minimally be SSE-S3 encrypted.
+        - ^^bucket^^: Name of the S3 bucket to store remote Terraform State. This should minimally be SSE-S3 encrypted. 
             - *Example: "my-bucket-002984"*
-        - ^^profile^^: The profile used to when authenticating to the AWS Account where the S3 bucket resides. This profile needs write access to the S3 bucket. It does not need to be the same as the Targeted AWS Account. Profile can be configured in the `~/.aws/config` file. More on configuring [profiles](https://docs.aws.amazon.com/cli/latest/reference/configure/)  
+
 
 
 ## System Requirements

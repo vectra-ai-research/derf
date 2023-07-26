@@ -21,7 +21,10 @@ For more detailed instructions on deployment see [here](https://thederf.cloud/de
         ``` bash
         git clone https://github.com/vectra-ai-research/derf.git
         ```
-5. Deploy The DeRF via Terraform from the `./env-prod` directory.   
+5. Deploy The DeRF via Terraform from the `./env-prod` directory.  
+        ``` tf
+        export AWS_PROFILE=PROFILE 
+        ```  
         ``` tf
         terraform init -backend-config=derf.conf
         ```    
@@ -93,3 +96,6 @@ Maintainer: [@KatTraxler](https://twitter.com/nightmareJs)
 - [Amazon GuardDuty Tester](https://github.com/awslabs/amazon-guardduty-tester)
 - [CloudGoat](https://github.com/RhinoSecurityLabs/cloudgoat) by Rhino Security Labs
 
+
+## Contact
+If you found this tool useful, want to share an interesting use-case, bring issues to attention, whatever the reason - share them. You can email at: TheDerf@vectra.ai.

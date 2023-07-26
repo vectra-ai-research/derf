@@ -2,30 +2,22 @@
 # AWS PROVIDERS
 ##########################################################################################
 
-# Ensure credentials are loaded in your local system by performing:
-# `aws sso login --profile aws_primary_profile`
-# `aws sso login --profile aws_secondary_profile`
+## Execute terraform with AWS SSO:
+### export AWS_PROFILE=PROFILE \
+### aws sso login --profile PROFILE \
+### terraform plan -var-file=derf.tfvars
+
+## Utilize AWS Vault:
+### aws-vault exec PROFILE -- terraform plan -var-file=derf.tfvars
+
 
 provider "aws" {
-  region = "us-east-1"
-  profile                     = "${var.aws_primary_profile}"
-  allowed_account_ids         = [var.aws_primary_id]
-}
-
-provider "aws" {
-  alias                       = "primary"
-  region                      = "${var.region}"
-  profile                     = "${var.aws_primary_profile}"
-  allowed_account_ids         = [var.aws_primary_id]
+  skip_region_validation      = true
+  skip_credentials_validation = true
+  allowed_account_ids         = [local.aws_account_id]
 
 }
 
-provider "aws" {
-  alias                     = "secondary"
-  region                    = "${var.region}"
-  profile                   = "${var.aws_secondary_profile}"
-  allowed_account_ids       = [var.secondary_id]
-}
 
 
 #########################################################################################
@@ -34,6 +26,9 @@ provider "aws" {
 
 # To load credentials for this provider to your local system perform the following:
 # `gcloud auth login --update-adc --project GCP_DEPLOYMENT_PROJECT_ID`
+
+# To load credentials for this provider to your local system perform the following:
+# `gcloud auth login --update-adc --project GCP_DERF_PROJECT_ID`
 #########################################################################################
 # More information on authenticating to GCP on your workstation for working with 
 # The Google Terraform provider: https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference

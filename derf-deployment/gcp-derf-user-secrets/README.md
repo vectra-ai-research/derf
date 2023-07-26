@@ -10,8 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 4.13.0 |
-| <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | 4.13.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.13.0 |
 
 
 ## Modules
@@ -32,10 +31,8 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_primary_ids"></a> [account\_id](#input\_account\_id) | Account ID of primary AWS Account targeted  | `string` | n/a | yes |
-| <a name="input_aws_secondary_ids"></a> [account\_id](#input\_account\_id) | Account ID of primary AWS Account targeted  | `string` | n/a | yes |
-| <a name="input_aws_primary_profile"></a> [profile\_name](#input\_profile\_name | The AWS Profile used to deploy the perpetual range in the Primary Account  | `string` | n/a | yes |
-| <a name="input_aws_secondary_profile"></a> [profile\_name](#input\_profile\_name | The AWS Profile used to authenticate to the secondary AWS Account  | `string` | n/a | yes |
+| <a name="input_aws_account_id"></a> [account\_id](#input\_account\_id) | Account ID of primary AWS Account targeted  | `string` | n/a | yes |
+| <a name="input_aws_profile"></a> [profile\_name](#input\_profile\_name | The AWS Profile used to deploy the perpetual range in the Primary Account  | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [region\_name](#input\_region\_name | The region to deploy the AWS perpetual range  | `string` | n/a | yes |
 | <a name="input_pathToAWSConfig"></a> [file\_path_](#input\_file\_path | Full local path to AWS .config file allowing terraform to file your profile configurations  | `string` | n/a | yes |
 
