@@ -49,6 +49,7 @@ on:
 env:
   PROJECT_ID: "derf-artifact-registry-public"
   GAR_LOCATION: "us"
+  SERVICE: "ProxyApp"
 
 jobs:
   deploy:
