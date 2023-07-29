@@ -1,1 +1,0 @@
-# GCP - Cloud Build Execution
