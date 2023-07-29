@@ -12,6 +12,7 @@
 
 
 provider "aws" {
+  alias                       = "target"
   skip_region_validation      = true
   skip_credentials_validation = true
   allowed_account_ids         = [local.aws_account_id]
