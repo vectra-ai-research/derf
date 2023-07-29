@@ -15,7 +15,7 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
       service_account  = "${google_service_account.aws-proxy-app-service-account.email}"
 
     containers {
-      image = "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app@sha256:a6e8e4006fa6f2e0a66b24ed56efbddf13435f2f65842db8cc3f1ae503315259"
+      image = "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
 
     ## Default User Credentials
 
