@@ -1,19 +1,19 @@
 steps:
-  - name: gcr.io/cloud-builders/docker
-    args:
-      - build
-      - '--no-cache'
-      - '-t'
-      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
-      - .
-      - '-f'
-      - ./aws-proxy-app/Dockerfile
-    id: Build
-  - name: gcr.io/cloud-builders/docker
-    args:
-      - push
-      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
-    id: Push
+  # - name: gcr.io/cloud-builders/docker
+  #   args:
+  #     - build
+  #     - '--no-cache'
+  #     - '-t'
+  #     - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+  #     - .
+  #     - '-f'
+  #     - ./aws-proxy-app/Dockerfile
+  #   id: Build
+  # - name: gcr.io/cloud-builders/docker
+  #   args:
+  #     - push
+  #     - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+  #   id: Push
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     args:
       - run
@@ -22,7 +22,7 @@ steps:
       - $_SERVICE_NAME
       - '--platform=managed'
       - '--service-account=cloudbuild-deploy-cloudrun-sa@$PROJECT_ID.iam.gserviceaccount.com'
-      - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '--image=us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest'
       - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA'
       - '--region=$_DEPLOY_REGION'
       - '--update-secrets=AWS_ACCESS_KEY_ID=projects/$PROJECT_NUMBER/secrets/derf-default-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY=projects/$PROJECT_NUMBER/secrets/derf-default-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeySecret-AWS:latest'
@@ -31,7 +31,7 @@ steps:
     id: Deploy
     entrypoint: gcloud
 images:
-  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+  - 'us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest'
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:

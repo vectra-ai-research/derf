@@ -57,23 +57,6 @@ module "gcp-aws-proxy-app" {
 
 }
 
-#########################################################################################
-# Deploy a infrastructure to invoke the Cloud Build Trigger on first launch
-##########################################################################################
-module "gcp-trigger-cloudbuild" {
-  source = "../derf-deployment/gcp-trigger-cloudbuid"
-
-  gcp_deployment_project_id              = local.gcp_deployment_project_id
-
-
-    depends_on = [
-    module.gcp_bootstrapping,
-    module.gcp-aws-proxy-app
-
-  ]
-
-}
-
 
 #########################################################################################
 # Configure DeRF Execution Users used for GCP Attack Techniques
