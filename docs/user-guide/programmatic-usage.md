@@ -8,7 +8,14 @@ title: Programmatic Usage
 gcloud auth login --project PROJECT-ID
 ```
 1. Invoke a particular attack techniques' workflow with the `gcloud cli`. See Google [documentation](https://cloud.google.com/sdk/gcloud/reference/workflows/run) for more comprehensive instructions on the workflows service.
-``` bash
-gcloud workflows run WORKFLOW-NAME `--data={"user": "user01"}` 
-```
+
+    ### AWS
+    ``` bash
+    gcloud workflows run WORKFLOW-NAME `--data={"user": "user01"}` 
+    ```
+
+    ### GCP
+    ``` bash
+    gcloud workflows run WORKFLOW-NAME `--data={"sa": "01"}` 
+    ```
 
