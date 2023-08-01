@@ -1,6 +1,17 @@
 # DeRF Documentation Home
  
-Welcome to the Home Page of the DeRF Documentation.
+Welcome to the Home Page of the DeRF Documentation. Key features of this tool include:  
+
+•	<b>User-Friendly Interface</b>: Since the DeRF is hosted in Google Cloud, End Users can invoke attacks through the cloud console UI without the need to install software or use the CLI.
+
+•	<b>Accessibility for Non-Security Professionals</b>: The DeRF caters to a broad audience of End Users, including Engineering, Sales, Support Staff, or automated processes.
+
+•	<b>Robust OpSec</b>: Long-Lived Credentials are not passed between operators, instead access to the DeRF and its attack techniques are controlled through GCP IAM Role-Based Access Control (RBAC)
+
+•	<b>Extensibility at its Core</b>: Attack sequences are written in YAML, enabling easy configuration of new techniques.
+
+•	<b>Turn-Key deployment</b>: Deploying (and destroying!) the DeRF is a fully automated process, completed in under 3 minutes.
+
 
 
 ## **High Level Architecture**  
