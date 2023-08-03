@@ -17,8 +17,9 @@ DeRF has made the decision to release a predefined set of AWS attack techniques 
 ^^Use Stratus Red Team when^^: There is an individual, technical operator who needs to execute a set of pre-defined attack techniques in AWS, Azure, K8s or GCP.
 
 ^^Use DeRF when^^:   
-1. There are a group of individuals who needs to execute attack techniques in AWS. Especially consider the use of DeRF when the End User is less technical or attacks need to be automated and automation can easily authenticate against Google Cloud.  
+1. There are a group of individuals who needs to execute attack techniques in AWS or GCP only. Especially consider the use of DeRF when the End User is less technical or attacks need to be automated and automation can easily authenticate against Google Cloud. 
 2. Or when you need to extend a tool, creating your own attack sequences.
+3. Its also strong indication you might need to use The DeRF when the attack executor is different that the one deploying the tool or creating attack techniques.
 
 
 ## [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) by Red Canary
@@ -34,13 +35,14 @@ For instance, [AWS - Create Access Key and Secret Key](https://github.com/redcan
 
 However, the attack technique format of Atomic Red Team is [based on YAML](https://github.com/redcanaryco/atomic-red-team/blob/7576aff377781ba3546c0835e48bffc980b4cbc8/atomics/T1098.001/T1098.001.yaml#L169-L196), and it's therefore easier to add new TTPs, even if they are not in the core of Atomic Red Team.
 
-## [Leonidas](https://github.com/FSecureLABS/leonidas) by F-Secure (Nick Jones)
+## [Leonidas](https://github.com/WithSecureLabs/leonidas) by WithSecure (Nick Jones)
 **Credit: Description by Status Red Team**
 
 > Leonidas is a framework for executing attacker actions in the cloud. It provides a YAML-based format for defining cloud attacker tactics, techniques and procedures (TTPs) and their associated detection properties
 
-While Stratus Red Team and Leonidas have similar goals, their implementation is fundamentally different.
+While The DeRF, Stratus Red Team and Leonidas all have similar goals, their implementation is fundamentally different.
 
+### Leonidas
 - Leonidas is a [fully-fledged web application](https://github.com/FSecureLABS/leonidas/blob/master/docs/deploying-leonidas.md) you deploy in your AWS account using Terraform, and then a CodePipeline pipeline.
 - Then, you use "Leo", the test case orchestrator, to hit the web API and detonate attack techniques. 
 - Leonidas allows describing TTPs as [YAML](https://github.com/FSecureLABS/leonidas/blob/master/definitions/execution/modify-lambda-function-code.yml), making it easier to extend than Stratus Red Team. 
@@ -48,7 +50,13 @@ While Stratus Red Team and Leonidas have similar goals, their implementation is 
 - The attack techniques implemented by Leonidas are very granular, meaning it can be challenging to implement detection for them. See for instance: [STS Get Caller Identity](http://detectioninthe.cloud/discovery/sts_get_caller_identity/)
 - Leonidas comes with a set of suggested threat detection rules. However, as its attack techniques are very granular, it is practically impossible to use them as-is in a real production environment, as they would trigger many false positives.
 
-Stratus Red Team aims at being simpler to use (single binary) and does not require you to have prior infrastructure or configuration in your AWS account. Stratus Red Team focuses on a single thing: executing cloud attack tactics against a live environment, with minimal overhead. You can also use Stratus Red Team [programmatically](user-guide/programmatic-usage.md), from Go code, as a library.
+### Leonidas versus the DeRF
+Stratus Red Team aims at being simpler to use (single binary) and does not require you to have prior infrastructure or configuration in your AWS account. Stratus Red Team focuses on a single thing: executing cloud attack tactics against a live environment, with minimal overhead. You can also use Stratus Red Team [programmatically](https://stratus-red-team.cloud/user-guide/programmatic-usage/), from Go code, as a library.
+
+### Leonidas versus the DeRF
+- Similarities: Similar to Leonidas, the attack framework for the DeRF is hosted in the cloud and the deployment of the tool versus the execution of the attacks can be performed by different users.  
+- Infrastructure Differences: Unlike Leonidas, The DeRF fully manages the infrastructure which is targeted while Leonidas operates on a bring-your-own-infrastructure (BYOI) model. 
+- Usage Differences: Leonidas implements test cases which can be programatically executed,  targeting AWS only while the DeRF has built-in attack techniques targeting both AWS and GCP which are executed either with a GUI or via an API.
 
 ## [Pacu](https://github.com/RhinoSecurityLabs/pacu) by Rhino Security Labs
 **Credit: Description by Status Red Team** 
@@ -57,7 +65,10 @@ Stratus Red Team aims at being simpler to use (single binary) and does not requi
 
 Pacu is an offensive AWS exploitation framework, aimed at penetration testers. It implements various enumeration and exploitation methods, some straightforward and some advanced. For instance, [lambda__backdoor_new_roles](https://github.com/RhinoSecurityLabs/pacu/blob/master/pacu/modules/lambda__backdoor_new_roles/main.py) creates a Lambda function and a CloudWatch Event causing all future IAM roles created in an AWS account to be backdoored automatically. Pacu aims at being used against existing AWS infrastructure. 
 
-Stratus Red Team is self-contained and does not necessitate prior infrastructure or configuration in your cloud environment. You can also use it [programmatically](user-guide/programmatic-usage.md), from Go code, as a library.
+### Pacu versus the DeRF
+- Similarities: Similar to Leonidas, the attack framework for the DeRF is hosted in the cloud and the deployment of the tool versus the execution of the attacks can be performed by different users.  
+- Infrastructure Differences: Unlike Leonidas, The DeRF fully manages the infrastructure which is targeted while Leonidas operates on a bring-your-own-infrastructure (BYOI) model. 
+- Usage Differences: Leonidas implements test cases which can be programatically executed,  targeting AWS only while the DeRF has built-in attack techniques targeting both AWS and GCP which are executed either with a GUI or via an API.
 
 ## [Amazon GuardDuty Tester](https://github.com/awslabs/amazon-guardduty-tester) by AWS
 **Credit: Description by Status Red Team**
