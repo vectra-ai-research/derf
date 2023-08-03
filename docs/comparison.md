@@ -66,9 +66,10 @@ Stratus Red Team aims at being simpler to use (single binary) and does not requi
 Pacu is an offensive AWS exploitation framework, aimed at penetration testers. It implements various enumeration and exploitation methods, some straightforward and some advanced. For instance, [lambda__backdoor_new_roles](https://github.com/RhinoSecurityLabs/pacu/blob/master/pacu/modules/lambda__backdoor_new_roles/main.py) creates a Lambda function and a CloudWatch Event causing all future IAM roles created in an AWS account to be backdoored automatically. Pacu aims at being used against existing AWS infrastructure. 
 
 ### Pacu versus the DeRF
-- Similarities: Similar to Leonidas, the attack framework for the DeRF is hosted in the cloud and the deployment of the tool versus the execution of the attacks can be performed by different users.  
-- Infrastructure Differences: Unlike Leonidas, The DeRF fully manages the infrastructure which is targeted while Leonidas operates on a bring-your-own-infrastructure (BYOI) model. 
-- Usage Differences: Leonidas implements test cases which can be programatically executed,  targeting AWS only while the DeRF has built-in attack techniques targeting both AWS and GCP which are executed either with a GUI or via an API.
+- Similarities: Both tools describe and execute attack techniques in the cloud.
+- Infrastructure Differences: Unlike Pacu, The DeRF fully manages the infrastructure which is targeted while Pacu operates on a bring-your-own-infrastructure (BYOI) model making it a better choice for red teamers and pentesters.
+- Usage Differences: Pacu implements modules which are programatically executed,  targeting AWS only while the DeRF has built-in attack techniques targeting both AWS and GCP which are executed either with a GUI or via an API.
+
 
 ## [Amazon GuardDuty Tester](https://github.com/awslabs/amazon-guardduty-tester) by AWS
 **Credit: Description by Status Red Team**
@@ -79,11 +80,13 @@ If GuardDuty doesn't detect an attack technique, you won't find it in here.
 ## [AWS CloudSaga](https://github.com/awslabs/aws-cloudsaga) by AWS
 #### Credit: Description by Status Red Team 
 
-AWS CloudSaga has a few simulation scenarios (five [at the time of writing](https://github.com/awslabs/aws-cloudsaga/tree/e4f065a8bb7558af94768301f41f7679ea9baa8b)). Some of them are more focused around identifying vulnerable resources in your account (such as [`imds_reveal`](https://github.com/awslabs/aws-cloudsaga/blob/e4f065a8bb7558af94768301f41f7679ea9baa8b/cloudsaga/scenarios/imds_reveal.py) listing your EC2 instances without IMDSv2 enforced), while others are designed to simulate attacker behavior.
+AWS CloudSaga has a few simulation scenarios that cover both audit and attack goals. Some of them are more focused around identifying vulnerable resources in your account (audit focused) (such as [`imds_reveal`](https://github.com/awslabs/aws-cloudsaga/blob/e4f065a8bb7558af94768301f41f7679ea9baa8b/cloudsaga/scenarios/imds_reveal.py) listing your EC2 instances without IMDSv2 enforced), while others are designed to simulate attacker behavior.
 
-The attacker behavior implemented by AWS Cloud Saga emulates several stages of the attack lifecycle, while Stratus Red Team purposely attempts to stay as granular as possible (see: [Philosophy](https://stratus-red-team.cloud/attack-techniques/philosophy/)). As much as possible, Stratus Red Team techniques also reference real-world incidents or breaches.
+### AWS CloudSaga versus the DeRF
+- Similarities: Both tools describe and execute attack techniques in the cloud.
+- Philosophy Differences: The attacker behavior implemented by AWS Cloud Saga emulates several stages of the attack lifecycle, while the built-in attack techniques in the DeRF are more granular, representing attacker behaviors rather than larger attack lifecycles.
+- Usage Differences: CloudSaga implements modules which are programatically executed,  targeting AWS only while the DeRF has built-in attack techniques targeting both AWS and GCP which are executed either with a GUI or via an API.
 
-Finally, AWS CloudSaga is by design specific to AWS, while Stratus Red Team supports AWS, Azure, GCP and even Kubernetes.
 
 ## [CloudGoat](https://github.com/RhinoSecurityLabs/cloudgoat) by Rhino Security Labs
 **Credit: Description by Status Red Team**
@@ -94,4 +97,4 @@ CloudGoat is focused on spinning up vulnerable AWS infrastructure, so that you c
 
 Use CloudGoat to: practice your AWS offensive security and enumeration skills.
 
-Use Stratus Red Team to: emulate adversary behavior in AWS to validate your threat detection.
+Use tools like the DeRF or Stratus Red Team to: emulate adversary behavior, validate your detection logic or perform controls validation.
