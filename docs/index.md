@@ -1,6 +1,13 @@
 # DeRF Documentation Home
- 
-Welcome to the Home Page of the DeRF Documentation. Key features of this tool include:  
+
+The DeRF, an open-source tool available on [GitHub](https://github.com/vectra-ai-research/derf), consists of Terraform modules and a Cloud Run application written in Python. Within this package, a variety of built-in attack techniques are provided, focusing on targeting AWS and GCP. For a complete accounting of all built-in attack techniques, refer to the [list](https://thederf.cloud/attack-techniques/list/) in documentation.    
+<br>
+The DeRF deploys and manages the target cloud infrastructure, which is manipulated to simulate attacker techniques. Terraform is used to manage all resources, deploying (and destroying) hosted attack techniques and target infrastructure in under 3 minutes.    
+<br>
+While a bring-your-own-Infrastructure (BYOI) model isn't currently supported, maintaining The DeRF infrastructure costs less than $10/month for Google Cloud and $5/month for AWS. The tool's convenient deployment model means you can use it as needed rather than continuously running 24/7. Check out the [deployment guide](https://thederf.cloud/Deployment/derf-deployment/) for more details.
+
+
+## Key features of this tool include:  
 
 •	<b>User-Friendly Interface</b>: Since the DeRF is hosted in Google Cloud, End Users can invoke attacks through the cloud console UI without the need to install software or use the CLI.
 
@@ -18,12 +25,12 @@ Welcome to the Home Page of the DeRF Documentation. Key features of this tool in
 
 The DeRF’s unique architecture is wholly deployed via terraform.  It consists of resources spread across AWS and GCP.
 
-## DeRF Attack Architecture for AWS  
+### DeRF Attack Architecture for AWS  
 ![](./images/architecture_diagram.png)
 ![](./images/diagram_key.png)
 
 
-## DeRF Attack Architecture for GCP 
+### DeRF Attack Architecture for GCP 
 ![](./images/derf-gcp-architecture.png)
 ![](./images/derf-gcp-architecture-notes.png) 
 

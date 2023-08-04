@@ -34,3 +34,6 @@ From the `env-prod/` directory:
 ``` tf
 terraform destroy -var-file=derf.tfvars
 ```
+
+## Is this a good pentesting tool?
+Not really. The DeRF targets resources which are created and managed by the tool, it doesn't make a good tool for targeting arbitrary, un-managed infrastructure. If you are looking for a good pentesting tool for AWS, checkout [pacu](https://rhinosecuritylabs.com/aws/pacu-open-source-aws-exploitation-framework/), for Azure, checkout [Microburst](https://github.com/NetSPI/MicroBurst) or the [MAAD Framework](https://github.com/vectra-ai-research/MAAD-AF)
