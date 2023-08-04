@@ -47,6 +47,8 @@ use_directory_urls: true
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.tasklist:
+      custom_checkbox: false
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde      

@@ -10,8 +10,6 @@ Below are the Google Managed Roles required to deploy the DeRF into a Google Pro
 
 - **roles/secretmanager.admin** applied at the Project-Level
     - Required to create Secrets used to store AWS Access Key Id and Secrets and assign Roles at the Secret-Level.
-- **roles/cloudbuild.builds.editor** applied at the Project-Level
-    - Required to deploy a Cloud Build trigger used in the deployment pipeline of the Cloud Run `aws-proxy-app`
 - **roles/run.admin** applied at the Project-Level
     - Required to deploy the Cloud Run `aws-proxy-app`
 - **roles/artifactregistry.admin** applied at the Project-Level
