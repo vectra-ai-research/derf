@@ -23,6 +23,10 @@ The DeRF’s unique architecture is wholly deployed via terraform.  It consists 
 ![](./images/diagram_key.png)
 
 
+## DeRF Attack Architecture for GCP 
+![](./images/derf-gcp-architecture.png)
+![](./images/derf-gcp-architecture-notes.png) 
+
 ## **DeRF User Personas**
 See the [User Guide](./user-guide/execution-user-permissions.md) for more detailed descriptions of the permissions assigned to the DeRF Execution and Default Users.
 
