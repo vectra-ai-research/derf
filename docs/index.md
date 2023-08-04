@@ -56,3 +56,15 @@ See the [User Guide](./user-guide/execution-user-permissions.md) for more detail
 
 In order to perform an attack as an arbitrary ^^AWS Role^^, AWS IAM Temporary Session Credentials generated from IAM Roles can be passed directly to the `aws-proxy-app` as Post Body Parameters additionally with the `TEMPCREDSPASSED = yes` Post Body parameter.
 <br></br>
+
+![](./images/derf-personas%20-%20sa01.png){ align=left width=300 }  
+
+^^The DeRF Service Account 01^^ is one of two built in Service Accounts which GCP attack techniques can run as. Roles are assigned to these two DeRF Execution Service accounts in the targeted Project as part of tool deployment.   
+          
+<br></br> 
+
+![](./images/derf-personas%20-%20sa02.png){ align=left width=300 }  
+
+^^The DeRF Service Account 02^^ is one of two built in Service Accounts which GCP attack techniques can run as.Roles are assigned to these two DeRF Execution Service accounts in the targeted Project as part of tool deployment.   
+          
+<br></br> 
