@@ -28,7 +28,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_impersonate_sa" {
 ######################################################################################
 ## User Agent
 ######################################################################################
-#### Excutes with User-Agent: "Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID"
+#### Excutes with User-Agent: "Derf-GCP-Impersonate-SA=WORKFLOW_EXECUTION_ID"
 
 
 ######################################################################################
@@ -76,7 +76,7 @@ ImpersonateDeRFAttackerServiceAccount:
               type: OAuth2
           headers:
             Content-Type: application/json
-            User-Agent: Derf-Impersonate-Attacker-SA-WORKFLOWEXECUTIONID
+            User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
           body: 
             delegates: null
             scope: https://www.googleapis.com/auth/cloud-platform
@@ -96,7 +96,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -126,7 +126,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -156,7 +156,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -186,7 +186,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -216,7 +216,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -246,7 +246,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -276,7 +276,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -306,7 +306,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -336,7 +336,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform
@@ -366,7 +366,7 @@ ImpersonateTargetServiceAccounts:
             headers:
               authorization: '$${"Bearer "+AccessToken}' 
               Content-Type: application/json
-              User-Agent: Derf-GCP-Impersonate-Service-Account-WORKFLOWEXECUTIONID
+              User-Agent: '$${"Derf-GCP-Impersonate-SA=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
             body: 
               delegates: null
               scope: https://www.googleapis.com/auth/cloud-platform

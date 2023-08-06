@@ -8,4 +8,9 @@ This page contains The DeRF attack techniques for available for GCP.
 - [Impersonate GCP Service Accounts](./impersonate-service-accounts.md)
 
 
+## Exfiltration
+
+- [Share Compute Disk](./share-compute-disk.md)
+
+
 

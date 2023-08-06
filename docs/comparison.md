@@ -58,7 +58,7 @@ While The DeRF, Stratus Red Team and Leonidas all have similar goals, their impl
 - The attack techniques implemented by Leonidas are very granular, meaning it can be challenging to implement detection for them. See for instance: [STS Get Caller Identity](http://detectioninthe.cloud/discovery/sts_get_caller_identity/)
 - Leonidas comes with a set of suggested threat detection rules. However, as its attack techniques are very granular, it is practically impossible to use them as-is in a real production environment, as they would trigger many false positives.
 
-#### ^^Leonidas versus the Stratus Red Team^^
+#### ^^Leonidas versus Stratus Red Team^^
 Stratus Red Team aims at being simpler to use (single binary) and does not require you to have prior infrastructure or configuration in your AWS account. Stratus Red Team focuses on a single thing: executing cloud attack tactics against a live environment, with minimal overhead. You can also use Stratus Red Team [programmatically](https://stratus-red-team.cloud/user-guide/programmatic-usage/), from Go code, as a library.
 
 #### ^^Leonidas versus the DeRF^^

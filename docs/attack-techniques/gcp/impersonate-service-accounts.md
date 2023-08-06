@@ -2,10 +2,10 @@
 title: Impersonate GCP Service Accounts
 ---
 
-# Delete CloudTrail Trail
+# Impersonate GCP Service Accounts
 
 
-Platform: AWS
+Platform: GCP
 
 ## MITRE ATT&CK Tactics
 

@@ -88,7 +88,7 @@ RemoveFlowLog:
         result: describeResponse
     - assign:
         assign:
-        - flow_id: $${describeResponse.body.responseBody.DescribeFlowLogsResponse.flowLogSet.item.flowLogId}
+        - flow_id: $${describeResponse.body.responseBody.DescribeFlowLogsResponse.flowLogSet.item[0].flowLogId}
     - RemoveFlowLog:
         call: http.post
         args:
@@ -151,7 +151,7 @@ RecreateFlowLog:
               REGION: "us-east-1"
               SERVICE: "ec2" 
               ENDPOINT: "https://ec2.us-east-1.amazonaws.com"
-              BODY: 'Action=CreateFlowLogs&Version=2016-11-15&DeliverLogsPermissionArn=${local.log_delivery_arn}&LogGroupName=%2Fderf%2Fvpc-flow-logs&ResourceId.1=${var.vpc_id}&ResourceType=VPC&TrafficType=REJECT&LogDestinationType=cloud-watch-logs'
+              BODY: 'Action=CreateFlowLogs&Version=2016-11-15&DeliverLogsPermissionArn=${local.log_delivery_arn}&LogGroupName=%2Fderf%2Fvpc-flow-logs&ResourceId.1=${var.vpc_id}&ResourceType=VPC&TrafficType=ACCEPT&LogDestinationType=cloud-watch-logs'
               UA: '$${"Derf-AWS-Remove-VPC-Flow-Log=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
               CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
               VERB: POST

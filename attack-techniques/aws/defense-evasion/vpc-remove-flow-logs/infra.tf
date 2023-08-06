@@ -9,6 +9,13 @@ resource "aws_flow_log" "flow-logs" {
   vpc_id          = var.vpc_id
 }
 
+resource "aws_flow_log" "flow-logs-2" {
+  iam_role_arn    = aws_iam_role.role.arn
+  log_destination = aws_cloudwatch_log_group.logs.arn
+  traffic_type    = "ALL"
+  vpc_id          = var.vpc_id
+}
+
 resource "aws_cloudwatch_log_group" "logs" {
   name = "/derf/vpc-flow-logs"
 }
