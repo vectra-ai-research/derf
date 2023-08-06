@@ -1,8 +1,12 @@
 name: build
 on:
+  workflow_dispatch: {} 
   push:
     branches:
       - main
+    paths:
+      - "docs/**"
+      - mkdocs.yaml
 jobs:
   deploy:
     runs-on: ubuntu-latest
