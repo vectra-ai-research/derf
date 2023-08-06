@@ -1,4 +1,4 @@
-name: build
+name: build-docs
 on:
   workflow_dispatch: {} 
   push:
@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs-material mkdocs-awesome-pages-plugin
-      - run: mkdocs gh-deploy --force --clean --verbose
+      - run: mkdocs gh-deploy --force
