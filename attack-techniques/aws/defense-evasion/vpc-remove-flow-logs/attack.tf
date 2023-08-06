@@ -59,7 +59,7 @@ main:
             appEndpoint: $${appEndpoint.uri}
         result: reCreateResponse
     - return:
-        return: $${reCreateResponse}        
+        return: $${deleteResponse}        
 
 
 ######################################################################################
@@ -113,7 +113,7 @@ RemoveFlowLog:
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
-            next: error
+            next: permission
           - condition: $${response.body.responseCode == 400}
             next: error
 
@@ -122,6 +122,12 @@ RemoveFlowLog:
           - $${response.body.responseBody}
           - $${response.body.responseCode}
           - "SUCCESS - AWS Remove VPC FLow Logs Attack Technique"
+
+    - permission:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "FAILURE - AWS Remove VPC FLow Logs Attack Technique | This is typically a permission issue" 
 
     - error:
         return: 
@@ -159,6 +165,8 @@ RecreateFlowLog:
             next: error
           - condition: $${response.body.responseCode == 400}
             next: error
+          - condition: $${response.body.responseBody.Response.Errors.Error.Code == "FlowLogAlreadyExists"}
+            next: FlowLogAlreadyExists
 
     - returnValidation:
         return: 
@@ -170,7 +178,13 @@ RecreateFlowLog:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE - AWS Remove VPC FLow Logs Attack Technique - unable to recreate the VPC Flow Log Configuration"    
+          - "FAILURE - AWS Remove VPC FLow Logs Attack Technique - unable to recreate the VPC Flow Log Configuration"   
+
+    - FlowLogAlreadyExists:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "Unable to create a new VPC Flow log because the existing one still exists"   
 
 
   EOF

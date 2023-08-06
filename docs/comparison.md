@@ -48,7 +48,7 @@ For instance, [AWS - Create Access Key and Secret Key](https://github.com/redcan
 
 > Leonidas is a framework for executing attacker actions in the cloud. It provides a YAML-based format for defining cloud attacker tactics, techniques and procedures (TTPs) and their associated detection properties
 
-While The DeRF, Stratus Red Team and Leonidas all have similar goals, their implementations are considerable different.
+While The DeRF, Stratus Red Team and Leonidas all have similar goals, their implementations are considerably different.
 
 ### Leonidas
 - Leonidas is a [fully-fledged web application](https://github.com/FSecureLABS/leonidas/blob/master/docs/deploying-leonidas.md) you deploy in your AWS account using Terraform, and then a CodePipeline pipeline.
