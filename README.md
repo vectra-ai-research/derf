@@ -25,15 +25,15 @@ For more detailed instructions on deployment see [here](https://thederf.cloud/De
         ```
         export AWS_PROFILE=PROFILE 
         ```  
-
+<br>
         ```
         terraform init -backend-config=derf.conf
         ```    
-
+<br>
         ```
         terraform plan -var-file=derf.tfvars
         ```   
-
+<br>
         ```
         terraform apply -var-file=derf.tfvars
         ```   
