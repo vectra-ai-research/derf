@@ -10,11 +10,11 @@ DeRF (Detection Replay Framework) is an "Attacks As A Service" framework, allowi
 
 ## Deployment
 DeRF is a framework for executing attacks and generating detection samples against resource an AWS account and GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform. 
-For more detailed instructions on deployment see [here](https://thederf.cloud/derf/Deployment/derf-deployment/).
+For more detailed instructions on deployment see [here](https://thederf.cloud/Deployment/derf-deployment/).
 
 ### Deployment Steps
 
-1. Complete Prerequisites - see [Prerequisites](https://vectra-ai-research.github.io/Deployment/derf-deployment/#prerequisites).
+1. Complete Prerequisites - see [Prerequisites](https://thederf.cloud/Deployment/derf-deployment/#prerequisites).
 2. Complete System Requirements - see [System Requirements](https://thederf.cloud/Deployment/derf-deployment/#system-requirements).
 3. Clone the Github repo to your local system.   
         ``` bash
@@ -89,6 +89,7 @@ Maintainer: [@KatTraxler](https://twitter.com/nightmareJs)
 
 ### Similar projects 
 - [Status Red Team](https://stratus-red-team.cloud) by DataDog
+- [CNAPPGoat](https://github.com/ermetic-research/cnappgoat) by Ermetic
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team) by Red Canary
 - [Leonidas](https://github.com/FSecureLABS/leonidas) by F-Secure
 - [pacu](https://github.com/RhinoSecurityLabs/pacu) by Rhino Security Labs
