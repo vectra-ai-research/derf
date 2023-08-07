@@ -20,16 +20,20 @@ For more detailed instructions on deployment see [here](https://thederf.cloud/De
         ```
         git clone https://github.com/vectra-ai-research/derf.git
         ```
+
 4. Deploy The DeRF via Terraform from the `./env-prod` directory.  
         ```
         export AWS_PROFILE=PROFILE 
         ```  
+
         ```
         terraform init -backend-config=derf.conf
         ```    
+
         ```
         terraform plan -var-file=derf.tfvars
         ```   
+
         ```
         terraform apply -var-file=derf.tfvars
         ```   
