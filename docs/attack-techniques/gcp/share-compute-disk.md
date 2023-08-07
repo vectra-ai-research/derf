@@ -50,3 +50,10 @@ gcloud workflows run gcp-impersonate-sa-srt `--data={"sa": "01"}`
 Refer to Stratus Red Team documentation for detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/GCP/gcp.exfiltration.share-compute-disk/) produced by this attack technique.
 
 ![](../../images/compute.disks.setiampolicy.png)
+
+## Organization Policy Constraints
+An organization policy is a configuration of restrictions which can be applied at several levels of your Google Cloud resource hierarchy. 
+
+This attack technique can be prevented with the `Domain restricted sharing` constraint by making use of the `constraints/iam.allowedPolicyMemberDomains` list by confining who can be granted IAM Policy to a defined list of domains.   
+
+See Google [Documentation](https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints) for a complete list of Organization Policy Constraints available.

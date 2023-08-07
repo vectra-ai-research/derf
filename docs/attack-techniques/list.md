@@ -30,3 +30,4 @@ This page contains the list of all DeRF Attack Techniques.
 | [Console Login without MFA](.//aws/aws-console-login-without-mfa.md) | [AWS](./aws/index.md) | Initial Access |
 | [Impersonate GCP Service Accounts](./gcp/impersonate-service-accounts.md) | [GCP](./gcp/index.md) | Privilege Escalation |
 | [Exfiltrate Compute Disk by sharing it](./gcp/share-compute-disk.md) | [GCP](./gcp/index.md) | Exfiltration |
+| [Backdoor a GCP Service Account through its IAM Policy](./gcp/backdoor-service-account.md) | [GCP](./gcp/index.md) | Persistence |

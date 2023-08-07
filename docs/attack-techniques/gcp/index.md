@@ -13,4 +13,9 @@ This page contains The DeRF attack techniques for available for GCP.
 - [Share Compute Disk](./share-compute-disk.md)
 
 
+## Persistence
+
+- [Backdoor a GCP Service Account through its IAM Policy](./backdoor-service-account.md)
+
+
 
