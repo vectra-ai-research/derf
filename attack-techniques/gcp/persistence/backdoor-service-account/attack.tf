@@ -43,9 +43,12 @@ main:
         - sa: $${args.sa}
         - projectID: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")} 
     - ImpersonateDeRFAttackerServiceAccount:
-        call: ImpersonateDeRFAttackerServiceAccount
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.run
         args:
-            attackerSa: $${sa}
+          workflow_id: gcp-impersonate-derf-attack-sa
+          location: us-central1
+          project_id: $${projectID}
+          argument: $${sa}
         result: AccessToken
     - BackdoorServiceAccount:
         call: BackdoorServiceAccount
@@ -59,32 +62,6 @@ main:
 ######################################################################################
 ## Submodules | Sub-Workflows
 ######################################################################################
-ImpersonateDeRFAttackerServiceAccount:
-  params: [attackerSa]
-  steps: 
-    - buildURL:
-        assign:
-        - a: 'https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/derf-attacker-sa-'
-        - b: '@'
-        - c: ${var.gcp_derf_project_id}
-        - d: '.iam.gserviceaccount.com:generateAccessToken'
-        - e: '$${a+attackerSa+b+c+d}'   
-    - ImpersonateTargetSA:
-        call: http.post
-        args:
-          url: $${e}
-          auth:
-              type: OAuth2
-          headers:
-            Content-Type: application/json
-            User-Agent: '$${"Derf-GCP-Backdoor-Service-Account=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
-          body: 
-            delegates: null
-            scope: https://www.googleapis.com/auth/cloud-platform
-            lifetime: 3600s
-        result: response
-    - return:
-        return: $${response.body.accessToken}
 
 BackdoorServiceAccount:
   params: [AccessToken]

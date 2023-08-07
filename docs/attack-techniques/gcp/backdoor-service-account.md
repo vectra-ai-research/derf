@@ -54,5 +54,6 @@ Refer to Stratus Red Team documentation for detailed [detection artifacts](https
 ## Organization Policy Constraints
 An organization policy is a configuration of restrictions which can be applied at several levels of your Google Cloud resource hierarchy. 
 
-This attack technique can be prevented with the `Domain restricted sharing` constraint by making use of the `constraints/iam.allowedPolicyMemberDomains` list.
+This attack technique can be prevented with the `Domain restricted sharing` constraint by making use of the `constraints/iam.allowedPolicyMemberDomains` list by confining who can be granted IAM Policy to a defined list of domains.   
+
 See Google [Documentation](https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints) for a complete list of Organization Policy Constraints available.
