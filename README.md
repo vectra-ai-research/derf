@@ -17,20 +17,23 @@ For more detailed instructions on deployment see [here](https://thederf.cloud/De
 1. Complete Prerequisites - see [Prerequisites](https://thederf.cloud/Deployment/derf-deployment/#prerequisites).
 2. Complete System Requirements - see [System Requirements](https://thederf.cloud/Deployment/derf-deployment/#system-requirements).
 3. Clone the Github repo to your local system.   
-        ``` bash
+        ```bash
         git clone https://github.com/vectra-ai-research/derf.git
         ```
 4. Deploy The DeRF via Terraform from the `./env-prod` directory.  
-        ``` tf
+        ```tf
         export AWS_PROFILE=PROFILE 
         ```  
-        ``` tf
+
+        ```tf
         terraform init -backend-config=derf.conf
         ```    
-        ``` tf
+
+        ```tf
         terraform plan -var-file=derf.tfvars
         ```   
-        ``` tf
+
+        ```tf
         terraform apply -var-file=derf.tfvars
         ```   
 
