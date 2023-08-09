@@ -1,12 +1,14 @@
 # The DeRF
 
 
-![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf)          ![Maintainer](https://img.shields.io/badge/maintainer-@KatTraxler) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf/total)  
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![Last-Commit](https://img.shields.io/github/last-commit/vectra-ai-research/derf) ![Downloads](https://img.shields.io/github/downloads/vectra-ai-research/derf/total)  
 
-Read the [Full Documentation](https://thederf.cloud/)  
 
 DeRF (Detection Replay Framework) is an "Attacks As A Service" framework, allowing the emulation of offensive techniques and generation of repeatable detection samples from a UI - without the need for End Users to install software, use the CLI or possess credentials in the target environment.
 
+Read the [release announcement](https://www.vectra.ai/blogpost/introducing-the-derf-detection-replay-framework-in-github)
+
+Read the [Full Documentation](https://thederf.cloud/)  
 
 ## Deployment
 DeRF is a framework for executing attacks and generating detection samples against resource an AWS account and GCP Project.  This framework is deployed across a targeted AWS Account and a GCP Project with Terraform. 
