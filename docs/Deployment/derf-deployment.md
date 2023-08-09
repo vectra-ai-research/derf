@@ -1,13 +1,12 @@
 ### Deployment Steps
 
 1. Complete Prerequisites [see below](#prerequisites).
-2. Connect Cloud Build to Github. See [instructions](connect-to-github-repo.md).
-3. Complete System Requirements [see below](#system-requirements).
-4. Clone the Github repo to your local system.
+2. Complete System Requirements [see below](#system-requirements).
+3. Clone the Github repo to your local system.
 ``` bash
 git clone https://github.com/vectra-ai-research/derf.git
 ```
-5. Deploy the DeRF via Terraform from the `./env-prod` directory.   
+1. Deploy the DeRF via Terraform from the `./env-prod` directory.   
 ``` tf
 export AWS_PROFILE=PROFILE   
 ```   
