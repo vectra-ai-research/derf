@@ -47,6 +47,9 @@ terraform apply -var-file=derf.tfvars
     - Backend **configuration values**:
         - ^^bucket^^: Name of the S3 bucket to store remote Terraform State. This should minimally be SSE-S3 encrypted. 
             - *Example: "my-bucket-002984"*
+        - ^^region^^: The region your backend bucket is located in.
+
+
 
 
 
