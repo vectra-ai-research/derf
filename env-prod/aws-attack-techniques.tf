@@ -160,6 +160,32 @@ module "aws_ec2_get_user_data" {
 
 }
 
+module "aws_ec2_execute_discovery_commands" {
+  source = "../attack-techniques/aws/discovery/ec2-execute-discovery-commands"
+
+  projectId             = local.gcp_deployment_project_id
+  vpc_id                = module.aws_perpetual_range_resources.vpc_id
+  instance_profile_name = module.aws_perpetual_range_resources.instance_profile_name
+  public_subnet_id      = module.aws_perpetual_range_resources.public_subnet_id
+  sg_no_inbound_id      = module.aws_perpetual_range_resources.sg_no_inbound_id
+  iam_ec2_role_name     = module.aws_perpetual_range_resources.iam_ec2_role_name
+
+  providers = {
+    google          = google.derf
+  }
+
+## Attacks defined in Google Worksflows rely on the underlying infrastructure to be in place to
+## Work properly such as the Proxy App, Derf Execution Users and the Base GCP Project.  
+  depends_on = [
+    module.aws_derf_execution_users,
+    module.gcp_bootstrapping,
+    module.gcp-aws-proxy-app,
+    module.gcp_derf_user_secrets,
+    module.aws_permissions_required
+  ]
+
+}
+
 
 ##########################################################################################
 # Attacks in the Defense Evasion Category

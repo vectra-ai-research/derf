@@ -31,7 +31,7 @@ This page contains The DeRF attack techniques for available for AWS.
 
 ## Discovery
 
-- [Execute Discovery Commands on an EC2 Instance](./aws.discovery.ec2-enumerate-from-instance.md)
+- [Execute Discovery Commands on an EC2 Instance](./ec2-execute-discovery-commands.md)
 
 - [Download EC2 Instance User Data](./ec2-get-user-data.md)
 

@@ -22,6 +22,7 @@ This page contains the list of all DeRF Attack Techniques.
 | [Remove VPC Flow Logs](./aws/vpc-remove-flow-log.md) | [AWS](./aws/index.md) | Defense Evasion |
 | [Exfiltrate EBS Snapshot by Sharing It](./aws/ec2-share-ebs-snapshot.md) | [AWS](./aws/index.md) | Exfiltration |
 | [Download EC2 Instance User Data](./aws/ec2-get-user-data.md) | [AWS](./aws/index.md) | Discovery |
+| [Execute Discovery Commands on an EC2 Instance](./aws/ec2-execute-discovery-commands.md) | [AWS](./aws/index.md) | Discovery |
 | [Retrieve EC2 Password Data](./aws/ec2-get-password-data.md) | [AWS](./aws/index.md) | Credential Access |
 | [Steal EC2 Instance Credentials](./aws/ec2-steal-instance-credentials.md) | [AWS](./aws/index.md) | Credential Access |
 | [Retrieve and Decrypt SSM Parameters](./aws/ssm-retrieve-securestring-parameters.md) | [AWS](./aws/index.md) | Credential Access |
