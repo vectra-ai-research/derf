@@ -46,7 +46,15 @@ data "aws_iam_policy_document" "derf-ec2-policy-document-1" {
     effect = "Allow"
     actions = [
       "sts:GetCallerIdentity",
-      "ec2:DescribeInstances"
+      "ec2:DescribeInstances",
+      "s3:List*",
+      "iam:GetAccountSummary",
+      "iam:GetRoles",
+      "iam:GetUsers",
+      "iam:GetAccountAuthorizationDetails",
+      "ec2:DescribeSnapshots",
+      "cloudtrail:DescribeTrails",
+      "guardduty:ListDetectors"
     ]
     resources = ["*"]
   }

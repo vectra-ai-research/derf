@@ -61,57 +61,76 @@ main:
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response1
     - S3LS:
         call: runS3LS
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response2
     - GetAccountSummary:
         call: runGetAccountSummary
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response3
     - ListRoles:
         call: runListRoles
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response4
     - ListUsers:
         call: runListUsers
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response5
     - GetAccountAuthorizationDetails:
         call: runGetAccountAuthorizationDetails
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response        
+        result: response6        
     - DescribeSnaphots:
         call: runDescribeSnaphots
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response7
     - DescribeTrails:
         call: runDescribeTrails
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response
+        result: response8
     - ListDetectors:
         call: runListDetectors
         args:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
-        result: response          
+        result: response9
+    - createList:
+        assign:
+        - responseList: '$${[response1, response2, response3, response4, response5, response6, response7, response8, response9]}'         
+    - check:
+        switch:
+          - condition: $${400 in responseList}
+            next: error
+          - condition: $${500 in responseList}
+            next: error
+          - condition: $${403 in responseList}
+            next: error
+          - condition: $${200 in responseList}
+            next: return            
+    - error:
+        return:
+          - $${responseList}
+          - "FAILURE - AWS EC2 Execute Discovery Commands | One of the discovery commands failed to execute"   
     - return:
-        return: $${response}
+        return:
+          - $${responseList}
+          - "SUCCESS - AWS EC2 Execute Discovery Commands | All discovery commands executed"   
 
 
 
@@ -142,7 +161,7 @@ runGetCallerIdentity:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 runS3LS:
   params: [appEndpoint, user]
@@ -168,7 +187,7 @@ runS3LS:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 runGetAccountSummary:
   params: [appEndpoint, user]
@@ -194,7 +213,7 @@ runGetAccountSummary:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 runListRoles:
   params: [appEndpoint, user]
@@ -220,7 +239,7 @@ runListRoles:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 
 runListUsers:
@@ -247,7 +266,7 @@ runListUsers:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 
 runGetAccountAuthorizationDetails:
@@ -266,7 +285,7 @@ runGetAccountAuthorizationDetails:
               REGION: ${data.aws_region.current.name}
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.${data.aws_region.current.name}.amazonaws.com/"
-              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["export AWS_EXECUTION_ENV=Derf-AWS-EC2-Execute-Discovery-Commands-SRT; aws iam get-account-authorization-details > /dev/null || true"]}}'
+              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["export AWS_EXECUTION_ENV=Derf-AWS-EC2-Execute-Discovery-Commands-SRT; aws iam get-account-authorization-details >/dev/null || true"]}}'
               CONTENT: "application/x-amz-json-1.1"
               TARGET: "AmazonSSM.SendCommand"
               VERB: POST
@@ -274,7 +293,7 @@ runGetAccountAuthorizationDetails:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 
 runDescribeSnaphots:
@@ -301,7 +320,7 @@ runDescribeSnaphots:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 runDescribeTrails:
   params: [appEndpoint, user]
@@ -319,7 +338,7 @@ runDescribeTrails:
               REGION: ${data.aws_region.current.name}
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.${data.aws_region.current.name}.amazonaws.com/"
-              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["export AWS_EXECUTION_ENV=Derf-AWS-EC2-Execute-Discovery-Commands-SRT; "aws cloudtrail describe-trails || true"]}}'
+              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["export AWS_EXECUTION_ENV=Derf-AWS-EC2-Execute-Discovery-Commands-SRT; aws cloudtrail describe-trails || true"]}}'
               CONTENT: "application/x-amz-json-1.1"
               TARGET: "AmazonSSM.SendCommand"
               VERB: POST
@@ -327,7 +346,7 @@ runDescribeTrails:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
 runListDetectors:
   params: [appEndpoint, user]
@@ -345,7 +364,7 @@ runListDetectors:
               REGION: ${data.aws_region.current.name}
               SERVICE: "ssm" 
               ENDPOINT: "https://ssm.${data.aws_region.current.name}.amazonaws.com/"
-              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["export AWS_EXECUTION_ENV=Derf-AWS-EC2-Execute-Discovery-Commands-SRT; "aws guardduty list-detectors || true"]}}'
+              BODY: '{"InstanceIds": ["${local.instance_id}"], "DocumentName": "AWS-RunShellScript", "Parameters":{"commands": ["export AWS_EXECUTION_ENV=Derf-AWS-EC2-Execute-Discovery-Commands-SRT; aws guardduty list-detectors || true"]}}'
               CONTENT: "application/x-amz-json-1.1"
               TARGET: "AmazonSSM.SendCommand"
               VERB: POST
@@ -353,7 +372,7 @@ runListDetectors:
               UA: '$${"Derf-AWS-EC2-Execute-Discovery-Commands-SRT=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
         result: response
     - return:
-        return: $${response}
+        return: $${response.body.responseCode}
 
   EOF
 
