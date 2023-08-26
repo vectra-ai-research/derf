@@ -21,9 +21,9 @@ See https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.h
 
 #### Attacker Actions: 
 
-- Attempts to receive RDP password from fictitious EC2 Instance Id.
-  - Resulting event name: `GetPasswordData`
-  - Assigned IAM Permission: `ec2:GetPasswordData`
+Attempts to receive RDP password from fictitious EC2 Instance Id.   
+  - Resulting event name: `GetPasswordData`    
+  - Assigned IAM Permission: `ec2:GetPasswordData`    
 
 #### Workflow Inputs: 
 Specify which user this attack should run as.   
@@ -37,7 +37,7 @@ None
 
 ## Execution Instructions
 
-- See User Guide for Execution Instructions via the Google Cloud Console
+- See [User Guide](../../user-guide/execution-user-permissions.md) for Execution Instructions via the Google Cloud Console
 - Programmatically execute this workflow with the following cli command:
 
 ```

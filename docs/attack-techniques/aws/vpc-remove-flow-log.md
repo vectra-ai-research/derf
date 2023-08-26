@@ -37,7 +37,7 @@ Specify which user this attack should run as.
 
 ## Execution Instructions
 
-- See User Guide for Execution Instructions via the Google Cloud Console
+- See [User Guide](../../user-guide/execution-user-permissions.md) for Execution Instructions via the Google Cloud Console
 - Programmatically execute this workflow with the following cli command:
 
 ```
@@ -48,5 +48,7 @@ gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}`
 ## Detection Artifacts
 
 
-Use the Cloudtrail event `DeleteFlowLogs` to identify activity.
+Use the Cloudtrail event `DeleteFlowLogs` to identify activity.    
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.vpc-remove-flow-logs/) produced by this attack technique.
+
 

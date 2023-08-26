@@ -39,7 +39,7 @@ None
 
 ## Execution Instructions
 
-- See User Guide for Execution Instructions via the Google Cloud Console
+- See [User Guide](../../user-guide/execution-user-permissions.md) for Execution Instructions via the Google Cloud Console
 - Programmatically execute this workflow with the following cli command:
 
 ```
@@ -49,6 +49,7 @@ gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}`
 
 ## Detection Artifacts
 
-Identify principals retrieving a high number of SSM Parameters, through CloudTrail's GetParameter event. It is especially suspicious when the `requestParameters` contains the following key value/pair `"withDecryption": true` as this might indicate the parameters retrieved were deemed sensitive enough to be KMS encrypted.
-
+Identify principals retrieving a high number of SSM Parameters, through the AWS `GetParameter` event. 
+   
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.credential-access.ssm-retrieve-securestring-parameters/) produced by this attack technique.
 
