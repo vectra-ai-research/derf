@@ -48,4 +48,8 @@ gcloud workflows run aws-cloudtrail-event-selector-srt `--data={"user": "user01"
 ## Detection Artifacts
 
 
-Identify when the scope of CloudTrail logging is narrowed through CloudTrail's <code>PutEventSelectors</code> event.
+Identify when a CloudTrail trail is deleted through the AWS event,  `PutEventSelectors`.   
+
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors/) produced by this attack technique.
+
+

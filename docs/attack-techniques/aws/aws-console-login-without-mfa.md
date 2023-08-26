@@ -24,11 +24,11 @@ Simulates a login to the AWS Console for an IAM user without multi-factor authen
   - Assigned IAM Permission: NOne
 
 #### Workflow Inputs: 
-# None
+None
 
 
 #### Clean Up: 
-# None
+None - no infrastructure modified
 
 ## Execution Instructions
 
@@ -43,7 +43,7 @@ gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}`
 ## Detection Artifacts
 
 
-Using CloudTrail `ConsoleLogin`` event. The field `additionalEventData.MFAUse`r is set to No when the IAM User did not use MFA to log into the console.
-
-Note that for failed console authentication events, the field userIdentity.arn is not set (see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-aws-console-sign-in-events.html#cloudtrail-aws-console-sign-in-events-iam-user-failure).
+Using AWS `ConsoleLogin` event, the field `additionalEventData.MFAUser` is set to *No* when the IAM User did not use MFA to log into the console.
+  
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.initial-access.console-login-without-mfa/) produced by this attack technique.
 

@@ -50,5 +50,8 @@ gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}`
 
 Identify when lifecycle rule with a short expiration is applied to an S3 bucket used for CloudTrail logging.
 
-The CloudTrail event <code>PutBucketLifecycle</code> and its attribute requestParameters.LifecycleConfiguration.Rule.Expiration.Days can be used.
+Identify when a CloudTrail trail is deleted through the AWS event,  `PutBucketLifecycle`.   
+
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-lifecycle-rule/) produced by this attack technique.
+
 

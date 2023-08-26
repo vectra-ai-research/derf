@@ -48,7 +48,7 @@ gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}`
 ## Detection Artifacts
 
 
-Identify when a CloudTrail trail is deleted, through CloudTrail's <code>DeleteTrail</code> event.
+Identify when a CloudTrail trail is deleted through the AWS event,  `DeleteTrail`.   
 
-GuardDuty also provides a dedicated finding type, [Stealth:IAMUser/CloudTrailLoggingDisabled](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-iam.html#stealth-iam-cloudtrailloggingdisabled).
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-delete/) produced by this attack technique.
 
