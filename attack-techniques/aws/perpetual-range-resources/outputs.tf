@@ -3,6 +3,11 @@ output "vpc_id" {
   description = "The Id of the VPC created in the EC2 Steal Instance Credentials Attack Technique module"
 }
 
+output "instance_id" {
+  value       = aws_instance.derf-ec2-instance.id
+  description = "The Id of EC2 instance used in multiple DeRF AWS Attack techniques"
+}
+
 output "instance_profile_name" {
   value       = aws_iam_instance_profile.derf-ec2-profile-for-ssm-access.name
   description = "The name of the instance profile used to attached to DeRF EC2 instances and allows for SSM access"

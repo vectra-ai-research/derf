@@ -23,5 +23,8 @@ resource "aws_ebs_snapshot" "derf-ec2_snapshot" {
   tags = {
     Name = "derf"
   }
+  lifecycle {
+  ignore_changes = all
+}
 }
 

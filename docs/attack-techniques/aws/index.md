@@ -33,13 +33,15 @@ This page contains The DeRF attack techniques for available for AWS.
 
 - [Execute Discovery Commands on an EC2 Instance](./ec2-execute-discovery-commands.md)
 
-- [Download EC2 Instance User Data](./ec2-get-user-data.md)
+- [Launch Unusual EC2 Instances](./ec2-launch-unusual-instances.md)
 
 
 ## Execution
 
 
 - [Execute Commands on EC2 Instance via User Data](./ec2-modify-user-data.md)
+
+- [Launch Unusual EC2 Instances](./ec2-launch-unusual-instances.md)
 
 
 ## Exfiltration

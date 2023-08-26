@@ -15,7 +15,7 @@ Platform: AWS
 ## Description
 
 
- Executes code on an EC2 instance as root through User Data.
+ Executes code on an EC2 instance as the unix root user through the modification of User Data.
 
 References:
 
