@@ -79,10 +79,10 @@ def submit_request():
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY' + data['USER']]
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
-    elif data['USER'] == "user02":
+    elif data['USER'] == "USER02":
       print("elif data['USER'] == user02")
-      accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER02']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER02']
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID_'+ data['USER']]
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_'+ data['USER']]
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
     else:
       print("else")
