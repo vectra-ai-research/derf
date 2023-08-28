@@ -74,10 +74,10 @@ def submit_request():
 
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
-    if data['USER'] == "user01":
+    if data['USER'] == "USER01":
       print("if data['USER'] == user01")
-      accessKeyId = os.environ['AWS_ACCESS_KEY_ID_USER01']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_USER01']
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY' + data['USER']]
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
     elif data['USER'] == "user02":
       print("elif data['USER'] == user02")
