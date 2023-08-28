@@ -29,6 +29,8 @@ resource "aws_iam_policy" "policy" {
         "ec2:DescribeInstanceCreditSpecifications",
         "ec2:StartInstances",
         "ec2:StoptInstances",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupIngress",
         "ec2:ModifyInstanceAttribute",
         "iam:PassRole",
         "ssm:DescribeParameters",

@@ -28,7 +28,7 @@ Attacker attempts to start (10) the EC2 instances.
   - Required IAM Permission: `ec2:RunInstances`
 
 #### Workflow Inputs: 
-Specify which user this attack should run as.  This is the user which sends the SSM command to the EC2 instance directing it to spin up (10) additional instances.
+Specify which user this attack should run as. 
 ```json
 {"user":"user01"}
 {"user":"user02"}

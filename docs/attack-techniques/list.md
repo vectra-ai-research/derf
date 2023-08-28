@@ -21,6 +21,7 @@ This page contains the list of all DeRF Attack Techniques.
 | [Attempt to Leave the aws Organization](./aws/organizations-leave.md) | [AWS](./aws/index.md) | Defense Evasion |
 | [Remove VPC Flow Logs](./aws/vpc-remove-flow-log.md) | [AWS](./aws/index.md) | Defense Evasion |
 | [Exfiltrate EBS Snapshot by Sharing It](./aws/ec2-share-ebs-snapshot.md) | [AWS](./aws/index.md) | Exfiltration |
+| [Open Ingress Port 22 on a Security Group](./aws/ec2-security-group-open-port-22-ingress.md) | [AWS](./aws/index.md) | Exfiltration |
 | [Download EC2 Instance User Data](./aws/ec2-get-user-data.md) | [AWS](./aws/index.md) | Discovery |
 | [Execute Discovery Commands on an EC2 Instance](./aws/ec2-execute-discovery-commands.md) | [AWS](./aws/index.md) | Discovery |
 | [Retrieve EC2 Password Data](./aws/ec2-get-password-data.md) | [AWS](./aws/index.md) | Credential Access |
