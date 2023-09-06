@@ -18,80 +18,36 @@ resource "google_service_account" "workflows-to-cloudrun-service-account" {
 
 }
 
-
 # ---------------------------------------------------------------------------------------------------------------------
-# CLoud Run Service-Level IAM Role Binding
+# Service-Account Level IAM
 # ---------------------------------------------------------------------------------------------------------------------
 
+## Allow the workflows SA to ActAs the default Compute SA
+## Required for the custom user provisioning workflow and updating the CloudRun App ENVs
 
-resource "google_cloud_run_v2_service_iam_member" "workflow_service_account" {
-  location = local.location
-  name = google_cloud_run_v2_service.aws-proxy-app.name
+data "google_compute_default_service_account" "default" {
   project = local.gcp_deployment_project_id
-  role = "roles/run.developer"
-  member = google_service_account.workflows-to-cloudrun-service-account.member
+}
+
+resource "google_service_account_iam_member" "actas-gce-default-account-by-workflow-sa" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = google_service_account.workflows-to-cloudrun-service-account.member
 }
 
 
-# ---------------------------------------------------------------------------------------------------------------------
-# Secret-Level Roles: Secret Accessor Role to the Service Accounts used by the Cloud Run App 
-# and Cloud Build SA during Deployment Phase
-# ---------------------------------------------------------------------------------------------------------------------
+## Allow the workflows P4SA to ActAs the default Compute SA
+## Required for the custom user provisioning workflow and updating the CloudRun App ENVs
 
-#Secrets Stored for DeRF User 1
-resource "google_secret_manager_secret_iam_member" "binding_id_01_app" {
-  project = var.gcp_deployment_project_id
-  secret_id = var.derf_user01_accessKeyId_AWS_SMID
-  role = "roles/secretmanager.secretAccessor"
-  member =  google_service_account.aws-proxy-app-service-account.member
+data "google_project" "current" {
+  project_id = local.gcp_deployment_project_id
 }
 
-
-resource "google_secret_manager_secret_iam_member" "binding_secret_01_app" {
-  project = var.gcp_deployment_project_id
-  secret_id = var.derf_user01_accessKeySecret_AWS_SMID
-  role = "roles/secretmanager.secretAccessor"
-  member =  google_service_account.aws-proxy-app-service-account.member
+resource "google_service_account_iam_member" "act-as-gce-default-account-by-workflow-p4sa" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:service-${data.google_project.current.number}@gcp-sa-workflows.iam.gserviceaccount.com"
 }
-
-
-
-#Secrets Stored for DeRF User 2
-
-resource "google_secret_manager_secret_iam_member" "binding_id_02_app" {
-  project = var.gcp_deployment_project_id
-  secret_id = var.derf_user02_accessKeyId_AWS_SMID
-  role = "roles/secretmanager.secretAccessor"
-  member =  google_service_account.aws-proxy-app-service-account.member
-}
-
-
-resource "google_secret_manager_secret_iam_member" "binding_secret_02_app" {
-  project = var.gcp_deployment_project_id
-  secret_id = var.derf_user02_accessKeySecret_AWS_SMID
-  role = "roles/secretmanager.secretAccessor"
-  member =  google_service_account.aws-proxy-app-service-account.member
-}
-
-
-
-## Secrets Stored for the Default User
-
-resource "google_secret_manager_secret_iam_member" "binding_id_default_app" {
-  project = var.gcp_deployment_project_id
-  secret_id = var.derf_default_accessKeyId_AWS_SMID
-  role = "roles/secretmanager.secretAccessor"
-  member =  google_service_account.aws-proxy-app-service-account.member
-}
-
-
-resource "google_secret_manager_secret_iam_member" "binding_secret_default_app" {
-  project = var.gcp_deployment_project_id
-  secret_id = var.derf_default_accessKeySecret_AWS_SMID
-  role = "roles/secretmanager.secretAccessor"
-  member =  google_service_account.aws-proxy-app-service-account.member
-}
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Project-Level IAM
@@ -104,4 +60,38 @@ resource "google_project_iam_member" "project_iam_assignment_05" {
   member = google_service_account.workflows-to-cloudrun-service-account.member
 }
 
+## Allow the Cloud Run App to access all secrets in the Project
+resource "google_project_iam_member" "project_iam_assignment_06" {
+  project = var.gcp_deployment_project_id
+  role = "roles/secretmanager.secretAccessor"
+  member = google_service_account.aws-proxy-app-service-account.member
+}
 
+
+## Allow the Workflows the ability to manage secrets (create, update, destroy, access) in the project
+resource "google_project_iam_member" "project_iam_assignment_07" {
+  project = var.gcp_deployment_project_id
+  role = "roles/secretmanager.admin"
+  member = google_service_account.workflows-to-cloudrun-service-account.member
+}
+
+# Allow the Workflows SA to managed (create, update) all Cloud Run Resources.  
+resource "google_project_iam_member" "project_iam_assignment_08" {
+  project = var.gcp_deployment_project_id
+  role = "roles/run.developer"
+  member = google_service_account.workflows-to-cloudrun-service-account.member
+}
+
+# # Allow the Workflows SA to actAs from the project-level  
+# resource "google_project_iam_member" "project_iam_assignment_09" {
+#   project = var.gcp_deployment_project_id
+#   role = "roles/iam.serviceAccountUser"
+#   member = google_service_account.workflows-to-cloudrun-service-account.member
+# }
+
+# # Allow the Workflows P4SA to actAs from the project-level  
+# resource "google_project_iam_member" "project_iam_assignment_10" {
+#   project = var.gcp_deployment_project_id
+#   role = "roles/iam.serviceAccountUser"
+#   member = "serviceAccount:service-${data.google_project.current.number}@gcp-sa-workflows.iam.gserviceaccount.com"
+# }

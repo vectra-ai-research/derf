@@ -106,3 +106,4 @@ resource "google_secret_manager_secret_version" "derf_default_accessKeySecret_va
   secret_data = local.derf_default_accessKeySecret_AWS
 
 }
+

@@ -85,10 +85,7 @@ def submit_request():
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
-      print("except block")
-      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY'] 
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
+      print("An exception occurred")
 
 ## Handle the passing of temporary session credentials directly to the app so the detection can be 
 ## run as a role on the fly

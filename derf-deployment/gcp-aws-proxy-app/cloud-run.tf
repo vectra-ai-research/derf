@@ -89,15 +89,13 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
       }
 
     }
-    
+
     }
-    depends_on = [ google_secret_manager_secret_iam_member.binding_id_01_app,
-                   google_secret_manager_secret_iam_member.binding_id_02_app,
-                   google_secret_manager_secret_iam_member.binding_id_default_app,
-                   google_secret_manager_secret_iam_member.binding_secret_01_app,
-                   google_secret_manager_secret_iam_member.binding_secret_02_app,
-                   google_secret_manager_secret_iam_member.binding_secret_default_app     
-                   ]
+    depends_on = [ google_project_iam_member.project_iam_assignment_06]
+  
+  # ifecycle {
+  #   ignore_changes = template[0].spec[0].containers[0].env[*]
+  #     }
 
   }
 
