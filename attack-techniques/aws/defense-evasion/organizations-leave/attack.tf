@@ -38,7 +38,7 @@ main:
   steps:
     - assign:
         assign:
-        - user: $${args.user}
+        - user: $${args.USER}
         - projectID: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}  
 
     - getCloudRunURL:
