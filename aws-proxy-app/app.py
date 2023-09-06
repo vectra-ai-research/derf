@@ -73,18 +73,22 @@ def submit_request():
   headers['x-amz-server-side-encryption-aws-kms-key-id'] = data['KMS-KEY-ID'] if 'KMS-KEY-ID' in data else print("no KMS-KEY-ID parameter provided")
 
 ## Handle the 'USER' parameter so the detection can be run as different users
-
-  if data['USER'] != "":
-    print("Accessing keys for user specified in 'user' parameter")
-    accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
-    accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
-    auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
-  else:
-    print("Accessing keys for default user with ELSE block")
-    accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-    accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-    auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
-
+  try:
+    if data['USER'] != "":
+      print("Accessing keys for user specified in 'user' parameter")
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
+    else:
+      print("Accessing keys for default user with ELSE block")
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
+  except:
+      print("except block of gathering user credentials")
+      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
+      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE']) 
 
 ## Handle the passing of temporary session credentials directly to the app so the detection can be 
 ## run as a role on the fly
