@@ -1,5 +1,6 @@
 from email import header
 import os
+import shutil
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
 import subprocess
@@ -28,14 +29,16 @@ def update_users(data):
   print(projectFlag)
   USER = data['NEWUSER']
   print(USER)
+  GCLOUD_PATH = shutil.which("gcloud")
+  print(GCLOUD_PATH)
   # updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + USER + "=derf-" + USER + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + USER + "=derf-" + USER "-accessKeySecret-AWS:latest"
   # print(updateSecrets)
   # env = {
   #   "projectFlag": projectFlag,
   #   "USER": USER
   #            }
-  update = subprocess.run("/usr/local/gcloud/google-cloud-sdk/bin/gcloud run services update aws-proxy-app --update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest region=us-central1 $projectFlag",
-    env = {"projectFlag": projectFlag, "USER": USER},
+  update = subprocess.run("$GCLOUD run services update aws-proxy-app --update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest region=us-central1 $projectFlag",
+    env = {"projectFlag": projectFlag, "USER": USER, "GCLOUD": GCLOUD_PATH},
     shell=True,
     stdout=subprocess.PIPE, 
     stderr=subprocess.PIPE,
