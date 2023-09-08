@@ -60,6 +60,11 @@ main:
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint 
+    - getGcloudAppURL:
+        call: googleapis.run.v2.projects.locations.services.get
+        args:
+          name: '$${"projects/"+projectID+"/locations/us-central1/services/gcloud-app"}'
+        result: gcloudAppEndpoint 
     - createUser:
         call: CreateUser
         args:
@@ -85,14 +90,12 @@ main:
             accessKeySecret: $${Accesskeys[1]}
             user: $${user}
         result: response
-    # - getProxyAppENVs:
-    #     call: getProxyAppENVs
-    #     result: currentENVs
-    # - updateProxyApp:
-    #     call: updateProxyApp
-    #     args:
-    #         user:      $${user}
-    #     result: response
+    - updateProxyApp:
+        call: updateProxyApp
+        args:
+            user: $${user}
+            gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
+        result: response
     - return:
         return: $${response}
 
@@ -358,82 +361,24 @@ UploadSecretToSecretManager:
             - "SUCCESS | Created secrets"
 
 
-##################
-
-getProxyAppENVs:
-  steps:
-    - getProxyAppENVs:
-        try:
-          call: googleapis.run.v2.projects.locations.services.revisions.get
-          args:
-              name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-          result: result
-        except:
-            as: e
-            steps:
-                - known_errors0:
-                    switch:
-                    - condition: $${not("HttpError" in e.tags)}
-                      return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
-                    - condition: $${e.code == 200}
-                      next: return
-                - unhandled_exception0:
-                    raise: $${e}
-    - return:
-        return: $${result.template.containers[0].env}
-
-######################
 
 updateProxyApp:
-  params: [user]
+  params: [user, gcloudAppEndpoint]
   steps:
-    - patch:
-        try:
-          call: googleapis.run.v2.projects.locations.services.patch
-          args:
-              name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-              body:
-                  name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-                  launchStage: GA
-                  template:
-                      containers: 
-                        image: "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
-                        env: 
-############################### New Custom User #################################
-                          - name: '$${"AWS_ACCESS_KEY_ID_"+user}'
-                            valueSource:
-                              secretKeyRef:
-                                secret: '$${"derf-"+user+"-accessKeyId-AWS"}'
-                                version: 'latest'
-                          - name: '$${"AWS_SECRET_ACCESS_KEY_"+user}'
-                            valueSource:
-                              secretKeyRef:
-                                secret: '$${"derf-"+user+"-accessKeySecret-AWS"}'
-                                version: 'latest'
-          result: patchResult
-        except:
-            as: e
-            steps:
-                - known_errors:
-                    switch:
-                    - condition: $${not("HttpError" in e.tags)}
-                      return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
-                    - condition: $${e.code == 200}
-                      next: return
-                - unhandled_exception:
-                    raise: $${e}
+    - callStep:
+        call: http.post
+        args:
+          url: '$${gcloudAppEndpoint+"/updateSecrets"}'
+          auth:
+              type: OIDC
+          headers:
+            User-Agent: "Derf-User-Provisioning"
+          body:
+              NEWUSER: $${user}
+        result: response
 
     - return:
-        return: 
-          - '$${"SUCCESS | created new DeRF user "+user}'
+        return: $${response}
 
   EOF
 

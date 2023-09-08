@@ -6,12 +6,12 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Install python packages
-RUN pip install flask requests gunicorn requests-aws4auth xmltodict
+RUN pip install flask requests gunicorn requests-aws4auth subprocess
 
 # Copy local code to the container image.
 ENV APP_HOME /
 WORKDIR $APP_HOME
-COPY ./aws-proxy-app/ .
+COPY ./gcloud-app/ .
 
 # Run the web service on container startup.
 # Use gunicorn webserver with one worker process and 8 threads.
