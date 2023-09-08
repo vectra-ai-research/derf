@@ -28,10 +28,10 @@ def update_users():
   projectFlag = "--project " + os.environ['PROJECT_ID']
   print(projectFlag)
   USER = data['NEWUSER']
-  updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + USER + "=derf-" + USER + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + USER + "=derf-" + USER "-accessKeySecret-AWS:latest"
-  print(updateSecrets)
-  envVars = [projectFlag, updateSecrets]
-  update = subprocess.run(["gcloud run services update aws-proxy-app $updateSecrets region=us-central1 $projectFlag"],
+  # updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + USER + "=derf-" + USER + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + USER + "=derf-" + USER "-accessKeySecret-AWS:latest"
+  # print(updateSecrets)
+  envVars = [projectFlag, USER]
+  update = subprocess.run(["gcloud run services update aws-proxy-app --update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest region=us-central1 $projectFlag"],
     env=envVars,
     shell=True,
     stdout=subprocess.PIPE, 
