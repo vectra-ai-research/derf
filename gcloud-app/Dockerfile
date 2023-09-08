@@ -24,8 +24,6 @@ RUN mkdir -p /usr/local/gcloud \
 # Adding the gcloud path to local
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
-## Initiallizing gcloud
-RUN gcloud init
 
 # Copy local code to the container image.
 ENV APP_HOME /
