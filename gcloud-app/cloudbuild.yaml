@@ -1,0 +1,44 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - .
+      - '-f'
+      - ./gcloud-app/Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+    id: Push
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=managed'
+      - '--service-account=cloudbuild-deploy-cloudrun-sa@$PROJECT_ID.iam.gserviceaccount.com'
+      - '--image=us-docker.pkg.dev/derf-artifact-registry-public/gcloud-app/gcloud-app:latest'
+      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run'
+      - '--region=$_DEPLOY_REGION'
+      - '--project=$PROJECT_ID'
+      - '--quiet'
+    id: Deploy
+    entrypoint: gcloud
+images:
+  - 'us-docker.pkg.dev/derf-artifact-registry-public/gcloud-app/gcloud-app:latest'
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _PLATFORM: managed
+  _SERVICE_NAME: gcloud-app
+  _DEPLOY_REGION: us-central1
+  _GCR_HOSTNAME: us.gcr.io
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - gcloud-proxy-app
