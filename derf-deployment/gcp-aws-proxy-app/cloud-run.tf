@@ -20,73 +20,73 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
     ## Default User Credentials
 
 
-      env {
-        name = "AWS_ACCESS_KEY_ID"
-        # value = "derf-default-accessKeyId-AWS"
-        value_source {
-          secret_key_ref {
-            secret = var.derf_default_accessKeyId_AWS_SMID
-            version = "latest"
-          }
-        }
-      }
+#       env {
+#         name = "AWS_ACCESS_KEY_ID"
+#         # value = "derf-default-accessKeyId-AWS"
+#         value_source {
+#           secret_key_ref {
+#             secret = var.derf_default_accessKeyId_AWS_SMID
+#             version = "latest"
+#           }
+#         }
+#       }
 
-      env {
-        name = "AWS_SECRET_ACCESS_KEY"
-        # value = "derf-default-accessKeySecret-AWS"
-        value_source {
-          secret_key_ref {
-            secret = var.derf_default_accessKeySecret_AWS_SMID
-            version = "latest"
-          }
-        }
-      }
+#       env {
+#         name = "AWS_SECRET_ACCESS_KEY"
+#         # value = "derf-default-accessKeySecret-AWS"
+#         value_source {
+#           secret_key_ref {
+#             secret = var.derf_default_accessKeySecret_AWS_SMID
+#             version = "latest"
+#           }
+#         }
+#       }
 
-## Derf User 01  Credentials
-      env {
-        name = "AWS_ACCESS_KEY_ID_USER01"
-        # value = "derf-user01-accessKeyId-AWS"
-        value_source {
-          secret_key_ref {
-            secret = var.derf_user01_accessKeyId_AWS_SMID
-            version = "latest"
-          }
-        }
-      }
+# ## Derf User 01  Credentials
+#       env {
+#         name = "AWS_ACCESS_KEY_ID_USER01"
+#         # value = "derf-user01-accessKeyId-AWS"
+#         value_source {
+#           secret_key_ref {
+#             secret = var.derf_user01_accessKeyId_AWS_SMID
+#             version = "latest"
+#           }
+#         }
+#       }
 
-      env {
-        name = "AWS_SECRET_ACCESS_KEY_USER01"
-        # value = "derf-user01-accessKeySecret-AWS"
-        value_source {
-          secret_key_ref {
-            secret = var.derf_user01_accessKeySecret_AWS_SMID
-            version = "latest"
-          }
-        }
-      }
+#       env {
+#         name = "AWS_SECRET_ACCESS_KEY_USER01"
+#         # value = "derf-user01-accessKeySecret-AWS"
+#         value_source {
+#           secret_key_ref {
+#             secret = var.derf_user01_accessKeySecret_AWS_SMID
+#             version = "latest"
+#           }
+#         }
+#       }
 
-## Derf User 02  Credentials
-      env {
-        name = "AWS_ACCESS_KEY_ID_USER02"
-        # value = "derf-user02-accessKeyId-AWS"
-        value_source {
-          secret_key_ref {
-            secret = var.derf_user02_accessKeyId_AWS_SMID
-            version = "latest"
-          }
-        }
-      }
+# ## Derf User 02  Credentials
+#       env {
+#         name = "AWS_ACCESS_KEY_ID_USER02"
+#         # value = "derf-user02-accessKeyId-AWS"
+#         value_source {
+#           secret_key_ref {
+#             secret = var.derf_user02_accessKeyId_AWS_SMID
+#             version = "latest"
+#           }
+#         }
+#       }
 
-      env {
-        name = "AWS_SECRET_ACCESS_KEY_USER02"
-        # value = "derf-user02-accessKeySecret-AWS"
-        value_source {
-          secret_key_ref {
-            secret = var.derf_user02_accessKeySecret_AWS_SMID
-            version = "latest"
-          }
-        }
-      }
+#       env {
+#         name = "AWS_SECRET_ACCESS_KEY_USER02"
+#         # value = "derf-user02-accessKeySecret-AWS"
+#         value_source {
+#           secret_key_ref {
+#             secret = var.derf_user02_accessKeySecret_AWS_SMID
+#             version = "latest"
+#           }
+#         }
+#       }
 
     }
 

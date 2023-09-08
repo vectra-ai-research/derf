@@ -25,7 +25,7 @@ steps:
       - '--image=us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest'
       - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run'
       - '--region=$_DEPLOY_REGION'
-      # - '--update-secrets=AWS_ACCESS_KEY_ID=projects/$PROJECT_NUMBER/secrets/derf-default-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY=projects/$PROJECT_NUMBER/secrets/derf-default-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeySecret-AWS:latest'
+      - '--update-secrets=AWS_ACCESS_KEY_ID=projects/$PROJECT_NUMBER/secrets/derf-default-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY=projects/$PROJECT_NUMBER/secrets/derf-default-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER02=projects/$PROJECT_NUMBER/secrets/derf-user02-accessKeySecret-AWS:latest,AWS_ACCESS_KEY_ID_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_USER01=projects/$PROJECT_NUMBER/secrets/derf-user01-accessKeySecret-AWS:latest'
       - '--project=$PROJECT_ID'
       - '--quiet'
     id: Deploy
