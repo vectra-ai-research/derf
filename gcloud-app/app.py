@@ -27,6 +27,7 @@ def update_users():
     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     check=True,
     text=True)
+  print(update.stderr)
   return update.stdout
 
 if __name__ == '__main__':
