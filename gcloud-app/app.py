@@ -15,7 +15,7 @@ def validate_post():
   if 'NEWUSER' not in data:
     abort(400, description='New User not specified')
   else:
-    return update_users(data)
+    return update_users()
 
 
 
@@ -23,7 +23,8 @@ def validate_post():
 def bad_request(message):
   return jsonify(error=str(message)), 400
 
-def update_users(data):
+def update_users():
+  data = request.json
   projectFlag = "--project=" + os.environ['PROJECT_ID']
   updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + data['NEWUSER'] + "=derf-" + data['NEWUSER'] + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + data['NEWUSER'] + "=derf-" + data['NEWUSER'] "-accessKeySecret-AWS:latest"
   envVars = [projectFlag, updateSecrets]
