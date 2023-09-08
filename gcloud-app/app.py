@@ -36,7 +36,6 @@ def update_users():
     shell=True,
     stdout=subprocess.PIPE, 
     stderr=subprocess.PIPE,
-    capture_output=True,
     check=True,
     text=True)
   print(update.stderr)
