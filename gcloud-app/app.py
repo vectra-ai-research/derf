@@ -25,11 +25,12 @@ def bad_request(message):
 
 def update_users():
   data = request.json
-  projectFlag = "--project=" + os.environ['PROJECT_ID']
+  projectFlag = "--project " + os.environ['PROJECT_ID']
   updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + data['NEWUSER'] + "=derf-" + data['NEWUSER'] + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + data['NEWUSER'] + "=derf-" + data['NEWUSER'] "-accessKeySecret-AWS:latest"
   envVars = [projectFlag, updateSecrets]
-  update = subprocess.run(["gcloud", "run", "services", "update", "aws-proxy-app", "$updateSecrets", "region=us-central1", "$projectFlag"],
+  update = subprocess.run(["gcloud run services update aws-proxy-app $updateSecrets region=us-central1 $projectFlag"],
     env=envVars,
+    shell=True,
     stdout=subprocess.PIPE, 
     stderr=subprocess.PIPE,
     capture_output=True,
