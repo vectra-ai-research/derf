@@ -10,6 +10,7 @@ app = Flask(__name__)
 @app.route('/updateSecrets', methods=['POST'])
 def validate_post():
   data = request.json
+  print(data)
   if 'NEWUSER' not in data:
     abort(400, description='New User not specified')
   else:
