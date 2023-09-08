@@ -41,7 +41,7 @@ def update_users(data):
     stderr=subprocess.PIPE,
     check=True,
     text=True)
-  print(update.stderr)
+  print(update.returncode, update.stdout, update.stderr)
   return update.stdout
 
 if __name__ == '__main__':
