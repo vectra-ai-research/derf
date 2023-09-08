@@ -1,10 +1,9 @@
 from email import header
 import os
 from flask import Flask, json, request, abort, jsonify
-from requests_aws4auth import AWS4Auth
-from requests_aws4auth import PassiveAWS4Auth
 import requests as requests
 import subprocess
+
 app = Flask(__name__)
 
 
