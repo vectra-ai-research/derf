@@ -2,7 +2,7 @@ from email import header
 import os
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
-import subprocess
+from subprocess import run
 
 app = Flask(__name__)
 

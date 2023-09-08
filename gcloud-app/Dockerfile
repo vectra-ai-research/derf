@@ -6,7 +6,7 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Install python packages
-RUN pip install flask requests gunicorn requests-aws4auth subprocess
+RUN pip install flask requests gunicorn requests-aws4auth
 
 # Copy local code to the container image.
 ENV APP_HOME /
