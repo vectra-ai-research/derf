@@ -15,7 +15,7 @@ def validate_post():
   if 'NEWUSER' not in data:
     abort(400, description='New User not specified')
   else:
-    return update_users()
+    return update_users(data)
 
 
 
@@ -23,10 +23,12 @@ def validate_post():
 def bad_request(message):
   return jsonify(error=str(message)), 400
 
-def update_users():
+def update_users(data):
   projectFlag = "--project=" + os.environ['PROJECT_ID']
-  update = subprocess.run(["gcloud", "run", "services", "update", "aws-proxy-app", "--update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest", "region=us-central1", "projectFlag"],
+  updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + data['NEWUSER'] + "=derf-" + data['NEWUSER'] + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + data['NEWUSER'] + "=derf-" + data['NEWUSER'] "-accessKeySecret-AWS:latest"
+  update = subprocess.run(["gcloud", "run", "services", "update", "aws-proxy-app", "%updateSecrets%", "region=us-central1", "%projectFlag%"],
     env=projectFlag,
+    env=updateSecrets,
     stdout=subprocess.PIPE, 
     stderr=subprocess.PIPE,
     capture_output=True,
