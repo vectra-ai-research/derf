@@ -29,6 +29,7 @@ ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 ENV APP_HOME /
 WORKDIR $APP_HOME
 COPY ./gcloud-app/ .
+USER root
 
 # Run the web service on container startup.
 # Use gunicorn webserver with one worker process and 8 threads.
