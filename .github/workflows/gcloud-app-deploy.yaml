@@ -2,7 +2,7 @@ name: Build and Deploy gcloud-app to Cloud Artifact Registry
 
 on:
   push:
-    branches: [ "gcloud-app " ]
+    branches: [ "gcloud-app" ]
 
 env:
   PROJECT_ID: "derf-artifact-registry-public"
