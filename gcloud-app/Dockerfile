@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED True
 RUN pip install flask requests gunicorn requests-aws4auth 
 
 # Downloading gcloud package
-RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
+RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
 
 # Installing gcloud
 RUN mkdir -p /usr/local/gcloud \
