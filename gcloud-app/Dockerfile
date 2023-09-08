@@ -6,7 +6,10 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Install python packages
-RUN pip install flask requests gunicorn requests-aws4auth
+RUN pip install flask requests gunicorn requests-aws4auth google-cloud 
+
+## Add gcloud to path
+ENV PATH $PATH:/root/google-cloud-sdk/bin
 
 # Copy local code to the container image.
 ENV APP_HOME /
