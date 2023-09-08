@@ -24,7 +24,7 @@ def bad_request(message):
   return jsonify(error=str(message)), 400
 
 def update_users():
-  PROJECT_ID = os.environ['--project=' + ['PROJECT_ID']]
+  PROJECT_ID = os.environ['--project=' + PROJECT_ID]
   update = subprocess.run(["gcloud", "run", "services", "update", "aws-proxy-app", "--update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest", "region=us-central1", "PROJECT_ID"],
     env=PROJECT_ID,
     stdout=subprocess.PIPE, 
