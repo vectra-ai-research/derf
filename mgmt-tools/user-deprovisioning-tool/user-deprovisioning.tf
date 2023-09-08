@@ -81,14 +81,25 @@ main:
         args:
             user: $${user}
         result: response
-    - getProxyApp:
-        call: getProxyAppENVs
-        result: response
-    - updateProxyApp:
-        call: UpdateProxyApp
-        args:
-            user: $${user}
-        result: response
+    # - getProxyApp:
+    #     call: getProxyAppENVs
+    #     result: currentENVs
+    # - iterateENVs:
+    #     call: iterateENVs
+    #     args:
+    #         currentENVs: $${currentENVs}
+    #     result: mapOfENVs
+    # - updateENVs:
+    #     call: updateENVs
+    #     args:
+    #         mapOfENVs: $${mapOfENVs}
+    #         user:      $${user}
+    #     result: response
+    # - updateProxyApp:
+    #     call: UpdateProxyApp
+    #     args:
+    #         user: $${user}
+    #     result: response
     - return:
         return: $${response}
 
@@ -312,7 +323,48 @@ getProxyAppENVs:
                 - unhandled_exception0:
                     raise: $${e}
     - return:
-        return: $${result}
+        return: $${result.template.containers[0].env}
+
+iterateENVs:
+  params: [currentENVs]
+  steps:
+    - update_map_in_loop:
+        assign:
+          - keys: $${currentENVs}
+          - my_map: {}
+    - for_loop:
+        for:
+          value: v
+          index: i
+          in: $${keys}
+          steps:
+            - loop_step:
+                assign:
+                  - my_map[v.name]: $${v.valueSource.secretKeyRef.secret}
+    - return_step:
+        return: $${my_map}
+
+# updateENVs:
+#   params: [user, mapOfENVs]
+#   steps:
+#     - findInMap:
+#         switch:
+#           - condition: $${user in mapOfENVs}
+#             next: UpdateMap
+#     - UpdateMap:
+#         for:
+#           value: v
+#           index: i
+#           in: $${mapOfENVs}
+#           steps:
+#             - loop_step:
+#                 assign:
+#                   - my_map[v.name]: $${v.valueSource.secretKeyRef.secret}
+#     - return_step:
+#         return: $${my_map}
+
+   
+
 
 ######################
 

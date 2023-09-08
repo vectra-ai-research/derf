@@ -38,6 +38,8 @@ resource "aws_iam_policy" "policy" {
         "iam:DeleteAccessKey",
         "iam:ListAccessKeys",
         "iam:DeleteUser",
+        "iam:TagUser",
+        "iam:UntagUser",
         "ssm:DescribeParameters",
         "ssm:GetParameter",
         "ssm:SendCommand",

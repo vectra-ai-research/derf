@@ -85,14 +85,14 @@ main:
             accessKeySecret: $${Accesskeys[1]}
             user: $${user}
         result: response
-    - getProxyApp:
-        call: getProxyAppENVs
-        result: response
-    - updateProxyApp:
-        call: UpdateProxyApp
-        args:
-            user: $${user}
-        result: response
+    # - getProxyAppENVs:
+    #     call: getProxyAppENVs
+    #     result: currentENVs
+    # - updateProxyApp:
+    #     call: updateProxyApp
+    #     args:
+    #         user:      $${user}
+    #     result: response
     - return:
         return: $${response}
 
@@ -120,7 +120,7 @@ CreateUser:
                           ENDPOINT: https://iam.amazonaws.com
                           UA: '$${"DeRF-AWS-User-Provisioning-Tool=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           VERB: POST
-                          BODY: '$${"Action=CreateUser&UserName="+user+"&Version=2010-05-08&Tags=[user=custom]"}'
+                          BODY: '$${"Action=CreateUser&Version=2010-05-08&UserName="+user+"&Tags.member.1.Key=usertype&Tags.member.1.Value=Custom"}'
                           CONTENT: 'application/x-www-form-urlencoded; charset=utf-8'
                     result: response
                 - checkNotOK1:   
@@ -172,6 +172,21 @@ AttachPolicy:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "Sorry, Secret not found - so unable to delete."
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to create the secret, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -369,15 +384,14 @@ getProxyAppENVs:
                 - unhandled_exception0:
                     raise: $${e}
     - return:
-        return: $${result}
+        return: $${result.template.containers[0].env}
 
 ######################
 
-
-UpdateProxyApp:
+updateProxyApp:
   params: [user]
   steps:
-    - patch1:
+    - patch:
         try:
           call: googleapis.run.v2.projects.locations.services.patch
           args:
@@ -389,6 +403,7 @@ UpdateProxyApp:
                       containers: 
                         image: "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
                         env: 
+############################### New Custom User #################################
                           - name: '$${"AWS_ACCESS_KEY_ID_"+user}'
                             valueSource:
                               secretKeyRef:
@@ -399,11 +414,11 @@ UpdateProxyApp:
                               secretKeyRef:
                                 secret: '$${"derf-"+user+"-accessKeySecret-AWS"}'
                                 version: 'latest'
-          result: patchResult1
+          result: patchResult
         except:
             as: e
             steps:
-                - known_errors0:
+                - known_errors:
                     switch:
                     - condition: $${not("HttpError" in e.tags)}
                       return: "Connection problem."
@@ -413,7 +428,7 @@ UpdateProxyApp:
                       return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
                     - condition: $${e.code == 200}
                       next: return
-                - unhandled_exception0:
+                - unhandled_exception:
                     raise: $${e}
 
     - return:
