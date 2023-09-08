@@ -15,7 +15,7 @@ def validate_post():
   if 'NEWUSER' not in data:
     abort(400, description='New User not specified')
   else:
-    return update_users()
+    return update_users(data)
 
 
 
@@ -23,8 +23,7 @@ def validate_post():
 def bad_request(message):
   return jsonify(error=str(message)), 400
 
-def update_users():
-  data = request.json
+def update_users(data):
   projectFlag = "--project " + os.environ['PROJECT_ID']
   print(projectFlag)
   USER = data['NEWUSER']
