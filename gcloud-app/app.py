@@ -20,7 +20,6 @@ def validate_post():
     return route_exec(data)
 
 
-
 @app.errorhandler(400)
 def bad_request(message):
   return jsonify(error=str(message)), 400
@@ -42,7 +41,6 @@ def route_exec(data):
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
-    return "/exec"
 
 
 # def sample_update_service(data):
