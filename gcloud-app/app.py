@@ -37,7 +37,7 @@ def update_users(data):
   #   "projectFlag": projectFlag,
   #   "USER": USER
   #            }
-  update = subprocess.run("$GCLOUD version",
+  update = subprocess.run("$GCLOUD auth list",
     env = {"projectFlag": projectFlag, "USER": USER, "GCLOUD": GCLOUD_PATH},
     shell=True,
     stdout=subprocess.PIPE, 
