@@ -36,7 +36,7 @@ def sample_update_service(data):
         # define a service request
     request = run_v2.UpdateServiceRequest(
         service=run_v2.Service(
-            name="projects/derf-deployment-public/locations/us-central1/services/gcloud-app",
+            name="projects/derf-deployment-public/locations/us-central1/services/aws-proxy-app",
             template=run_v2.RevisionTemplate(
                 containers=[
                     run_v2.Container(

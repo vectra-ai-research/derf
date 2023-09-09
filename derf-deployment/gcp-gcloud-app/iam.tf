@@ -9,6 +9,21 @@ resource "google_service_account" "gcloud-app-service-account" {
 
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Service-Account Level IAM
+# ---------------------------------------------------------------------------------------------------------------------
+
+## Allow the GCloud App SA to ActAs the default Compute SA
+
+data "google_compute_default_service_account" "default" {
+  project = local.gcp_deployment_project_id
+}
+
+resource "google_service_account_iam_member" "actas-gce-default-account-by-workflow-sa" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = google_service_account.gcloud-app-service-account.member
+}
 
 
 # ---------------------------------------------------------------------------------------------------------------------
