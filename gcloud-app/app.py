@@ -38,20 +38,14 @@ def sample_update_service(data):
             template=run_v2.RevisionTemplate(
                 containers=[
                     run_v2.Container(
-                        image=addr,
-                        ports=[
-                            run_v2.ContainerPort(
-                                name="http1",
-                                container_port=1323,
-                            ),
-                        ],
+                        image="us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest",
                         env=[
                             run_v2.EnvVar(
                                 name="AWS_ACCESS_KEY_ID_RSmith",
                                 value_source=run_v2.EnvVarSource(
                                    secret_key_ref=run_v2.SecretKeySelector(
-                                      secret="derf-RSmith-accessKeyId-AWS"
-                                      version="latest"
+                                      secret="derf-RSmith-accessKeyId-AWS",
+                                      version="latest",
                                    ),
                                 ),
                             ),
@@ -59,7 +53,7 @@ def sample_update_service(data):
                     ),
                 ],
             ),
-        )
+        ),
     )
     
     # Initialize request argument(s)
