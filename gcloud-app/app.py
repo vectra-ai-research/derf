@@ -5,6 +5,7 @@ from flask import Flask, json, request, abort, jsonify
 import requests as requests
 import subprocess
 from subprocess import run
+import google.cloud
 from google.cloud import run_v2
 
 app = Flask(__name__)
