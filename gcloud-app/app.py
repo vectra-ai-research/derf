@@ -69,7 +69,7 @@ def sample_update_service(data):
 
     # Handle the response
     print(response)
-    return(response)
+    return(response.traffic_statuses)
 
 if __name__ == '__main__':
     app.run() 
