@@ -5,7 +5,8 @@ from flask import Flask, json, request, abort, jsonify
 import requests as requests
 import subprocess
 from subprocess import run
-import google.cloud
+import google-cloud-run
+import google-api-python-client
 from google.cloud import run_v2
 
 app = Flask(__name__)
@@ -35,7 +36,7 @@ def sample_update_service(data):
         # define a service request
     request = run_v2.UpdateServiceRequest(
         service=run_v2.Service(
-            name="aws-proxy-app",
+            name="projects/derf-deployment-public/locations/us-central1/services/gcloud-app",
             template=run_v2.RevisionTemplate(
                 containers=[
                     run_v2.Container(
