@@ -30,26 +30,69 @@ def sample_update_service(data):
     # Create a client
     client = run_v2.ServicesClient()
 
+    # define a service request
+        # define a service request
+    gcr_request = run_v2.UpdateServiceRequest(
+        service=run_v2.Service(
+            name="aws-proxy-app",
+            template=run_v2.RevisionTemplate(
+                containers=[
+                    run_v2.Container(
+                        image=addr,
+                        ports=[
+                            run_v2.ContainerPort(
+                                name="http1",
+                                container_port=1323,
+                            ),
+                        ],
+                        env=[
+                            run_v2.EnvVar(
+                                name="AWS_ACCESS_KEY_ID_RSmith",
+                                value_source=run_v2.EnvVarSource(
+                                   secret_key_ref=run_v2.SecretKeySelector(
+                                      secret="derf-RSmith-accessKeyId-AWS"
+                                      version="latest"
+                                   ),
+                                ),
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        )
+    )
+    
     # Initialize request argument(s)
     request = run_v2.UpdateServiceRequest(
-       Service = {
-          name  = "aws-proxy-app"
-          template {
-             containers = {
+       service=run_v2.Service(
+          name="aws-proxy-app",
+          template=run_v2.RevisionTemplate(
+             containers = [
+                run_v2.Container(
                 image = "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
-                env [
-                   name = 
+                env [{
+                   name = "AWS_ACCESS_KEY_ID_RSmith"
                    value_source {
                       secret_key_ref {
-                         secret = 
+                         secret = "derf-RSmith-accessKeyId-AWS"
                          version = latest
                       }
                    }
+                },
+                {
+                   name = "AWS_SECRET_ACCESS_KEY_RSmith"
+                   value_source {
+                      secret_key_ref {
+                         secret = "derf-RSmith-accessKeySecret-AWS"
+                         version = latest
+                      }
+                   }
+                }
                 ]
-             }
-          }
-
-       }
+                )
+             ]
+          )
+       )
     )
 
     # Make the request
@@ -61,6 +104,7 @@ def sample_update_service(data):
 
     # Handle the response
     print(response)
+    return(response)
 
 # [END run_v2_generated_Services_UpdateService_sync]
 
