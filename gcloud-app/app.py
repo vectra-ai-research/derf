@@ -27,7 +27,7 @@ def bad_request(message):
 
 
 def route_exec(data):
-    command = request.data["NEWUSER"]
+    command = data['NEWUSER']
     envVars = {}
     try:
         completedProcess = subprocess.run("/usr/local/gcloud/google-cloud-sdk/bin run services update aws-proxy-app '--update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest' --project derf-deployment-public", 
