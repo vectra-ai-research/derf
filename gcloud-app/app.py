@@ -31,22 +31,24 @@ def bad_request(message):
 def sample_update_service(data):
     # Create a client
     client = run_v2.ServicesClient()
+    project_id = os.environ['PROJECT_ID']
+    newuser = data['NEWUSER']
 
     # define a service request
         # define a service request
     request = run_v2.UpdateServiceRequest(
         service=run_v2.Service(
-            name="projects/derf-deployment-public/locations/us-central1/services/aws-proxy-app",
+            name="projects/" + project_id + "/locations/us-central1/services/aws-proxy-app",
             template=run_v2.RevisionTemplate(
                 containers=[
                     run_v2.Container(
                         image="us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest",
                         env=[
                             run_v2.EnvVar(
-                                name="AWS_ACCESS_KEY_ID_RSmith",
+                                name="AWS_ACCESS_KEY_ID_" + newuser,
                                 value_source=run_v2.EnvVarSource(
                                    secret_key_ref=run_v2.SecretKeySelector(
-                                      secret="derf-RSmith-accessKeyId-AWS",
+                                      secret="derf-" + newuser + "-accessKeyId-AWS",
                                       version="latest",
                                    ),
                                 ),
