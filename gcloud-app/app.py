@@ -37,7 +37,7 @@ def update_users(data):
   #   "projectFlag": projectFlag,
   #   "USER": USER
   #            }
-  update = subprocess.run("$GCLOUD auth list",
+  update = subprocess.run(['curl', '-o', 'email.out', "--header", "Metadata-Flavor: Google", "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email"],
     env = {"projectFlag": projectFlag, "USER": USER, "GCLOUD": GCLOUD_PATH},
     shell=True,
     stdout=subprocess.PIPE, 
