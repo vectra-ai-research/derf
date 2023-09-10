@@ -42,6 +42,8 @@ def route_exec(data):
         response = print("Timedout", 400)
         return response
 
+if __name__ == '__main__':
+    app.run() 
 
 # def sample_update_service(data):
 #     # Create a client
@@ -85,6 +87,3 @@ def route_exec(data):
 #     # Handle the response
 #     print(response)
 #     return(response.traffic_statuses)
-
-if __name__ == '__main__':
-    app.run() 
