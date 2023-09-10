@@ -6,7 +6,7 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Install python packages
-RUN pip install flask requests gunicorn requests-aws4auth 
+RUN pip install flask requests gunicorn shutil subprocess
 
 
 RUN apt-get update && apt-get upgrade -y
@@ -18,7 +18,7 @@ RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tm
 
 # Installing gcloud
 RUN mkdir -p /usr/local/gcloud \
-  && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+  && tar -C /usr/local/gcloud -xvfp /tmp/google-cloud-sdk.tar.gz \
   && /usr/local/gcloud/google-cloud-sdk/install.sh --quiet 
 
 # Adding the gcloud path to local

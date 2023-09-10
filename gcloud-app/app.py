@@ -4,6 +4,7 @@ import shutil
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
 import subprocess
+import shutil
 from subprocess import run
 from google.cloud import run_v2
 
@@ -31,12 +32,11 @@ def route_exec(data):
     gcloud_path = shutil.which("gcloud")
     try:
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app '--update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest' --project derf-deployment-public", 
-                                          env={"GCLOUD": gcloud_path}
+                                          env={"GCLOUD": gcloud_path},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
-                                          timeout=10, 
-                                          universal_newlines=True
+                                          timeout=10
                                           )
         response = print(completedProcess.stdout, 200)
         return response
