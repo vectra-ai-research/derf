@@ -6,7 +6,6 @@ import requests as requests
 import subprocess
 import shutil
 from subprocess import run
-from google.cloud import run_v2
 
 app = Flask(__name__)
 
