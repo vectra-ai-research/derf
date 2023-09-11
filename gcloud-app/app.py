@@ -3,6 +3,7 @@ import os
 import shutil
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
+import google-auth
 import subprocess
 import shutil
 from subprocess import run
@@ -27,13 +28,15 @@ def bad_request(message):
 
 def route_exec(data):
     newuser = data['NEWUSER']
-    ADC = os.environ["GOOGLE_APPLICATION_CREDENTIALS"] 
-    PATH = os.environ
+    token = subprocess.run("gcloud auth application-default print-access-token")
+    creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
     envVars = {}
     gcloud_path = shutil.which("gcloud")
+    # gac = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    # print(gac)
     try:
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app '--update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest' --region us-central1 --project derf-deployment-public", 
-                                          env={"GCLOUD": gcloud_path, "NEWUSER": newuser, "ADC": ADC},
+                                          env={"GCLOUD": gcloud_path, "NEWUSER": newuser, "CREDS": creds},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
@@ -44,7 +47,12 @@ def route_exec(data):
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
-    return response
+    
+# def get_creds():
+#   creds, project = google.auth.default()
+#   return creds 
+
+  return response
 
 if __name__ == '__main__':
     app.run() 
