@@ -3,6 +3,7 @@ import os
 import shutil
 import google.auth
 from google.auth import compute_engine
+import google.auth.transport.requests
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
 import subprocess
@@ -34,7 +35,8 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
-    credentials = compute_engine.Credentials()
+    creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    print(creds)
     gcloud_path = shutil.which("gcloud")
     new_env = os.environ.copy()
     print(new_env)
