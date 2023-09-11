@@ -27,11 +27,13 @@ def bad_request(message):
 
 def route_exec(data):
     newuser = data['NEWUSER']
+    ADC = os.environ["GOOGLE_APPLICATION_CREDENTIALS"] 
+    PATH = os.environ
     envVars = {}
     gcloud_path = shutil.which("gcloud")
     try:
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app '--update-secrets=AWS_ACCESS_KEY_ID_RSmith=derf-RSmith-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_RSmith=derf-RSmith-accessKeySecret-AWS:latest' --region us-central1 --project derf-deployment-public", 
-                                          env={"GCLOUD": gcloud_path, "NEWUSER": newuser},
+                                          env={"GCLOUD": gcloud_path, "NEWUSER": newuser, "ADC": ADC},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
