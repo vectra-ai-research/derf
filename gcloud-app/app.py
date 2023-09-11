@@ -52,7 +52,6 @@ def route_exec(data):
 #   creds, project = google.auth.default()
 #   return creds 
 
-  return response
 
 if __name__ == '__main__':
     app.run() 
