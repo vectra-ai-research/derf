@@ -57,6 +57,11 @@ main:
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint
+    - getGcloudAppURL:
+        call: googleapis.run.v2.projects.locations.services.get
+        args:
+          name: '$${"projects/"+projectID+"/locations/us-central1/services/gcloud-app"}'
+        result: gcloudAppEndpoint 
     - listAccessKeys:
         call: ListAccessKeys
         args:
@@ -81,25 +86,12 @@ main:
         args:
             user: $${user}
         result: response
-    # - getProxyApp:
-    #     call: getProxyAppENVs
-    #     result: currentENVs
-    # - iterateENVs:
-    #     call: iterateENVs
-    #     args:
-    #         currentENVs: $${currentENVs}
-    #     result: mapOfENVs
-    # - updateENVs:
-    #     call: updateENVs
-    #     args:
-    #         mapOfENVs: $${mapOfENVs}
-    #         user:      $${user}
-    #     result: response
-    # - updateProxyApp:
-    #     call: UpdateProxyApp
-    #     args:
-    #         user: $${user}
-    #     result: response
+    - updateProxyApp:
+        call: updateProxyApp
+        args:
+            user: $${user}
+            gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
+        result: response
     - return:
         return: $${response}
 
@@ -344,64 +336,29 @@ iterateENVs:
     - return_step:
         return: $${my_map}
 
-# updateENVs:
-#   params: [user, mapOfENVs]
-#   steps:
-#     - findInMap:
-#         switch:
-#           - condition: $${user in mapOfENVs}
-#             next: UpdateMap
-#     - UpdateMap:
-#         for:
-#           value: v
-#           index: i
-#           in: $${mapOfENVs}
-#           steps:
-#             - loop_step:
-#                 assign:
-#                   - my_map[v.name]: $${v.valueSource.secretKeyRef.secret}
-#     - return_step:
-#         return: $${my_map}
+
 
    
 
 
-######################
-
-UpdateProxyApp:
-  params: [user]
+updateProxyApp:
+  params: [user, gcloudAppEndpoint]
   steps:
-    - patch1:
-        try:
-          call: googleapis.run.v2.projects.locations.services.patch
-          args:
-              name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-              body:
-                  name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-                  launchStage: GA
-                  template:
-                      containers: 
-                        image: "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
-          result: result
-        except:
-            as: e
-            steps:
-                - known_errors0:
-                    switch:
-                    - condition: $${not("HttpError" in e.tags)}
-                      return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
-                    - condition: $${e.code == 200}
-                      next: return
-                - unhandled_exception0:
-                    raise: $${e}
+    - callStep:
+        call: http.post
+        args:
+          url: '$${gcloudAppEndpoint+"/updateSecrets"}'
+          auth:
+              type: OIDC
+          headers:
+            User-Agent: "Derf-User-Provisioning"
+          body:
+              REMOVEUSER: $${user}
+        result: response
 
     - return:
-        return: 
-          - '$${"SUCCESS | decommisioned custom DeRF user: "+user}'
+        return: $${response}
+        
 
   EOF
 
