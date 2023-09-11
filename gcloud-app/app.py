@@ -63,7 +63,7 @@ def deleteSecrets(data):
     gcloud_path = shutil.which("gcloud")
 
     try:
-        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app --remove-secrets=AWS_ACCESS_KEY_ID_'$REMOVEUSER',AWS_SECRET_ACCESS_KEY_'$REMOVEUSER' --region us-central1 --project $PROJECT_ID", 
+        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app --remove-secrets=AWS_ACCESS_KEY_ID_$REMOVEUSER,AWS_SECRET_ACCESS_KEY_$REMOVEUSER --region us-central1 --project $PROJECT_ID", 
                                           env={"GCLOUD": gcloud_path, "REMOVEUSER": removeuser, "PROJECT_ID": projectId},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
