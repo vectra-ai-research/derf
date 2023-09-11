@@ -42,6 +42,7 @@ def route_exec(data):
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
+    return response
 
 if __name__ == '__main__':
     app.run() 
