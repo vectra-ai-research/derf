@@ -12,11 +12,14 @@ app = Flask(__name__)
 
 
 @app.route('/updateSecrets', methods=['POST'])
+
 def validate_post():
   data = request.json
   print(data)
   if 'NEWUSER' not in data:
     abort(400, description='New User not specified')
+  if 'REMOVEUSER' in data:
+    return deleteSecrets(data)
   else:
     return updateSecrets(data)
 
@@ -33,7 +36,7 @@ def updateSecrets(data):
     gcloud_path = shutil.which("gcloud")
 
     try:
-        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app '--update-secrets=AWS_ACCESS_KEY_ID_'$NEWUSER'=derf-'$NEWUSER'-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_'$NEWUSER'=derf-'$NEWUSER'-accessKeySecret-AWS:latest' --region us-central1 --project $PROJECT_ID", 
+        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app --update-secrets=AWS_ACCESS_KEY_ID_'$NEWUSER'=derf-'$NEWUSER'-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_'$NEWUSER'=derf-'$NEWUSER'-accessKeySecret-AWS:latest --region us-central1 --project $PROJECT_ID", 
                                           env={"GCLOUD": gcloud_path, "NEWUSER": newuser, "PROJECT_ID": projectId},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
@@ -41,12 +44,33 @@ def updateSecrets(data):
                                           timeout=10,
                                           text=True
                                           )
-        response = print(completedProcess.returncode, 200)
+        response = print(completedProcess.returncode, completedProcess.stdout, 200)
         return response
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
-    return response
+    
+
+def deleteSecrets(data):
+    projectId = os.environ['PROJECT_ID']
+    removeuser = data['REMOVEUSER']
+    creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    gcloud_path = shutil.which("gcloud")
+
+    try:
+        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app --remove-secrets=AWS_ACCESS_KEY_ID_'$REMOVEUSER',AWS_SECRET_ACCESS_KEY_'$REMOVEUSER' --region us-central1 --project $PROJECT_ID", 
+                                          env={"GCLOUD": gcloud_path, "REMOVEUSER": removeuser, "PROJECT_ID": projectId},
+                                          shell=True, 
+                                          stdout=subprocess.PIPE, 
+                                          stderr=subprocess.STDOUT, 
+                                          timeout=10,
+                                          text=True
+                                          )
+        response = print(completedProcess.returncode, completedProcess.stdout, 200)
+        return response
+    except subprocess.TimeoutExpired:
+        response = print("Timedout", 400)
+        return response
 
 if __name__ == '__main__':
     app.run() 
