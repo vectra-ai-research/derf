@@ -317,24 +317,6 @@ getProxyAppENVs:
     - return:
         return: $${result.template.containers[0].env}
 
-iterateENVs:
-  params: [currentENVs]
-  steps:
-    - update_map_in_loop:
-        assign:
-          - keys: $${currentENVs}
-          - my_map: {}
-    - for_loop:
-        for:
-          value: v
-          index: i
-          in: $${keys}
-          steps:
-            - loop_step:
-                assign:
-                  - my_map[v.name]: $${v.valueSource.secretKeyRef.secret}
-    - return_step:
-        return: $${my_map}
 
 
 
