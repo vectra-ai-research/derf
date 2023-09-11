@@ -2,6 +2,7 @@ from email import header
 import os
 import shutil
 import google.auth
+from google.auth import compute_engine
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
 import subprocess
@@ -30,10 +31,13 @@ def bad_request(message):
 
 
 def updateSecrets(data):
+
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
-    creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    credentials = compute_engine.Credentials()
     gcloud_path = shutil.which("gcloud")
+    new_env = os.environ.copy()
+    print(new_env)
 
     try:
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app --update-secrets=AWS_ACCESS_KEY_ID_$NEWUSER=derf-$NEWUSER-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_$NEWUSER=derf-$NEWUSER-accessKeySecret-AWS:latest --region us-central1 --project $PROJECT_ID", 
