@@ -64,6 +64,7 @@ module "gcloud-proxy-app" {
   source = "../derf-deployment/gcp-gcloud-app"
 
   gcp_deployment_project_id              = local.gcp_deployment_project_id
+  aws-proxy-app-service-account_id       = module.gcp-aws-proxy-app.aws-proxy-app-service-account_id
 
     depends_on = [
     module.aws_derf_execution_users,

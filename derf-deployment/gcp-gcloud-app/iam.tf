@@ -25,6 +25,18 @@ resource "google_service_account_iam_member" "actas-gce-default-account-by-workf
   member             = google_service_account.gcloud-app-service-account.member
 }
 
+## Allow the GCloud App SA to ActAs the Proxy App Service Account so it can relaunch a new version when updating users.
+
+data "google_project" "current" {
+  project_id = local.gcp_deployment_project_id
+}
+
+resource "google_service_account_iam_member" "actas-proxy-app-sa" {
+  service_account_id = var.aws-proxy-app-service-account_id
+  role               = "roles/iam.serviceAccountUser"
+  member             = google_service_account.gcloud-app-service-account.member
+}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Project-Level IAM
