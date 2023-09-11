@@ -41,7 +41,8 @@ def updateSecrets(data):
       print("Credentials valid")
     else:
       request = google.auth.transport.requests.Request()
-    credentials.refresh(request)
+      credentials.refresh(request=request)
+    print(credentials.token)
     token = credentials.token
     ##
     gcloud_path = shutil.which("gcloud")
