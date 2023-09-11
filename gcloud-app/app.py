@@ -27,7 +27,7 @@ def bad_request(message):
 
 
 def updateSecrets(data):
-    projectId = os.os.environ['PROJECT_ID']
+    projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
     creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
     gcloud_path = shutil.which("gcloud")
