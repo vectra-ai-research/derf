@@ -3,7 +3,7 @@ import os
 import shutil
 from flask import Flask, json, request, abort, jsonify
 import requests as requests
-import google-auth
+import google-api-python-client google-auth-httplib2 google-auth-oauthlib
 import subprocess
 import shutil
 from subprocess import run
