@@ -36,8 +36,12 @@ def updateSecrets(data):
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
     ## Get Google Creds
-    request = google.auth.transport.requests.Request()
-    credentials = credentials.refresh(request)
+    credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    if credentials.valid:
+      print("Credentials valid")
+    else:
+      request = google.auth.transport.requests.Request()
+    credentials.refresh(request)
     token = credentials.token
     ##
     gcloud_path = shutil.which("gcloud")
