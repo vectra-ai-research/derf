@@ -39,7 +39,9 @@ def updateSecrets(data):
     url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/gcloud-app-service-account@derf-deployment-public.iam.gserviceaccount.com/token?scopes=googleapis.com/auth/cloud-platform"
     req = urllib.request.Request(url)
     req.add_header("Metadata-Flavor", "Google")
-    access_token = urllib.request.urlopen(req).read().decode()
+    f = urllib.request.urlopen(req)
+    print(f.read().decode('utf-8'))
+    access_token = f.read().decode('utf-8')
     print(access_token)
     # Get Google Creds
     # credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
