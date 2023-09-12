@@ -40,8 +40,9 @@ def updateSecrets(data):
     if credentials.valid:
       print("Credentials valid")
     else:
-      request = google.auth.transport.requests.Request()
-      credentials.refresh(request=request)
+      # request = google.auth.transport.requests.Request()
+      # credentials.refresh(request=request)
+      credentials = compute_engine.Credentials()
     print(credentials.token)
     token = credentials.token
     ##
