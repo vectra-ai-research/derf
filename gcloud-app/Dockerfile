@@ -6,7 +6,7 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Install python packages
-RUN pip install flask requests gunicorn google.auth google.auth.transport.requests
+RUN pip install flask requests gunicorn google.auth
 
 
 RUN apt-get update && apt-get upgrade -y
