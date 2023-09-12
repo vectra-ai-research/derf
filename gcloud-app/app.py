@@ -40,19 +40,19 @@ def updateSecrets(data):
     if credentials.valid:
       print("Credentials valid")
     else:
-      # request = google.auth.transport.requests.Request()
-      # credentials.refresh(request=request)
-      credentials = compute_engine.Credentials()
+      request = google.auth.transport.requests.Request()
+      credentials.refresh(request=request)
     print(credentials.token)
     token = credentials.token
     ##
     gcloud_path = shutil.which("gcloud")
     new_env = os.environ.copy()
     print(new_env)
+    updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app --update-secrets=AWS_ACCESS_KEY_ID_$NEWUSER=derf-$NEWUSER-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_$NEWUSER=derf-$NEWUSER-accessKeySecret-AWS:latest --region us-central1 --project $PROJECT_ID", 
-                                          env={"GCLOUD": gcloud_path, "NEWUSER": newuser, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": token},
+        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID", 
+                                          env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
