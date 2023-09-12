@@ -36,7 +36,7 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
-    url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/gcloud-app-service-account@derf-deployment-public.iam.gserviceaccount.com/token?scopes=googleapis.com/auth/cloud-platform"
+    url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token?scopes=googleapis.com/auth/cloud-platform"
     req = urllib.request.Request(url)
     req.add_header("Metadata-Flavor", "Google")
     f = urllib.request.urlopen(req)
