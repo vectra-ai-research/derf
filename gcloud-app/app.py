@@ -37,14 +37,19 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
+
+    ## Get access token from metadata server
     url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"
     req = urllib.request.Request(url)
     req.add_header("Metadata-Flavor", "Google")
-    f = urllib.request.urlopen(req)
+    r = urllib.request.urlopen(req)
     # print(f.read().decode('utf-8'))
-    access_token = f.read().decode('utf-8')
-    print(access_token['access_token'])
-    print(access_token.access_token)
+    access_token = r.read().decode()
+    print(access_token)
+
+    ## Write access token to file
+    # f = open('~/.config/gcloud/access_token.txt', 'w')
+    # f.write(access_token.access_token)
 
     gcloud_path = shutil.which("gcloud")
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
