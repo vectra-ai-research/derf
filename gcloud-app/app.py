@@ -43,24 +43,13 @@ def updateSecrets(data):
     f = urllib.request.urlopen(req)
     print(f.read().decode('utf-8'))
     access_token = f.read().decode('utf-8')
-    # access_token = access_token_map['access_token']
-    print(access_token)
-    # Get Google Creds
-    # credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
-    # if credentials.valid:
-    #   print("Credentials valid")
-    # else:
-    #   request = google.auth.transport.requests.Request()
-    #   credentials.refresh(request=request)
-    # print(credentials.token)
-    # token = credentials.token
-    ##
+    print(access_token['access_token'])
 
     gcloud_path = shutil.which("gcloud")
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run("$PWD", 
+        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
