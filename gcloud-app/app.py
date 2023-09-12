@@ -46,7 +46,7 @@ def updateSecrets(data):
     # print(f.read().decode('utf-8'))
     access_token = r.read().decode()
     json_access_token = jsonify(access_token)
-    print(json_access_token["access_token"])
+    print(json_access_token)
 
     ## Write access token to file
     # f = open('~/.config/gcloud/access_token.txt', 'w')
