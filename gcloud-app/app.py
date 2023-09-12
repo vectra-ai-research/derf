@@ -60,7 +60,7 @@ def updateSecrets(data):
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
+        completedProcess = subprocess.run("$PWD", 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
@@ -73,7 +73,6 @@ def updateSecrets(data):
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
-    return response
     
 
 def deleteSecrets(data):
@@ -97,7 +96,6 @@ def deleteSecrets(data):
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
-    return response
 
 if __name__ == '__main__':
     app.run() 
