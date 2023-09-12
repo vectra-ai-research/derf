@@ -42,7 +42,8 @@ def updateSecrets(data):
     req.add_header("Metadata-Flavor", "Google")
     f = urllib.request.urlopen(req)
     print(f.read().decode('utf-8'))
-    access_token = f.read().decode('utf-8')
+    access_token_map = f.read().decode('utf-8')
+    access_token = access_token_map['access_token']
     print(access_token)
     # Get Google Creds
     # credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
