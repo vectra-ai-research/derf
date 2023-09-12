@@ -35,19 +35,18 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
+    creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
     ## Get Google Creds
-    credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
-    if credentials.valid:
-      print("Credentials valid")
-    else:
-      request = google.auth.transport.requests.Request()
-      credentials.refresh(request=request)
-    print(credentials.token)
-    token = credentials.token
-    ##
+    # credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    # if credentials.valid:
+    #   print("Credentials valid")
+    # else:
+    #   request = google.auth.transport.requests.Request()
+    #   credentials.refresh(request=request)
+    # print(credentials.token)
+    # token = credentials.token
+    # ##
     gcloud_path = shutil.which("gcloud")
-    new_env = os.environ.copy()
-    print(new_env)
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
@@ -68,6 +67,7 @@ def updateSecrets(data):
     
 
 def deleteSecrets(data):
+    
     projectId = os.environ['PROJECT_ID']
     removeuser = data['REMOVEUSER']
     creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
