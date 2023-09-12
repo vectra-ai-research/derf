@@ -41,9 +41,10 @@ def updateSecrets(data):
     req = urllib.request.Request(url)
     req.add_header("Metadata-Flavor", "Google")
     f = urllib.request.urlopen(req)
-    print(f.read().decode('utf-8'))
+    # print(f.read().decode('utf-8'))
     access_token = f.read().decode('utf-8')
     print(access_token['access_token'])
+    print(access_token.access_token)
 
     gcloud_path = shutil.which("gcloud")
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
