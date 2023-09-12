@@ -1,5 +1,6 @@
 from email import header
 import os
+import urllib.request
 import shutil
 import google.auth
 from google.auth import compute_engine
@@ -35,16 +36,20 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
-
+    url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/gcloud-app-service-account@derf-deployment-public.iam.gserviceaccount.com/token?scopes=googleapis.com/auth/cloud-platform"
+    req = urllib.request.Request(url)
+    req.add_header("Metadata-Flavor", "Google")
+    access_token = urllib.request.urlopen(req).read().decode()
+    print(access_token)
     # Get Google Creds
-    credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
-    if credentials.valid:
-      print("Credentials valid")
-    else:
-      request = google.auth.transport.requests.Request()
-      credentials.refresh(request=request)
-    print(credentials.token)
-    token = credentials.token
+    # credentials, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    # if credentials.valid:
+    #   print("Credentials valid")
+    # else:
+    #   request = google.auth.transport.requests.Request()
+    #   credentials.refresh(request=request)
+    # print(credentials.token)
+    # token = credentials.token
     ##
 
     gcloud_path = shutil.which("gcloud")
@@ -52,7 +57,7 @@ def updateSecrets(data):
 
     try:
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID", 
-                                          env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": token},
+                                          env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
