@@ -1,6 +1,7 @@
 from email import header
 import os
 import urllib.request
+import urllib.parse
 import shutil
 import google.auth
 from google.auth import compute_engine
@@ -36,10 +37,13 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
-    url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token?scopes=googleapis.com/auth/cloud-platform"
+    url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"
     req = urllib.request.Request(url)
     req.add_header("Metadata-Flavor", "Google")
     f = urllib.request.urlopen(req)
+    print(f.status)
+    print(f.reason)   
+    print(f.read(100))
     print(f.read().decode('utf-8'))
     access_token = f.read().decode('utf-8')
     print(access_token)
