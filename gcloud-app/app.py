@@ -37,16 +37,17 @@ def updateSecrets(data):
 
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
-
+    access_token = get_access_token()
+    print(access_token)
     ## Get access token from metadata server
-    url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"
-    req = urllib.request.Request(url)
-    req.add_header("Metadata-Flavor", "Google")
-    r = urllib.request.urlopen(req)
-    # print(f.read().decode('utf-8'))
-    access_token = r.read().decode()
-    json_access_token = jsonify(access_token)
-    print(json_access_token)
+    # url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"
+    # req = urllib.request.Request(url)
+    # req.add_header("Metadata-Flavor", "Google")
+    # r = urllib.request.urlopen(req)
+    # # print(f.read().decode('utf-8'))
+    # access_token = r.read().decode()
+    # json_access_token = jsonify(access_token)
+    # print(json_access_token)
 
     ## Write access token to file
     # f = open('~/.config/gcloud/access_token.txt', 'w')
@@ -92,6 +93,23 @@ def deleteSecrets(data):
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
         return response
+
+
+
+def get_access_token():
+
+  METADATA_HEADERS = {'Metadata-Flavor': 'Google'}
+  url = 'http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token'
+
+  # Request an access token from the metadata server.
+  r = requests.get(url, headers=METADATA_HEADERS)
+  r.raise_for_status()
+
+  # Extract the access token from the response.
+  access_token = r.json()['access_token']
+  print(access_token)
+
+  return access_token
 
 if __name__ == '__main__':
     app.run() 
