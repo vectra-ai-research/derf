@@ -32,3 +32,5 @@ variable "derf_default_accessKeySecret_AWS_SMID" {
   description = "The Secret Manager Id for the secret: DeRF Default User's Access Key Secret"
   type        = string
 }
+
+
