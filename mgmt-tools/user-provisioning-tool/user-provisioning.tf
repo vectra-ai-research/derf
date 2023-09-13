@@ -71,31 +71,31 @@ main:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
         result: response
-    # - attachPolicy:
-    #     call: AttachPolicy
-    #     args:
-    #         user: $${user}
-    #         appEndpoint: $${appEndpoint.uri}
-    #     result: response
-    # - createAccessKey:
-    #     call: CreateAccessKey
-    #     args:
-    #         user: $${user}
-    #         appEndpoint: $${appEndpoint.uri}
-    #     result: Accesskeys
-    # - UploadSecretToSecretManager:
-    #     call: UploadSecretToSecretManager
-    #     args:
-    #         accessKeyId: $${Accesskeys[0]}
-    #         accessKeySecret: $${Accesskeys[1]}
-    #         user: $${user}
-    #     result: response
-    # - updateProxyApp:
-    #     call: updateProxyApp
-    #     args:
-    #         user: $${user}
-    #         gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
-    #     result: response
+    - attachPolicy:
+        call: AttachPolicy
+        args:
+            user: $${user}
+            appEndpoint: $${appEndpoint.uri}
+        result: response
+    - createAccessKey:
+        call: CreateAccessKey
+        args:
+            user: $${user}
+            appEndpoint: $${appEndpoint.uri}
+        result: Accesskeys
+    - UploadSecretToSecretManager:
+        call: UploadSecretToSecretManager
+        args:
+            accessKeyId: $${Accesskeys[0]}
+            accessKeySecret: $${Accesskeys[1]}
+            user: $${user}
+        result: response
+    - updateProxyApp:
+        call: updateProxyApp
+        args:
+            user: $${user}
+            gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
+        result: response
     - return:
         return: $${response}
 
