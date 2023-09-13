@@ -60,9 +60,8 @@ def updateSecrets(data):
     except subprocess.TimeoutExpired as e:
         response = print("Timedout",e.output)
         return response
-    else:
-        response = print("uncaught error creating new user")
-        return response
+    finally:
+        return print("New User Created")
     
 
 def deleteSecrets(data):
@@ -84,9 +83,14 @@ def deleteSecrets(data):
                                           )
         response = print("User Deleted", completedProcess)
         return response
-    except subprocess.TimeoutExpired:
-        response = print("Timedout", 400)
+    except subprocess.CalledProcessError as e:
+        response = print("Timedout",e.output)
         return response
+    except subprocess.TimeoutExpired as e:
+        response = print("Timedout",e.output)
+        return response
+    finally:
+        return print("User Deleted")
 
 
 
