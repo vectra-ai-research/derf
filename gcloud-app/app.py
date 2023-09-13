@@ -50,7 +50,7 @@ def updateSecrets(data):
                                           timeout=120,
                                           text=True
                                           )
-        response = print(completedProcess)
+        response = print("New User Created", completedProcess)
         return response
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
@@ -74,7 +74,7 @@ def deleteSecrets(data):
                                           timeout=120,
                                           text=True
                                           )
-        response = print(completedProcess.returncode, completedProcess.stdout, 200)
+        response = print("User Deleted", completedProcess)
         return response
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
