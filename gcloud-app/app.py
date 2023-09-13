@@ -20,12 +20,12 @@ app = Flask(__name__)
 def validate_post():
   data = request.json
   print(data)
-  if 'NEWUSER' not in data:
-    abort(400, description='New User not specified')
   if 'REMOVEUSER' in data:
     return deleteSecrets(data)
-  else:
+  if 'NEWUSER' in data:
     return updateSecrets(data)
+  else:
+    return abort(400, description='New User not specified')
 
 
 @app.errorhandler(400)
