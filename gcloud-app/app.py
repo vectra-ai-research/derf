@@ -55,7 +55,7 @@ def updateSecrets(data):
                                           timeout=180,
                                           text=True
                                           )
-        response = print("New User Created", subprocess.completedProcess)
+        response = print("New User Created", subprocess.completedProcess(), subprocess.check_output())
         return response
     except subprocess.CalledProcessError as e:
         response = print("Process error when creating new user")
