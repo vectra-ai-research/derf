@@ -71,31 +71,31 @@ main:
             user: $${user}
             appEndpoint: $${appEndpoint.uri}
         result: response
-    - attachPolicy:
-        call: AttachPolicy
-        args:
-            user: $${user}
-            appEndpoint: $${appEndpoint.uri}
-        result: response
-    - createAccessKey:
-        call: CreateAccessKey
-        args:
-            user: $${user}
-            appEndpoint: $${appEndpoint.uri}
-        result: Accesskeys
-    - UploadSecretToSecretManager:
-        call: UploadSecretToSecretManager
-        args:
-            accessKeyId: $${Accesskeys[0]}
-            accessKeySecret: $${Accesskeys[1]}
-            user: $${user}
-        result: response
-    - updateProxyApp:
-        call: updateProxyApp
-        args:
-            user: $${user}
-            gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
-        result: response
+    # - attachPolicy:
+    #     call: AttachPolicy
+    #     args:
+    #         user: $${user}
+    #         appEndpoint: $${appEndpoint.uri}
+    #     result: response
+    # - createAccessKey:
+    #     call: CreateAccessKey
+    #     args:
+    #         user: $${user}
+    #         appEndpoint: $${appEndpoint.uri}
+    #     result: Accesskeys
+    # - UploadSecretToSecretManager:
+    #     call: UploadSecretToSecretManager
+    #     args:
+    #         accessKeyId: $${Accesskeys[0]}
+    #         accessKeySecret: $${Accesskeys[1]}
+    #         user: $${user}
+    #     result: response
+    # - updateProxyApp:
+    #     call: updateProxyApp
+    #     args:
+    #         user: $${user}
+    #         gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
+    #     result: response
     - return:
         return: $${response}
 
@@ -129,14 +129,29 @@ CreateUser:
                 - checkNotOK1:   
                     switch:
                       - condition: $${response.body.responseCode == 409}
-                        raise: $${response}
+                        raise: '$${response}'
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | User already exists"
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | CreateUser endpoint not found"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -170,7 +185,7 @@ AttachPolicy:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
@@ -229,11 +244,30 @@ CreateAccessKey:
 
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | Unable to find the CreateAccessKey API."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to create the access key - too many access keys"
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to create the new user access key, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
+
     - return:
         return: 
           - $${response.body.responseBody.CreateAccessKeyResponse.CreateAccessKeyResult.AccessKey.AccessKeyId}

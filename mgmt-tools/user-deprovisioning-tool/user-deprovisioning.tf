@@ -130,11 +130,28 @@ ListAccessKeys:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | Unable to find the DeleteUser API."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to delete the user - user doesn't exist"
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to delete the user, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -172,11 +189,28 @@ DeleteAccessKey:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | Unable to find the DeleteAccessKey API."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to delete the Access Key - user doesn't exist"
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to delete the user, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -216,11 +250,27 @@ DeleteUser:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to Delete User - Can't find user"
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | DeleteUser endpoint not found"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
 
     - return:
         return: $${response}

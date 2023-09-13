@@ -26,7 +26,10 @@ resource "google_cloud_run_v2_service" "gcloud-app" {
 
     }
     depends_on = [ google_project_iam_member.project_iam_assignment_10]
-  
+    
+    lifecycle {
+    ignore_changes = all
+      }
 
   }
 

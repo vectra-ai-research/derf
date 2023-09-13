@@ -21,11 +21,9 @@ def validate_post():
   data = request.json
   print(data)
   if 'REMOVEUSER' in data:
-    deleteSecrets_response = deleteSecrets(data)
-    return print(deleteSecrets_response)
+    return deleteSecrets(data)
   elif 'NEWUSER' in data:
-    updateSecrets_response =  updateSecrets(data)
-    return print(updateSecrets_response)
+    return updateSecrets(data)
   else:
     return abort(400, description='New User not specified')
 
@@ -48,17 +46,16 @@ def updateSecrets(data):
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
-                                          timeout=120,
+                                          timeout=180,
                                           text=True
                                           )
-        response_code = completedProcess.returncode
-        response = print(["New User Created", response_code])
+        response = print("New User Created")
         return response
     except subprocess.CalledProcessError as e:
-        response = print("Process Error",e.output)
+        response = print("Process error when creating new user")
         return response
     except subprocess.TimeoutExpired as e:
-        response = print("Timedout",e.output)
+        response = print("Creation of new user timed out")
         return response
     finally:
         return print("New User Created")
@@ -76,17 +73,17 @@ def deleteSecrets(data):
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $REMOVESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
                                           env={"GCLOUD": gcloud_path, "REMOVESECRETS": removeSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
-                                          timeout=120,
+                                          timeout=180,
                                           text=True
                                           )
-        response_code = completedProcess.returncode
-        response = print(["User Deleted", response_code])
+
+        response = print("User Deleted")
         return response
     except subprocess.CalledProcessError as e:
-        response = print("Timedout",e.output)
+        response = print("Process error when deleting user")
         return response
     except subprocess.TimeoutExpired as e:
-        response = print("Timedout",e.output)
+        response = print("Unable to delete user, process timedout")
         return response
     finally:
         return print("User Deleted")
