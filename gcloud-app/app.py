@@ -47,15 +47,13 @@ def updateSecrets(data):
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
-                                          stdout=subprocess.PIPE, 
-                                          stderr=subprocess.STDOUT, 
                                           timeout=120,
                                           text=True
                                           )
-        response = print("New User Created")
+        response = print("New User Created", completedProcess.returncode)
         return response
     except subprocess.CalledProcessError as e:
-        response = print("Timedout",e.output)
+        response = print("Process Error",e.output)
         return response
     except subprocess.TimeoutExpired as e:
         response = print("Timedout",e.output)
@@ -76,12 +74,10 @@ def deleteSecrets(data):
         completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $REMOVESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
                                           env={"GCLOUD": gcloud_path, "REMOVESECRETS": removeSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
-                                          stdout=subprocess.PIPE, 
-                                          stderr=subprocess.STDOUT, 
                                           timeout=120,
                                           text=True
                                           )
-        response = print("User Deleted")
+        response = print("User Deleted", completedProcess.returncode)
         return response
     except subprocess.CalledProcessError as e:
         response = print("Timedout",e.output)
