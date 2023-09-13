@@ -53,9 +53,10 @@ def updateSecrets(data):
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
                                           timeout=180,
-                                          text=True
+                                          text=True,
+                                          capture_output=True
                                           )
-        response = print("New User Created", subprocess.completedProcess(), subprocess.check_output())
+        response = print("New User Created", subprocess.completedProcess(), subprocess.check_output(), completedProcess.stdout)
         return response
     except subprocess.CalledProcessError as e:
         response = print("Process error when creating new user")
