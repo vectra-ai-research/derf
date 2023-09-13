@@ -52,8 +52,14 @@ def updateSecrets(data):
                                           )
         response = print("New User Created", completedProcess)
         return response
-    except subprocess.TimeoutExpired:
-        response = print("Timedout", 400)
+    except subprocess.CalledProcessError as e:
+        response = print("Timedout",e.output)
+        return response
+    except subprocess.TimeoutExpired as e:
+        response = print("Timedout",e.output)
+        return response
+    else:
+        response = print("uncaught error creating new user")
         return response
     
 
