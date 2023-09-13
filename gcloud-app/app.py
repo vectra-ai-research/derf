@@ -38,21 +38,6 @@ def updateSecrets(data):
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
     access_token = get_access_token()
-    print(access_token)
-    ## Get access token from metadata server
-    # url = "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"
-    # req = urllib.request.Request(url)
-    # req.add_header("Metadata-Flavor", "Google")
-    # r = urllib.request.urlopen(req)
-    # # print(f.read().decode('utf-8'))
-    # access_token = r.read().decode()
-    # json_access_token = jsonify(access_token)
-    # print(json_access_token)
-
-    ## Write access token to file
-    # f = open('~/.config/gcloud/access_token.txt', 'w')
-    # f.write(access_token.access_token)
-
     gcloud_path = shutil.which("gcloud")
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
@@ -76,12 +61,13 @@ def deleteSecrets(data):
     
     projectId = os.environ['PROJECT_ID']
     removeuser = data['REMOVEUSER']
-    creds, project = google.auth.default( scopes=['googleapis.com/auth/cloud-platform'])
+    access_token = get_access_token()
     gcloud_path = shutil.which("gcloud")
+    removeSecrets = "--remove-secrets=AWS_ACCESS_KEY_ID_" + removeuser + "=derf-" + removeuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + removeuser + "=derf-" + removeuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run("$PWD", 
-                                          env={"GCLOUD": gcloud_path, "REMOVEUSER": removeuser, "PROJECT_ID": projectId},
+        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $REMOVESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
+                                          env={"GCLOUD": gcloud_path, "REMOVESECRETS": removeSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
