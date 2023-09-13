@@ -21,9 +21,9 @@ def validate_post():
   data = request.json
   print(data)
   if 'REMOVEUSER' in data:
-    return deleteSecrets(data)
+    return deleteSecrets()
   if 'NEWUSER' in data:
-    return updateSecrets(data)
+    return updateSecrets()
   else:
     return abort(400, description='New User not specified')
 
