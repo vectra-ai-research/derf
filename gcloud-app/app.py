@@ -47,10 +47,10 @@ def updateSecrets(data):
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
-                                          timeout=60,
+                                          timeout=120,
                                           text=True
                                           )
-        response = print(completedProcess.returncode, completedProcess.stdout, 200)
+        response = print(completedProcess)
         return response
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
@@ -71,7 +71,7 @@ def deleteSecrets(data):
                                           shell=True, 
                                           stdout=subprocess.PIPE, 
                                           stderr=subprocess.STDOUT, 
-                                          timeout=60,
+                                          timeout=120,
                                           text=True
                                           )
         response = print(completedProcess.returncode, completedProcess.stdout, 200)
