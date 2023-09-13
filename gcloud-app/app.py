@@ -51,7 +51,8 @@ def updateSecrets(data):
                                           timeout=120,
                                           text=True
                                           )
-        response = print("New User Created", completedProcess.returncode)
+        response_code = completedProcess.returncode
+        response = print(["New User Created", response_code])
         return response
     except subprocess.CalledProcessError as e:
         response = print("Process Error",e.output)
@@ -78,7 +79,8 @@ def deleteSecrets(data):
                                           timeout=120,
                                           text=True
                                           )
-        response = print("User Deleted", completedProcess.returncode)
+        response_code = completedProcess.returncode
+        response = print(["User Deleted", response_code])
         return response
     except subprocess.CalledProcessError as e:
         response = print("Timedout",e.output)
