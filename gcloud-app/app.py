@@ -56,6 +56,8 @@ def updateSecrets(data):
                                           text=True
                                           )
         response = print("New User Created")
+        print(f"Output from poll: {completedProcess.poll()}")
+        print(f"Output from stdout: {completedProcess.stdout.read1().decode('utf-8')}")
         return response
     except subprocess.CalledProcessError as e:
         response = print("Process error when creating new user")
