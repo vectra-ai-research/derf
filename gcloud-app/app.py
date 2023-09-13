@@ -22,11 +22,14 @@ def validate_post():
   print(data)
   if 'REMOVEUSER' in data:
     if 'REMOVEUSER' in data == '*':
-      return resetApp()
+      response = resetApp()
+      return response
     else:
-      return deleteSecrets(data)
+      response = deleteSecrets(data)
+      return response
   elif 'NEWUSER' in data:
-    return updateSecrets(data)
+    response = updateSecrets(data)
+    return response
   else:
     return abort(400, description='New User not specified')
 

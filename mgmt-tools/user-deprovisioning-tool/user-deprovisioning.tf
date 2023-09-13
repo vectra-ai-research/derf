@@ -148,6 +148,8 @@ ListAccessKeys:
                       return: "FAILURE | Unable to delete the user - user doesn't exist"
                     - condition: $${e.code == 403}
                       return: "FAILURE | Unable to delete the user, this is typically a permission error"
+                    - condition: '$${e.message == "KeyError: key not found: tags"}'
+                      return: "FAILURE | User doesn't exists"
                     - condition: $${e.code == 200}
                       next: return
                 - unhandled_exception:
@@ -389,7 +391,7 @@ updateProxyApp:
         result: response
 
     - return:
-        return: $${response}
+        return: $${"Deleted User"}
         
 
   EOF
