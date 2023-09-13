@@ -23,13 +23,13 @@ def validate_post():
   if 'REMOVEUSER' in data:
     if 'REMOVEUSER' in data == '*':
       response = resetApp()
-      return response
+      return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
     else:
       response = deleteSecrets(data)
-      return response
+      return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
   elif 'NEWUSER' in data:
     response = updateSecrets(data)
-    return response
+    return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
   else:
     return abort(400, description='New User not specified')
 
