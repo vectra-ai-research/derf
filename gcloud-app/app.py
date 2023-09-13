@@ -49,15 +49,13 @@ def updateSecrets(data):
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
+        completedProcess = subprocess.Popen("$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN", 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           shell=True, 
                                           timeout=180,
                                           text=True
                                           )
-        response = print("New User Created")
-        print(f"Output from poll: {completedProcess.poll()}")
-        print(f"Output from stdout: {completedProcess.stdout.read1().decode('utf-8')}")
+        response = print("New User Created", subprocess.completedProcess)
         return response
     except subprocess.CalledProcessError as e:
         response = print("Process error when creating new user")
