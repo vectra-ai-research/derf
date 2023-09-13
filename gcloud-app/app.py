@@ -50,7 +50,7 @@ def updateSecrets(data):
                                           timeout=10,
                                           text=True
                                           )
-        response = print(completedProcess.returncode, completedProcess.stdout, 200)
+        response = print(completedProcess.output, completedProcess.stdout, 200)
         return response
     except subprocess.TimeoutExpired:
         response = print("Timedout", 400)
