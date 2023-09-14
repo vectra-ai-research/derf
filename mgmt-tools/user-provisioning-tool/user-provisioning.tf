@@ -123,7 +123,7 @@ CreateUser:
                           ENDPOINT: https://iam.amazonaws.com
                           UA: '$${"DeRF-AWS-User-Provisioning-Tool=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           VERB: POST
-                          BODY: '$${"Action=CreateUser&Version=2010-05-08&UserName="+user+"&Tags.member.1.Key=usertype&Tags.member.1.Value=Custom"}'
+                          BODY: '$${"Action=CreateUser&Version=2010-05-08&UserName="+user+"&Tags.member.1.Key=usertype&Tags.member.1.Value=Custom&Path=/derfCustomUsers/"}'
                           CONTENT: 'application/x-www-form-urlencoded; charset=utf-8'
                     result: response
                 - checkNotOK1:   
