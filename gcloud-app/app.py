@@ -55,7 +55,6 @@ def updateSecrets():
                                           shell=True,
                                           text=True,
                                           capture_output=True, 
-                                          check=True,
                                           )
         response = print("User Created")
         return response
