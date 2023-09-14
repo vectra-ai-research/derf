@@ -57,12 +57,7 @@ def updateSecrets():
                                           capture_output=True, 
                                           check=True,
                                           )
-        response = print("New User Created", completedProcess.check_output(), completedProcess.communicate(), completedProcess.returncode)
-        print(completedProcess.stdout)
-        print(completedProcess.check_output())
-        print(completedProcess.communicate())
-        print(completedProcess.returncode)
-        return response
+        return print("New User Created")
     except subprocess.CalledProcessError as e:
         response = print("Process error when creating new user")
         return response
