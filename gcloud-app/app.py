@@ -41,9 +41,6 @@ def bad_request(message):
 
 
 def updateSecrets():
-   return runUpdateWithGCloud()
-   
-def runUpdateWithGCloud():
     data = request.json
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
@@ -57,7 +54,8 @@ def runUpdateWithGCloud():
                                           shell=True, 
                                           timeout=180,
                                           text=True,
-                                          capture_output=True
+                                          capture_output=True, 
+                                          check=True,
                                           )
         response = print("New User Created", completedProcess.check_output(), completedProcess.stdout)
         return response
