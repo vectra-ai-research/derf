@@ -49,7 +49,7 @@ def updateSecrets():
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run(["$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN"], 
+        completedProcess = subprocess.check_call(["$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN"], 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           timeout=180,
                                           shell=True,
