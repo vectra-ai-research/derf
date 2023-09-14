@@ -52,11 +52,16 @@ def updateSecrets():
         completedProcess = subprocess.run(["$GCLOUD", "run", "services", "update", "aws-proxy-app", "$UPDATESECRETS", "--region us-central1", "--project", "$PROJECT_ID", "--access-token-file", "$CLOUDSDK_AUTH_ACCESS_TOKEN"], 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           timeout=180,
+                                          stdout=subprocess.PIPE,
                                           text=True,
                                           capture_output=True, 
                                           check=True,
                                           )
-        response = print("New User Created", completedProcess.check_output(), completedProcess.stdout,completedProcess.returncode )
+        response = print("New User Created", completedProcess.check_output(), completedProcess.communicate(), completedProcess.returncode)
+        print(completedProcess.stdout)
+        print(completedProcess.check_output())
+        print(completedProcess.communicate())
+        print(completedProcess.returncode)
         return response
     except subprocess.CalledProcessError as e:
         response = print("Process error when creating new user")
