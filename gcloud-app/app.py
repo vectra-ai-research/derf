@@ -28,7 +28,7 @@ def validate_post():
       response = deleteSecrets(data)
       return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
   elif 'NEWUSER' in data:
-    response = updateSecrets(data)
+    response = updateSecrets()
     return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
   else:
     return abort(400, description='New User not specified')
@@ -40,12 +40,13 @@ def bad_request(message):
   return jsonify(error=str(message)), 400
 
 
-def updateSecrets(data):
+def updateSecrets():
    runUpdateWithGCloud()
    return print("New User Created")
    
 
 def runUpdateWithGCloud():
+    data = request.json
     projectId = os.environ['PROJECT_ID']
     newuser = data['NEWUSER']
     access_token = get_access_token()
