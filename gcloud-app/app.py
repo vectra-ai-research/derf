@@ -23,7 +23,7 @@ def validate_post():
   if 'REMOVEUSER' in data:
     if 'REMOVEUSER' in data == '*':
       response = resetApp()
-      return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
+      return jsonify(response, 200, {'Content-Type': 'application/json; charset=utf-8'})
     else:
       response = deleteSecrets(data)
       return response, 200, {'Content-Type': 'application/json; charset=utf-8'}
@@ -49,23 +49,24 @@ def updateSecrets():
     updateSecrets = "--update-secrets=AWS_ACCESS_KEY_ID_" + newuser + "=derf-" + newuser + "-accessKeyId-AWS:latest,AWS_SECRET_ACCESS_KEY_" + newuser + "=derf-" + newuser + "-accessKeySecret-AWS:latest"
 
     try:
-        completedProcess = subprocess.run(["$GCLOUD", "run", "services", "update", "aws-proxy-app", "$UPDATESECRETS", "--region us-central1", "--project", "$PROJECT_ID", "--access-token-file", "$CLOUDSDK_AUTH_ACCESS_TOKEN"], 
+        completedProcess = subprocess.run(["$GCLOUD run services update aws-proxy-app $UPDATESECRETS --region us-central1 --project $PROJECT_ID --access-token-file $CLOUDSDK_AUTH_ACCESS_TOKEN"], 
                                           env={"GCLOUD": gcloud_path, "UPDATESECRETS": updateSecrets, "PROJECT_ID": projectId, "CLOUDSDK_AUTH_ACCESS_TOKEN": access_token},
                                           timeout=180,
-                                          stdout=subprocess.PIPE,
+                                          shell=True,
                                           text=True,
                                           capture_output=True, 
                                           check=True,
                                           )
-        return print("New User Created")
+        response = print("User Created")
+        return response
     except subprocess.CalledProcessError as e:
-        response = print("Process error when creating new user")
+        response = print("Process error when creating user")
         return response
     except subprocess.TimeoutExpired as e:
-        response = print("Creation of new user timed out")
+        response = print("Unable to create user, process timedout")
         return response
     finally:
-        return print("New User Created")
+        return print("User Created")
 
 
 def deleteSecrets(data):
