@@ -60,6 +60,11 @@ main:
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint 
+    - getGcloudAppURL:
+        call: googleapis.run.v2.projects.locations.services.get
+        args:
+          name: '$${"projects/"+projectID+"/locations/us-central1/services/gcloud-app"}'
+        result: gcloudAppEndpoint 
     - createUser:
         call: CreateUser
         args:
@@ -85,14 +90,12 @@ main:
             accessKeySecret: $${Accesskeys[1]}
             user: $${user}
         result: response
-    # - getProxyAppENVs:
-    #     call: getProxyAppENVs
-    #     result: currentENVs
-    # - updateProxyApp:
-    #     call: updateProxyApp
-    #     args:
-    #         user:      $${user}
-    #     result: response
+    - updateProxyApp:
+        call: updateProxyApp
+        args:
+            user: $${user}
+            gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
+        result: response
     - return:
         return: $${response}
 
@@ -120,20 +123,35 @@ CreateUser:
                           ENDPOINT: https://iam.amazonaws.com
                           UA: '$${"DeRF-AWS-User-Provisioning-Tool=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           VERB: POST
-                          BODY: '$${"Action=CreateUser&Version=2010-05-08&UserName="+user+"&Tags.member.1.Key=usertype&Tags.member.1.Value=Custom"}'
+                          BODY: '$${"Action=CreateUser&Version=2010-05-08&UserName="+user+"&Tags.member.1.Key=usertype&Tags.member.1.Value=Custom&Path=/derfCustomUsers/"}'
                           CONTENT: 'application/x-www-form-urlencoded; charset=utf-8'
                     result: response
                 - checkNotOK1:   
                     switch:
                       - condition: $${response.body.responseCode == 409}
-                        raise: $${response}
+                        raise: '$${response}'
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | User already exists"
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | CreateUser endpoint not found"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -167,7 +185,7 @@ AttachPolicy:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
@@ -180,9 +198,9 @@ AttachPolicy:
                     - condition: $${not("HttpError" in e.tags)}
                       return: "Connection problem."
                     - condition: $${e.code == 404}
-                      return: "Sorry, Secret not found - so unable to delete."
+                      return: "Sorry, unable to attach the policy."
                     - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to create the secret, this is typically a permission error"
+                      return: "FAILURE | Unable to attach the policy, this is typically a permission error"
                     - condition: $${e.code == 200}
                       next: return
                 - unhandled_exception:
@@ -226,11 +244,30 @@ CreateAccessKey:
 
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | Unable to find the CreateAccessKey API."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to create the access key - too many access keys"
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to create the new user access key, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
+
     - return:
         return: 
           - $${response.body.responseBody.CreateAccessKeyResponse.CreateAccessKeyResult.AccessKey.AccessKeyId}
@@ -358,63 +395,22 @@ UploadSecretToSecretManager:
             - "SUCCESS | Created secrets"
 
 
-##################
-
-getProxyAppENVs:
-  steps:
-    - getProxyAppENVs:
-        try:
-          call: googleapis.run.v2.projects.locations.services.revisions.get
-          args:
-              name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-          result: result
-        except:
-            as: e
-            steps:
-                - known_errors0:
-                    switch:
-                    - condition: $${not("HttpError" in e.tags)}
-                      return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
-                    - condition: $${e.code == 200}
-                      next: return
-                - unhandled_exception0:
-                    raise: $${e}
-    - return:
-        return: $${result.template.containers[0].env}
-
-######################
 
 updateProxyApp:
-  params: [user]
+  params: [user, gcloudAppEndpoint]
   steps:
-    - patch:
+    - callStep:
         try:
-          call: googleapis.run.v2.projects.locations.services.patch
+          call: http.post
           args:
-              name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-              body:
-                  name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-                  launchStage: GA
-                  template:
-                      containers: 
-                        image: "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
-                        env: 
-############################### New Custom User #################################
-                          - name: '$${"AWS_ACCESS_KEY_ID_"+user}'
-                            valueSource:
-                              secretKeyRef:
-                                secret: '$${"derf-"+user+"-accessKeyId-AWS"}'
-                                version: 'latest'
-                          - name: '$${"AWS_SECRET_ACCESS_KEY_"+user}'
-                            valueSource:
-                              secretKeyRef:
-                                secret: '$${"derf-"+user+"-accessKeySecret-AWS"}'
-                                version: 'latest'
-          result: patchResult
+            url: '$${gcloudAppEndpoint+"/updateSecrets"}'
+            auth:
+                type: OIDC
+            headers:
+              User-Agent: "Derf-User-Provisioning"
+            body:
+                NEWUSER: $${user}
+          result: response
         except:
             as: e
             steps:
@@ -422,18 +418,15 @@ updateProxyApp:
                     switch:
                     - condition: $${not("HttpError" in e.tags)}
                       return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
-                    - condition: $${e.code == 200}
+                    - condition: $${e.code == 500}
+                      next: return
+                    - condition: $${response.code == 500}
                       next: return
                 - unhandled_exception:
                     raise: $${e}
 
     - return:
-        return: 
-          - '$${"SUCCESS | created new DeRF user "+user}'
+        return: '$${"New User Created: " + user}'
 
   EOF
 

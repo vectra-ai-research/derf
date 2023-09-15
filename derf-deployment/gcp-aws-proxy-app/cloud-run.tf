@@ -16,7 +16,13 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
 
     containers {
       image = "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
+      
+      env {
+        name = "PROJECT_ID"
+        value = var.gcp_deployment_project_id
+      }
 
+    
     ## Default User Credentials
 
 

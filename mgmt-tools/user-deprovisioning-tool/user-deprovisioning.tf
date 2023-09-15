@@ -19,7 +19,10 @@ resource "google_workflows_workflow" "derf_management_aws_user_deprovisioning_to
 ######################################################################################
 ## Tool Description
 ######################################################################################
-
+## A workflow to delete any custom users which were created with the provisioning tool.
+## This workflow deleted the IAM User, its access key, the access key value stored in 
+## Google Secrets Manager and updated the AWS proxy app, removing the environment variables
+## Pointing to those secrets.
 
 ######################################################################################
 ## INPUTS
@@ -57,6 +60,17 @@ main:
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/aws-proxy-app"}'
         result: appEndpoint
+    - getGcloudAppURL:
+        call: googleapis.run.v2.projects.locations.services.get
+        args:
+          name: '$${"projects/"+projectID+"/locations/us-central1/services/gcloud-app"}'
+        result: gcloudAppEndpoint
+    - detachUserPolicy:
+        call: DetachUserPolicy
+        args:
+            user: $${user}
+            appEndpoint: $${appEndpoint.uri}
+        result: response 
     - listAccessKeys:
         call: ListAccessKeys
         args:
@@ -81,31 +95,71 @@ main:
         args:
             user: $${user}
         result: response
-    # - getProxyApp:
-    #     call: getProxyAppENVs
-    #     result: currentENVs
-    # - iterateENVs:
-    #     call: iterateENVs
-    #     args:
-    #         currentENVs: $${currentENVs}
-    #     result: mapOfENVs
-    # - updateENVs:
-    #     call: updateENVs
-    #     args:
-    #         mapOfENVs: $${mapOfENVs}
-    #         user:      $${user}
-    #     result: response
-    # - updateProxyApp:
-    #     call: UpdateProxyApp
-    #     args:
-    #         user: $${user}
-    #     result: response
+    - updateProxyApp:
+        call: updateProxyApp
+        args:
+            user: $${user}
+            gcloudAppEndpoint: $${gcloudAppEndpoint.uri}
+        result: response
     - return:
         return: $${response}
 
 ######################################################################################
 ## Submodules | Sub-Workflows
 ######################################################################################
+DetachUserPolicy:
+  params: [user, appEndpoint]
+  steps: 
+    - DetachhUserPolicy:
+        try:
+            steps:
+                - callStep:
+                    call: http.post
+                    args:
+                      url: '$${appEndpoint+"/submitRequest"}'
+                      auth:
+                          type: OIDC
+                      headers:
+                        User-Agent: "Derf-User-Provisioning"
+                      body:
+                          HOST: iam.amazonaws.com
+                          REGION: ${data.aws_region.current.name}
+                          SERVICE: "iam" 
+                          ENDPOINT: https://iam.amazonaws.com
+                          UA: '$${"DeRF-AWS-User-Provisioning-Tool=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          VERB: POST
+                          BODY: '$${"Action=DetachUserPolicy&UserName="+user+"&PolicyArn=arn:aws:iam::aws:policy/AdministratorAccess&Version=2010-05-08"}'
+                          CONTENT: 'application/x-www-form-urlencoded; charset=utf-8'
+                    result: response
+                - checkNotOK1:   
+                    switch:
+                      - condition: $${response.body.responseCode == 409}
+                        raise: $${response}
+        retry:
+            predicate: $${custom_predicate}
+            max_retries: 3
+            backoff:
+                initial_delay: 1
+                max_delay: 20
+                multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "Sorry, unable to detach the policy."
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to detach the policy, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
+    - return:
+        return: $${response}
+
 ListAccessKeys:
   params: [user, appEndpoint]
   steps: 
@@ -138,11 +192,30 @@ ListAccessKeys:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | Unable to find the DeleteUser API."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to delete the user - user doesn't exist"
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to delete the user, this is typically a permission error"
+                    - condition: '$${e.message == "KeyError: key not found: tags"}'
+                      return: "FAILURE | User doesn't exists"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -180,11 +253,28 @@ DeleteAccessKey:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | Unable to find the DeleteAccessKey API."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to delete the Access Key - user doesn't exist"
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to delete the user, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
     - return:
         return: $${response}
 
@@ -224,11 +314,27 @@ DeleteUser:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
                 max_delay: 20
                 multiplier: 2
+
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 409}
+                      return: "FAILURE | Unable to Delete User - Can't find user"
+                    - condition: $${e.code == 404}
+                      return: "FAILURE | DeleteUser endpoint not found"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
 
     - return:
         return: $${response}
@@ -325,83 +431,44 @@ getProxyAppENVs:
     - return:
         return: $${result.template.containers[0].env}
 
-iterateENVs:
-  params: [currentENVs]
-  steps:
-    - update_map_in_loop:
-        assign:
-          - keys: $${currentENVs}
-          - my_map: {}
-    - for_loop:
-        for:
-          value: v
-          index: i
-          in: $${keys}
-          steps:
-            - loop_step:
-                assign:
-                  - my_map[v.name]: $${v.valueSource.secretKeyRef.secret}
-    - return_step:
-        return: $${my_map}
 
-# updateENVs:
-#   params: [user, mapOfENVs]
-#   steps:
-#     - findInMap:
-#         switch:
-#           - condition: $${user in mapOfENVs}
-#             next: UpdateMap
-#     - UpdateMap:
-#         for:
-#           value: v
-#           index: i
-#           in: $${mapOfENVs}
-#           steps:
-#             - loop_step:
-#                 assign:
-#                   - my_map[v.name]: $${v.valueSource.secretKeyRef.secret}
-#     - return_step:
-#         return: $${my_map}
+
 
    
 
 
-######################
-
-UpdateProxyApp:
-  params: [user]
+updateProxyApp:
+  params: [user, gcloudAppEndpoint]
   steps:
-    - patch1:
+    - callStep:
         try:
-          call: googleapis.run.v2.projects.locations.services.patch
+          call: http.post
           args:
-              name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-              body:
-                  name: '$${"projects/${var.projectId}/locations/us-central1/services/aws-proxy-app"}'
-                  launchStage: GA
-                  template:
-                      containers: 
-                        image: "us-docker.pkg.dev/derf-artifact-registry-public/aws-proxy-app/aws-proxy-app:latest"
-          result: result
+            url: '$${gcloudAppEndpoint+"/updateSecrets"}'
+            auth:
+                type: OIDC
+            headers:
+              User-Agent: "Derf-User-Provisioning"
+            body:
+                REMOVEUSER: $${user}
+          result: response
         except:
             as: e
             steps:
-                - known_errors0:
+                - known_errors:
                     switch:
                     - condition: $${not("HttpError" in e.tags)}
                       return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to add update the cloud run service, this is typically a permission error"
-                    - condition: $${e.code == 200}
+                    - condition: $${e.code == 500}
                       next: return
-                - unhandled_exception0:
+                    - condition: $${response.code == 500}
+                      next: return
+                - unhandled_exception:
                     raise: $${e}
 
     - return:
-        return: 
-          - '$${"SUCCESS | decommisioned custom DeRF user: "+user}'
+        return: '$${"User Deleted: " +user}'
+        
 
   EOF
 
