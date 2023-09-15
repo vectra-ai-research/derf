@@ -19,7 +19,10 @@ resource "google_workflows_workflow" "derf_management_aws_user_deprovisioning_to
 ######################################################################################
 ## Tool Description
 ######################################################################################
-
+## A workflow to delete any custom users which were created with the provisioning tool.
+## This workflow deleted the IAM User, its access key, the access key value stored in 
+## Google Secrets Manager and updated the AWS proxy app, removing the environment variables
+## Pointing to those secrets.
 
 ######################################################################################
 ## INPUTS
@@ -61,7 +64,13 @@ main:
         call: googleapis.run.v2.projects.locations.services.get
         args:
           name: '$${"projects/"+projectID+"/locations/us-central1/services/gcloud-app"}'
-        result: gcloudAppEndpoint 
+        result: gcloudAppEndpoint
+    - detachUserPolicy:
+        call: DetachUserPolicy
+        args:
+            user: $${user}
+            appEndpoint: $${appEndpoint.uri}
+        result: response 
     - listAccessKeys:
         call: ListAccessKeys
         args:
@@ -98,6 +107,59 @@ main:
 ######################################################################################
 ## Submodules | Sub-Workflows
 ######################################################################################
+DetachUserPolicy:
+  params: [user, appEndpoint]
+  steps: 
+    - DetachhUserPolicy:
+        try:
+            steps:
+                - callStep:
+                    call: http.post
+                    args:
+                      url: '$${appEndpoint+"/submitRequest"}'
+                      auth:
+                          type: OIDC
+                      headers:
+                        User-Agent: "Derf-User-Provisioning"
+                      body:
+                          HOST: iam.amazonaws.com
+                          REGION: ${data.aws_region.current.name}
+                          SERVICE: "iam" 
+                          ENDPOINT: https://iam.amazonaws.com
+                          UA: '$${"DeRF-AWS-User-Provisioning-Tool=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          VERB: POST
+                          BODY: '$${"Action=DetachUserPolicy&UserName="+user+"&PolicyArn=arn:aws:iam::aws:policy/AdministratorAccess&Version=2010-05-08"}'
+                          CONTENT: 'application/x-www-form-urlencoded; charset=utf-8'
+                    result: response
+                - checkNotOK1:   
+                    switch:
+                      - condition: $${response.body.responseCode == 409}
+                        raise: $${response}
+        retry:
+            predicate: $${custom_predicate}
+            max_retries: 3
+            backoff:
+                initial_delay: 1
+                max_delay: 20
+                multiplier: 2
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "Sorry, unable to detach the policy."
+                    - condition: $${e.code == 403}
+                      return: "FAILURE | Unable to detach the policy, this is typically a permission error"
+                    - condition: $${e.code == 200}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
+    - return:
+        return: $${response}
+
 ListAccessKeys:
   params: [user, appEndpoint]
   steps: 
@@ -379,19 +441,33 @@ updateProxyApp:
   params: [user, gcloudAppEndpoint]
   steps:
     - callStep:
-        call: http.post
-        args:
-          url: '$${gcloudAppEndpoint+"/updateSecrets"}'
-          auth:
-              type: OIDC
-          headers:
-            User-Agent: "Derf-User-Provisioning"
-          body:
-              REMOVEUSER: $${user}
-        result: response
+        try:
+          call: http.post
+          args:
+            url: '$${gcloudAppEndpoint+"/updateSecrets"}'
+            auth:
+                type: OIDC
+            headers:
+              User-Agent: "Derf-User-Provisioning"
+            body:
+                REMOVEUSER: $${user}
+          result: response
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 500}
+                      next: return
+                    - condition: $${response.code == 500}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
 
     - return:
-        return: $${"Deleted User"}
+        return: '$${"User Deleted: " +user}'
         
 
   EOF

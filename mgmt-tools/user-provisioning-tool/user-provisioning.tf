@@ -198,9 +198,9 @@ AttachPolicy:
                     - condition: $${not("HttpError" in e.tags)}
                       return: "Connection problem."
                     - condition: $${e.code == 404}
-                      return: "Sorry, Secret not found - so unable to delete."
+                      return: "Sorry, unable to attach the policy."
                     - condition: $${e.code == 403}
-                      return: "FAILURE | Unable to create the secret, this is typically a permission error"
+                      return: "FAILURE | Unable to attach the policy, this is typically a permission error"
                     - condition: $${e.code == 200}
                       next: return
                 - unhandled_exception:
@@ -400,19 +400,33 @@ updateProxyApp:
   params: [user, gcloudAppEndpoint]
   steps:
     - callStep:
-        call: http.post
-        args:
-          url: '$${gcloudAppEndpoint+"/updateSecrets"}'
-          auth:
-              type: OIDC
-          headers:
-            User-Agent: "Derf-User-Provisioning"
-          body:
-              NEWUSER: $${user}
-        result: response
+        try:
+          call: http.post
+          args:
+            url: '$${gcloudAppEndpoint+"/updateSecrets"}'
+            auth:
+                type: OIDC
+            headers:
+              User-Agent: "Derf-User-Provisioning"
+            body:
+                NEWUSER: $${user}
+          result: response
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 500}
+                      next: return
+                    - condition: $${response.code == 500}
+                      next: return
+                - unhandled_exception:
+                    raise: $${e}
 
     - return:
-        return: $${response}
+        return: '$${"New User Created: " + user}'
 
   EOF
 
