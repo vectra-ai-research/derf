@@ -85,7 +85,7 @@ ModifySnapshotAttribute:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "rds" 
                           ENDPOINT: "https://rds.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyDBSnapshotAttribute&Version=2014-10-31&DBSnapshotIdentifier=derf-rds-snapshot-share&AttributeName=restore&ValuesToAdd.AttributeValue.1=%7B012345678901%7D"
+                          BODY: "Action=ModifyDBSnapshotAttribute&Version=2014-10-31&DBSnapshotIdentifier=derf-rds-snapshot-share&AttributeName=restore&ValuesToAdd.AttributeValue.1=111122223333"
                           UA: '$${"AWS-Share-RDS-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           USER: $${user}
@@ -160,7 +160,7 @@ RevertSnapshotAttribute:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "rds" 
                           ENDPOINT: "https://rds.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyDBSnapshotAttribute&Version=2014-10-31&DBSnapshotIdentifier=derf-rds-snapshot-share&AttributeName=restore&ValuesToRemove.AttributeValue.1=%7B111122223333%7D"
+                          BODY: "Action=ModifyDBSnapshotAttribute&Version=2014-10-31&DBSnapshotIdentifier=derf-rds-snapshot-share&AttributeName=restore&ValuesToRemove.AttributeValue.1=111122223333"
                           UA: '$${"AWS-Share-RDS-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           VERB: POST
