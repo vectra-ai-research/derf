@@ -50,7 +50,7 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
 
 ## Derf User 01  Credentials
       env {
-        name = "AWS_ACCESS_KEY_ID_USER01"
+        name = "AWS_ACCESS_KEY_ID_user01"
         # value = "derf-user01-accessKeyId-AWS"
         value_source {
           secret_key_ref {
@@ -61,7 +61,7 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
       }
 
       env {
-        name = "AWS_SECRET_ACCESS_KEY_USER01"
+        name = "AWS_SECRET_ACCESS_KEY_user01"
         # value = "derf-user01-accessKeySecret-AWS"
         value_source {
           secret_key_ref {
@@ -73,7 +73,7 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
 
 ## Derf User 02  Credentials
       env {
-        name = "AWS_ACCESS_KEY_ID_USER02"
+        name = "AWS_ACCESS_KEY_ID_user02"
         # value = "derf-user02-accessKeyId-AWS"
         value_source {
           secret_key_ref {
@@ -84,7 +84,7 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
       }
 
       env {
-        name = "AWS_SECRET_ACCESS_KEY_USER02"
+        name = "AWS_SECRET_ACCESS_KEY_user02"
         # value = "derf-user02-accessKeySecret-AWS"
         value_source {
           secret_key_ref {
