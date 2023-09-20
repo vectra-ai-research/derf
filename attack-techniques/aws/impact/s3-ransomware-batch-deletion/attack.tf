@@ -4,9 +4,9 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 }
 
 
-resource "google_workflows_workflow" "workflow_to_invoke_secretmanager_retrieve_secrets" {
-  name            = "aws-sm-retrieve-secrets-srt"
-  description     = "A workflow intended to match the functionality of the  Status Red Team attack technique 'AWS Retrieve a High Number of Secrets Manager secrets' documented here: https://stratus-red-team.cloud/attack-techniques/AWS/aws.credential-access.secretsmanager-retrieve-secrets/"
+resource "google_workflows_workflow" "workflow_to_invoke_s3_ransomware_through_batch_deletion" {
+  name            = "aws-s3-ransomware-through-batch-deletion"
+  description     = "A workflow intended to match the functionality of the  Status Red Team attack technique 'AWS S3 Ransomware through batch file deletion' documented here: https://stratus-red-team.cloud/attack-techniques/AWS/aws.impact.s3-ransomware-batch-deletion/"
   service_account = data.google_service_account.workflows-to-cloudrun-sa.id
   project         = var.projectId
   source_contents = <<-EOF

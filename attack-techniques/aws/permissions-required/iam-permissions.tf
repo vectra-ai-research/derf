@@ -43,6 +43,7 @@ resource "aws_iam_policy" "policy" {
         "iam:DetachUserPolicy",
         "iam:TagUser",
         "iam:UntagUser",
+        "rds:ModifyDBSnapshotAttribute",
         "ssm:DescribeParameters",
         "ssm:GetParameter",
         "ssm:SendCommand",

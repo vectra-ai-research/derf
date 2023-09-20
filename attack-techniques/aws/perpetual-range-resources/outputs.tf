@@ -28,6 +28,11 @@ output "iam_ec2_role_name" {
   description = "The name of the role used for DeRF EC2 instances"
 }
 
+output "database_subnet_name" {
+  value       = module.vpc.database_subnet_group_name
+  description = "The name of the database subnet associated with the perpetual range VPC created for the DeRF - used for RDS attack techniques"
+}
+
 output "CloudTrailBucketName" {
   value       = aws_s3_bucket.derf-cloudtrail-bucket.id
   description = "The name of the bucket backing the DeRF CloudTrail"
