@@ -73,14 +73,12 @@ def submit_request():
   headers['x-amz-server-side-encryption-aws-kms-key-id'] = data['KMS-KEY-ID'] if 'KMS-KEY-ID' in data else print("no KMS-KEY-ID parameter provided")
 
 ## Handle the 'USER' parameter so the detection can be run as different users
-  print(data['USER'])
   if (data['USER'] is not None):
     print("Accessing keys for user specified in 'user' parameter")
-    print(os.environ['AWS_ACCESS_KEY_ID_' + data['USER']])
     accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
     accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
     auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
-  else:
+  elif (data['USER'] is None):
     print("Accessing keys for default user with ELSE block")
     accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
     accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
