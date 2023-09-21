@@ -76,6 +76,7 @@ def submit_request():
   print(data['USER'])
   if (data['USER'] is not None):
     print("Accessing keys for user specified in 'user' parameter")
+    print(os.environ['AWS_ACCESS_KEY_ID_' + data['USER']])
     accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
     accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
     auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  

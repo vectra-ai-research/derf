@@ -77,7 +77,7 @@ resource "google_cloud_run_v2_service" "aws-proxy-app" {
         # value = "derf-user02-accessKeyId-AWS"
         value_source {
           secret_key_ref {
-            secret = "derf-user01-accessKeyId-AWS"
+            secret = "derf-user02-accessKeyId-AWS"
             version = "latest"
           }
         }
