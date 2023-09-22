@@ -93,14 +93,11 @@ ModifySnapshotAttribute:
                     result: response
                 - checkNotOK:   
                     switch:
-                      - condition: $${response.body.responseBody.Response.Errors.Error.Code == "MissingParameter"}
-                        next: handle_result
                       - condition: $${response.body.responseCode == 404}
                         raise: $${response}
                       - condition: $${response.body.responseCode == 400}
                         raise: $${response}
 
-                    
         retry:
             predicate: $${custom_predicate}
             max_retries: 3
@@ -111,14 +108,12 @@ ModifySnapshotAttribute:
 
     - handle_result:
         switch:
-          - condition: $${response.body.responseBody.Response.Errors.Error.Code == "MissingParameter"}
-            next: MissingParameter
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
             next: permissionError
           - condition: $${response.body.responseCode == 400}
-            next: error
+            next: MissingParameter
 
     - MissingParameter:
         return: 
@@ -137,11 +132,7 @@ ModifySnapshotAttribute:
           - $${response.body.responseBody}
           - $${response.body.responseCode}
           - "FAILURE - AWS EC2 Share EBS Snapshot Attack | This is typically a permission error"
-    - error:
-        return: 
-          - $${response.body.responseBody}
-          - $${response.body.responseCode}
-          - "FAILURE - AWS EC2 Share EBS Snapshot Attack"
+
 
 
 RevertModifySnapshotAttribute:
@@ -171,8 +162,19 @@ RevertModifySnapshotAttribute:
                     switch:
                       - condition: $${response.body.responseCode == 404}
                         raise: $${response}
-                      - condition: $${response.body.responseCode == 400}
-                        raise: $${response}
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "Sorry, URL wasn’t found."
+                    - condition: $${e.code == 403}
+                      return: "Authentication error."
+                - unhandled_exception:
+                    raise: $${e}
                     
         retry:
             predicate: $${custom_predicate}
