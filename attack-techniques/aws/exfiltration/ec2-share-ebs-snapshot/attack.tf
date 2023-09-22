@@ -111,7 +111,7 @@ ModifySnapshotAttribute:
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
-            next: permissionError
+            next: MissingParameter
           - condition: $${response.body.responseCode == 400}
             next: MissingParameter
 
@@ -161,6 +161,8 @@ RevertModifySnapshotAttribute:
                 - checkNotOK:   
                     switch:
                       - condition: $${response.body.responseCode == 404}
+                        raise: $${response}
+                      - condition: $${response.body.responseCode == 400}
                         raise: $${response}
         except:
             as: e

@@ -108,12 +108,10 @@ ModifySnapshotAttribute:
 
     - handle_result:
         switch:
-          - condition: $${response.body.responseBody.ErrorResponse.Error.Code == "MissingAuthenticationToken"}
-            next: MissingAuthenticationToken
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
-            next: permissionError
+            next: MissingAuthenticationToken
           - condition: $${response.body.responseCode == 404}
             next: cantFind
           - condition: $${response.body.responseCode == 400}
@@ -190,8 +188,6 @@ RevertSnapshotAttribute:
 
     - handle_result:
         switch:
-          - condition: $${response.body.responseBody.ErrorResponse.Error.Code == "MissingAuthenticationToken"}
-            next: MissingAuthenticationToken
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
@@ -200,12 +196,6 @@ RevertSnapshotAttribute:
             next: cantFind
           - condition: $${response.body.responseCode == 400}
             next: invalidState
-
-    - MissingAuthenticationToken:
-        return: 
-          - $${response.body.responseBody}
-          - $${response.body.responseCode}
-          - "FAILURE - The User you passed is not valid - First deprovision the user, then re-provision - try again"
 
     - returnValidation:
         return: 
