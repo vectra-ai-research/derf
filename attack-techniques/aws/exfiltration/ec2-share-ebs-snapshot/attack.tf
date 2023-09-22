@@ -108,8 +108,6 @@ ModifySnapshotAttribute:
 
     - handle_result:
         switch:
-          - condition: $${response.body.responseBody.ErrorResponse.Error.Code == "MissingAuthenticationToken"}
-            next: MissingAuthenticationToken
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
@@ -117,11 +115,6 @@ ModifySnapshotAttribute:
           - condition: $${response.body.responseCode == 400}
             next: error
 
-    - MissingAuthenticationToken:
-        return: 
-          - $${response.body.responseBody}
-          - $${response.body.responseCode}
-          - "FAILURE - The User you passed is not valid - First deprovision the user, then re-provision - try again"
 
     - returnValidation:
         return: 

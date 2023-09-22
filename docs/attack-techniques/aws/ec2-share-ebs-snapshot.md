@@ -31,9 +31,8 @@ Specify which user this attack should run as.
 ```
 #### Clean Up: 
 
-- Recreates the CloudTrail trail.
+- Removes the fictitious external AWS account by calling the `ModifySnapshotAttribute` API again, this time removing the permission.
   - Executed as the `DeRF Default User`
-
 
 ## Execution Instructions
 
@@ -41,14 +40,16 @@ Specify which user this attack should run as.
 - Programmatically execute this workflow with the following cli command:
 
 ```
-gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}` 
+gcloud workflows run aws-ec2-share-ebs-snapshot-srt `--data={"user": "user01"}` 
 ```
 
 
 ## Detection Artifacts
 
 
-Identify when a CloudTrail trail is deleted, through CloudTrail's <code>DeleteTrail</code> event.
+Identify when a CloudTrail trail is deleted, through CloudTrail's <code>ModifySnapshotAttribute</code> event vent specifically when the requestParameters.createVolumePermission contains an "add" object" and the key add.items[].userId is an external AWS Account.
 
-GuardDuty also provides a dedicated finding type, [Stealth:IAMUser/CloudTrailLoggingDisabled](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-iam.html#stealth-iam-cloudtrailloggingdisabled).
+![](../images/../../images/ec2-share-ebs-snapshot.png)
+
+Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/) produced by this attack technique.
 
