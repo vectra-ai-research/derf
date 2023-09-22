@@ -93,10 +93,13 @@ ModifySnapshotAttribute:
                     result: response
                 - checkNotOK:   
                     switch:
+                      - condition: $${response.body.responseBody.Response.Errors.Error.Code == "MissingParameter"}
+                        next: handle_result
                       - condition: $${response.body.responseCode == 404}
                         raise: $${response}
                       - condition: $${response.body.responseCode == 400}
                         raise: $${response}
+
                     
         retry:
             predicate: $${custom_predicate}
@@ -108,6 +111,8 @@ ModifySnapshotAttribute:
 
     - handle_result:
         switch:
+          - condition: $${response.body.responseBody.Response.Errors.Error.Code == "MissingParameter"}
+            next: MissingParameter
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
@@ -115,6 +120,11 @@ ModifySnapshotAttribute:
           - condition: $${response.body.responseCode == 400}
             next: error
 
+    - MissingParameter:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "FAILURE - The User you passed is not valid - First deprovision the user, then re-provision - try again"
 
     - returnValidation:
         return: 
