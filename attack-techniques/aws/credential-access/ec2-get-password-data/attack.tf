@@ -3,6 +3,7 @@ data "google_service_account" "workflows-to-cloudrun-sa" {
 
 }
 
+data "aws_region" "current" {}
 
 resource "google_workflows_workflow" "workflow_to_invoke_ec2_get_password_data" {
   name            = "aws-ec2-get-password-data-srt"
@@ -81,8 +82,8 @@ GetPasswordData:
                   headers:
                     Content-Type: application/json
                   body:
-                      HOST: "ec2.us-east-1.amazonaws.com"
-                      REGION: "us-east-1"
+                      HOST: "ec2.${data.aws_region.current.name}.amazonaws.com"
+                      REGION: "${data.aws_region.current.name}"
                       SERVICE: "ec2" 
                       ENDPOINT: "https://ec2.amazonaws.com/"
                       BODY: "Action=GetPasswordData&InstanceId=i-${local.random}&Version=2016-11-15"
@@ -96,8 +97,6 @@ GetPasswordData:
                   - sum: $${sum + v}
     - return:
         return: "SUCCESS - AWS Retrieve EC2 Password Data"
-
-              
 
 
   EOF

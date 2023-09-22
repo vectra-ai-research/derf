@@ -108,6 +108,8 @@ ModifySnapshotAttribute:
 
     - handle_result:
         switch:
+          - condition: $${response.body.responseBody.ErrorResponse.Error.Code == "MissingAuthenticationToken"}
+            next: MissingAuthenticationToken
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
@@ -116,6 +118,12 @@ ModifySnapshotAttribute:
             next: cantFind
           - condition: $${response.body.responseCode == 400}
             next: invalidState
+
+    - MissingAuthenticationToken:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "FAILURE - The User you passed is not valid - First deprovision the user, then re-provision - try again"
 
     - returnValidation:
         return: 
@@ -172,20 +180,6 @@ RevertSnapshotAttribute:
                       - condition: $${response.body.responseCode == 400}
                         raise: $${response}
 
-        except:
-            as: e
-            steps:
-                - known_errors:
-                    switch:
-                    - condition: $${not("HttpError" in e.tags)}
-                      return: "Connection problem."
-                    - condition: $${e.code == 404}
-                      return: "Sorry, URL wasn’t found."
-                    - condition: $${e.code == 403}
-                      return: "Authentication error."
-                - unhandled_exception:
-                    raise: $${e}
-
         retry:
             predicate: $${custom_predicate}
             max_retries: 3
@@ -196,6 +190,8 @@ RevertSnapshotAttribute:
 
     - handle_result:
         switch:
+          - condition: $${response.body.responseBody.ErrorResponse.Error.Code == "MissingAuthenticationToken"}
+            next: MissingAuthenticationToken
           - condition: $${response.body.responseCode == 200}
             next: returnValidation
           - condition: $${response.body.responseCode == 403}
@@ -204,6 +200,12 @@ RevertSnapshotAttribute:
             next: cantFind
           - condition: $${response.body.responseCode == 400}
             next: invalidState
+
+    - MissingAuthenticationToken:
+        return: 
+          - $${response.body.responseBody}
+          - $${response.body.responseCode}
+          - "FAILURE - The User you passed is not valid - First deprovision the user, then re-provision - try again"
 
     - returnValidation:
         return: 
@@ -215,7 +217,7 @@ RevertSnapshotAttribute:
         return: 
           - $${response.body.responseBody}
           - $${response.body.responseCode}
-          - "FAILURE - DeRF Share RDS Snapshot Externally Attack Technique| This is typically a permission error"
+          - "FAILURE - DeRF Share RDS Snapshot Externally Attack Technique | This is typically a permission error"
     - cantFind:
         return: 
           - $${response.body.responseBody}
@@ -236,6 +238,8 @@ custom_predicate:
           - condition: $${response.body.responseCode == 400}
             return: true
           - condition: $${response.body.responseCode == 409}
+            return: true
+          - condition: $${response.body.responseCode == 500}
             return: true
           - condition: $${response.body.responseCode == 500}
             return: true
