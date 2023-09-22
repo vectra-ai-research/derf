@@ -86,6 +86,7 @@ def submit_request():
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       print("specified user does not exists, deprovision them before re-provisioning")
+      auth = None
 
 
 ## Handle the passing of temporary session credentials directly to the app so the detection can be 
@@ -105,7 +106,6 @@ def submit_request():
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       print("if TEMPCREDSPASSED except")
-      auth = None
   
 
 
