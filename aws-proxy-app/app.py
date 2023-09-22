@@ -74,21 +74,19 @@ def submit_request():
 
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
-    if (data['USER'] is not ("", [], None, 0, False)):
+    if 'USER' in data:
       print("Accessing keys for user specified in 'user' parameter")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
-    elif (data['USER'] is ("", [], None, 0, False)):
+    else:
       print("Accessing keys for default user with ELSE block")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
-      print("Finding user in request, except block")
-      accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
-      accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
+      print("specified user does not exists, deprovision them before re-provisioning")
+
 
 ## Handle the passing of temporary session credentials directly to the app so the detection can be 
 ## run as a role on the fly

@@ -171,7 +171,21 @@ RevertSnapshotAttribute:
                         raise: $${response}
                       - condition: $${response.body.responseCode == 400}
                         raise: $${response}
-                    
+
+        except:
+            as: e
+            steps:
+                - known_errors:
+                    switch:
+                    - condition: $${not("HttpError" in e.tags)}
+                      return: "Connection problem."
+                    - condition: $${e.code == 404}
+                      return: "Sorry, URL wasn’t found."
+                    - condition: $${e.code == 403}
+                      return: "Authentication error."
+                - unhandled_exception:
+                    raise: $${e}
+
         retry:
             predicate: $${custom_predicate}
             max_retries: 3
