@@ -78,7 +78,7 @@ def submit_request():
     accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
     accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
     auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
-  elif (data['USER'] is None):
+  elif (data['USER'] is ("", [], None, 0, False)):
     print("Accessing keys for default user with ELSE block")
     accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
     accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
