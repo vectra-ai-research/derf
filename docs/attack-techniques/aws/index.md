@@ -49,6 +49,8 @@ This page contains The DeRF attack techniques for available for AWS.
 
 - [Exfiltrate EBS Snapshot by Sharing It](./ec2-share-ebs-snapshot.md)
 
+- [Exfiltrate RDS Snapshot by Sharing It](./rds-share-snapshot.md)
+
 - [Open Ingress Port 22 on a Security Group](./ec2-security-group-open-port-22-ingress.md)
 
 
