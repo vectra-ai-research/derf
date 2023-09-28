@@ -90,7 +90,7 @@ def submit_request():
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
       headers = {'host', 'content-type', 'date', 'x-amz-*', 'Content-MD5'}
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], include_hdrs=headers))  
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], include_hdrs=headers)  
     else:
       print("Accessing keys for default user with ELSE block")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
