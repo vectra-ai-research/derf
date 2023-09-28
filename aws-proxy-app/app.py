@@ -90,7 +90,6 @@ def submit_request():
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
       # headers = {'host', 'content-type', 'date', 'x-amz-*', 'Content-MD5'}
-      print("printing auth.default_include_headers: " + auth.default_include_headers)
       print("printing self._default_headers_sorted_set: " + self._default_headers_sorted_set)
       auth.default_include_headers.add(headers['Content-MD5'])
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
