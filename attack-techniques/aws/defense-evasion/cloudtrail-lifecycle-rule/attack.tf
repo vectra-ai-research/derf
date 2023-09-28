@@ -89,6 +89,7 @@ PutLifecyle:
                           UA: '$${"Derf-AWS-CloudTrail-Lifecycle-Rule=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           USER: $${user}
                           VERB: PUT
+                          MD5: true
                     result: response
                 - checkNotOK:   
                     switch:
@@ -155,6 +156,7 @@ RevertPutLifecyle:
                           UA: '$${"Derf-AWS-CloudTrail-Lifecycle-Rule=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           USER: $${user}
                           VERB: PUT
+                          MD5: true
                     result: response
                 - checkNotOK:   
                     switch:

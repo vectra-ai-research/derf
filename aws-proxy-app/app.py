@@ -1,5 +1,7 @@
 from email import header
 import os
+import base64
+import hashlib
 from flask import Flask, json, request, abort, jsonify
 from requests_aws4auth import AWS4Auth
 from requests_aws4auth import PassiveAWS4Auth
@@ -71,6 +73,15 @@ def submit_request():
 ## Handle headers associated with KMS encryption.
   headers['x-amz-server-side-encryption'] = data['SSE'] if 'SSE' in data else print("no SSE parameter provided")
   headers['x-amz-server-side-encryption-aws-kms-key-id'] = data['KMS-KEY-ID'] if 'KMS-KEY-ID' in data else print("no KMS-KEY-ID parameter provided")
+
+## Assign and calculate headers for MD5 digest - only required in a handful of S3 calls.
+  if 'MD5' in data:
+    contents = body
+    md = hashlib.md5(contents.encode('utf-8')).digest()
+    contents_md5 = base64.b64encode(md).decode('utf-8')
+    headers['Content-MD5'] = contents_md5
+  else:
+    print("no MD5 digest header required or included")
 
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
@@ -152,6 +163,7 @@ def submit_request():
 
 ## PUT HTTP Requests
   elif data['VERB'] == 'PUT':
+
     response = requests.put(data['ENDPOINT'], data=body, headers=headers, auth=auth)
     print(response.request)
     responseHeaders = response.headers

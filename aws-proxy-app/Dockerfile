@@ -6,7 +6,7 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Install python packages
-RUN pip install flask requests gunicorn requests-aws4auth xmltodict base64 hashlib
+RUN pip install flask requests gunicorn requests-aws4auth xmltodict hashlib
 
 # Copy local code to the container image.
 ENV APP_HOME /
