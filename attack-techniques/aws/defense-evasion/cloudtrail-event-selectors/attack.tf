@@ -98,10 +98,10 @@ PutEventSelector:
                         raise: $${response}
         retry:
             predicate: $${custom_predicate}
-            max_retries: 8
+            max_retries: 3
             backoff:
                 initial_delay: 1
-                max_delay: 60
+                max_delay: 30
                 multiplier: 2
 
     - handle_result:

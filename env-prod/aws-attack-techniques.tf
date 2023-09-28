@@ -288,6 +288,28 @@ module "aws_cloudtrail_event_selectors" {
 
 }
 
+module "aws_cloudtrail_lifecycle_rules" {
+  source = "../attack-techniques/aws/defense-evasion/cloudtrail-lifecycle-rule"
+
+  projectId             = local.gcp_deployment_project_id
+  CloudTrailBucketName  = module.aws_perpetual_range_resources.CloudTrailBucketName
+
+  providers = {
+    google          = google.derf
+  }
+
+## Attacks defined in Google Worksflows rely on the underlying infrastructure to be in place to
+## Work properly such as the Proxy App, Derf Execution Users and the Base GCP Project.  
+  depends_on = [
+    module.aws_derf_execution_users,
+    module.gcp_bootstrapping,
+    module.gcp-aws-proxy-app,
+    module.gcp_derf_user_secrets,
+    module.aws_permissions_required
+  ]
+
+}
+
 module "aws_vpc_remove_flow_logs" {
   source = "../attack-techniques/aws/defense-evasion/vpc-remove-flow-logs"
 

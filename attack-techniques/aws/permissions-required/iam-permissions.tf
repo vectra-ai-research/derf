@@ -44,6 +44,7 @@ resource "aws_iam_policy" "policy" {
         "iam:TagUser",
         "iam:UntagUser",
         "rds:ModifyDBSnapshotAttribute",
+        "s3:PutLifecycleConfiguration",
         "ssm:DescribeParameters",
         "ssm:GetParameter",
         "ssm:SendCommand",

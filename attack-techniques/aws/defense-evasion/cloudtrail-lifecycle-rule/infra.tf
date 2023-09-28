@@ -1,2 +1,2 @@
 ## None
-## Trail and backing S3 bucket maintained in perpetual-range-resources module
+## Using the bucket backing the DeRF trail as the target.
