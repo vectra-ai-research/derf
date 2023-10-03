@@ -83,21 +83,20 @@ def submit_request():
   else:
     print("no MD5 digest header required or included")
 
+
 ## Handle the 'USER' parameter so the detection can be run as different users
   try:
     if 'USER' in data:
       print("Accessing keys for user specified in 'user' parameter")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID_' + data['USER']]
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
-      # headers = {'host', 'content-type', 'date', 'x-amz-*', 'Content-MD5'}
-      print("printing self._default_headers_sorted_set: " + self._default_headers_sorted_set)
-      auth.default_include_headers.add(headers['Content-MD5'])
+      # headers = set({'host', 'content-type', 'date', 'x-amz-*', 'Content-MD5'}}
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])  
     else:
       print("Accessing keys for default user with ELSE block")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], )
   except:
       print("specified user does not exists, deprovision them before re-provisioning")
       auth = None
