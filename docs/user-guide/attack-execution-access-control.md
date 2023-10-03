@@ -22,7 +22,8 @@ The ability to execute an attack corresponds to the ability to invoke Cloud Work
 
 ## Best Practices for Role Assignment in GCP
 
-Its best practice to assign the above clusters of Roles to groups rather than individual users or service accounts.  
-    - If Google Workspace is your primary Identity Provider, create a group and assign membership under 'Directory -> Groups'. Once created in Google Workspace, your groups for Attack Execution will be available to assign Roles.
-    - If federating Google Workspace against another Identity Provider, create a group and assign membership in your Identity Provider. Sync the group and its members from your Identity Provider to Google Workspace with automatic SCIM provisioning.  Once populated in Google Workspace, your groups for Attack Execution will be available to assign Roles.
-    - If using Cloud Identity, from the cloud console, navigate to the [Groups](https://console.cloud.google.com/iam-admin/groups) page.  Create a group and assign membership.  Once created, your groups for Attack Execution will be available to assign Roles.
+Its best practice to assign the above clusters of Roles to groups rather than individual users or service accounts.    
+
+    - If Google Workspace is your primary Identity Provider, create a group and assign membership under 'Directory -> Groups'. Once created in Google Workspace, your groups for Attack Execution will be available to assign Roles.   
+    - If federating Google Workspace against another Identity Provider, create a group and assign membership in your Identity Provider. Sync the group and its members from your Identity Provider to Google Workspace with automatic SCIM provisioning.  Once populated in Google Workspace, your groups for Attack Execution will be available to assign Roles.    
+    - If using Cloud Identity, from the cloud console, navigate to the [Groups](https://console.cloud.google.com/iam-admin/groups) page.  Create a group and assign membership.  Once created, your groups for Attack Execution will be available to assign Roles.    
