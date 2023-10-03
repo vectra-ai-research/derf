@@ -31,26 +31,30 @@ Specify which user this attack should run as.
 ```
 #### Clean Up: 
 
-- Resets Lifecycle configuration to 30 days.
+- Resets Lifecycle configuration to 90 days.
   - Executed as the `DeRF Default User`
 
 
 ## Execution Instructions
 
-- See [User Guide](../../user-guide/execution-user-permissions.md) for Execution Instructions via the Google Cloud Console
+- See [User Guide](https://thederf.cloud/user-guide/usage/) for Execution Instructions via the Google Cloud Console
 - Programmatically execute this workflow with the following cli command:
 
 ```
-gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}` 
+gcloud workflows run aws-cloudtrail-lifecycle-rule-srt `--data={"user": "user01"}` 
 ```
 
 
 ## Detection Artifacts
 
 
-Identify when lifecycle rule with a short expiration is applied to an S3 bucket used for CloudTrail logging.
+Identify when a CloudTrail trail record may be impaired, through S3's <code>PutBucketLifecycle</code> event, specifically when the requestParameters.LifecycleConfiguration.Rule indicated S3 objects will be deleted in 1 day.
 
-Identify when a CloudTrail trail is deleted through the AWS event,  `PutBucketLifecycle`.   
+![](../images/../../images/cloudtrail-lifecyle-rules.png)
+
+
+This detection is used to identify when a lifecycle rule with a short expiration is applied to an S3 bucket used for CloudTrail logging.
+
 
 Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-lifecycle-rule/) produced by this attack technique.
 

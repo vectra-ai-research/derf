@@ -47,7 +47,6 @@ gcloud workflows run aws-delete-cloudtrail-trail `--data={"user": "user01"}`
 
 ## Detection Artifacts
 
-
 Identify when a CloudTrail trail is disabled through the AWS event,  `DeleteTrail`.   
 
 Refer to Stratus Red Team documentation for additional detailed [detection artifacts](https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-stop/) produced by this attack technique.

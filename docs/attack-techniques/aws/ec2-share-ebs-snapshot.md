@@ -47,7 +47,7 @@ gcloud workflows run aws-ec2-share-ebs-snapshot-srt `--data={"user": "user01"}`
 ## Detection Artifacts
 
 
-Identify when a CloudTrail trail is deleted, through CloudTrail's <code>ModifySnapshotAttribute</code> event vent specifically when the requestParameters.createVolumePermission contains an "add" object" and the key add.items[].userId is an external AWS Account.
+Identify when a CloudTrail trail is deleted, through CloudTrail's <code>ModifySnapshotAttribute</code> event, specifically when the requestParameters.createVolumePermission contains an "add" object" and the key add.items[].userId is an external AWS Account.
 
 ![](../images/../../images/ec2-share-ebs-snapshot.png)
 
