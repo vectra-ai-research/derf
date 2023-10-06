@@ -32,6 +32,7 @@ resource "aws_iam_policy" "policy" {
         "ec2:AuthorizeSecurityGroupIngress",
         "ec2:RevokeSecurityGroupIngress",
         "ec2:ModifyInstanceAttribute",
+        "ec2:ModifyImageAttribute",
         "iam:PassRole",
         "iam:CreateUser",
         "iam:CreateAccessKey",
