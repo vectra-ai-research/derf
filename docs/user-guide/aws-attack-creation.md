@@ -71,6 +71,10 @@ Details of every API call to AWS is specified in the Google Workflows in the `ht
     - description: When ‘yes’, indicates to the downstream aws proxy application to except credentials sent in the HTTP header and to run the attack as.    
     - example: yes
     - required: no
+- **MD5**: 
+    - description: When ‘yes’, indicates to the downstream aws proxy application to calculate the MD5 hash of the post body parameters and include as a signed header. Only used in very specific AWS API calls such as `PutBucketLifecycleConfiguration`.    
+    - example: yes
+    - required: no
 - **ACCESSKEYID, ACCESSKEYSECRET & SESSIONTOKEN**:
     - description: When included in the Google Workflow request, these temporary credentials are used by the application to run the attack as.    
     - example:
