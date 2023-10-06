@@ -85,7 +85,7 @@ PutEventSelector:
                           REGION: "us-east-1"
                           SERVICE: "cloudtrail" 
                           ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
-                          BODY: '{"TrailName": "${var.TrailName}", "EventSelectors": [{"IncludeManagementEvents": true, "DataResources": [{"Type": "AWS::S3::Object", "Values": ["arn:aws:s3"]}, {"Type": "AWS::Lambda::Function", "Values": ["arn:aws:lambda"]}]}]}'
+                          BODY: '{"TrailName": "${var.TrailName}", "EventSelectors": [{"IncludeManagementEvents": false, "DataResources": [{"Type": "AWS::S3::Object", "Values": ["arn:aws:s3"]}, {"Type": "AWS::Lambda::Function", "Values": ["arn:aws:lambda"]}]}]}'
                           UA: '$${"Derf-AWS-Disable-CloudTrail-EventSelector=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-amz-json-1.1"
                           USER: $${user}

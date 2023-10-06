@@ -97,11 +97,11 @@ def submit_request():
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY_' + data['USER']]
       hdrs = set({'host', 'content-type', 'date', 'x-amz-*', 'content-md5'})
       auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], include_hdrs=hdrs)  
-    else:
+    if 'USER' not in data:
       print("Accessing keys for default user with ELSE block")
       accessKeyId = os.environ['AWS_ACCESS_KEY_ID']
       accessKeySecret = os.environ['AWS_SECRET_ACCESS_KEY']
-      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'], )
+      auth = AWS4Auth(accessKeyId,accessKeySecret, data['REGION'], data['SERVICE'])
   except:
       print("specified user does not exists, deprovision them before re-provisioning")
       auth = None
