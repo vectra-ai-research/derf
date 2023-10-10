@@ -85,7 +85,7 @@ PutLifecyle:
                           REGION: ${data.aws_region.current.name}
                           SERVICE:  s3 
                           ENDPOINT: "https://${var.CloudTrailBucketName}.s3.${data.aws_region.current.name}.amazonaws.com/?lifecycle"
-                          BODY: '<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Rule><Expiration><Days>1</Days></Expiration><ID>object-deletion</ID><Filter /><Status>Enabled</Status></Rule></LifecycleConfiguration>'
+                          BODY: '<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Rule><Expiration><Days>1</Days></Expiration><ID>object-deletion-1</ID><Filter /><Status>Enabled</Status></Rule><Rule><Expiration><Days>1</Days></Expiration><ID>object-deletion-2</ID><Filter /><Status>Enabled</Status></Rule></LifecycleConfiguration>'
                           UA: '$${"Derf-AWS-CloudTrail-Lifecycle-Rule=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           USER: $${user}
                           VERB: PUT
@@ -153,7 +153,7 @@ RevertPutLifecyle:
                           SERVICE:  s3 
                           ENDPOINT: "https://${var.CloudTrailBucketName}.s3.${data.aws_region.current.name}.amazonaws.com/?lifecycle"
                           BODY: '<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Rule><Expiration><Days>90</Days></Expiration><ID>object-deletion</ID><Filter /><Status>Enabled</Status></Rule></LifecycleConfiguration>'
-                          UA: '$${"Derf-AWS-CloudTrail-Lifecycle-Rule=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          UA: 'DeRF-PutLifecycleRule-Revert'
                           VERB: PUT
                           MD5: true
                     result: response
