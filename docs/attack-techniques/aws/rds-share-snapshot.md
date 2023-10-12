@@ -16,8 +16,8 @@ Platform: AWS
 
 
 This attack has two different ways to share a RDS DB Snapshot externally.  
-The first option shares a RDS DB Snapshot with "all" - everyone.   
-The second case shares a RDS DB Snapshot with an external, fictitious AWS account, (012345678912)
+- The first option shares a RDS DB Snapshot with "all" - everyone.   
+- The second case shares a RDS DB Snapshot with an external, fictitious AWS account, (012345678912)
 
 #### Attacker Actions: 
 
@@ -39,7 +39,7 @@ Specify which user this attack should run as.
 
 #### Clean Up: 
 
-- Removes the `restore` attribute from the fictitious external AWS account. 
+- Removes the external fictitious external AWS account or "all" from the `restore` attribute.
   - Executed as the `DeRF Default User`
 
 
@@ -49,7 +49,7 @@ Specify which user this attack should run as.
 - Programmatically execute this workflow with the following cli command:
 
 ```
-gcloud workflows run aws-rds-share-snapshot-srt `--data={"case":"1","user":"user01"}`   
+gcloud workflows run aws-rds-share-snapshot-srt --data={"case":"1","user":"user01"}   
 
 ```
 
