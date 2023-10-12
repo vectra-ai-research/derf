@@ -16,7 +16,7 @@ Platform: AWS
 
 
 This attack has two different ways to share a RDS DB Snapshot externally.  
-- The first option shares a RDS DB Snapshot with "all" - everyone.   
+- The first option shares a RDS DB Snapshot with "all",  aka everyone.   
 - The second case shares a RDS DB Snapshot with an external, fictitious AWS account, (012345678912)
 
 #### Attacker Actions: 
