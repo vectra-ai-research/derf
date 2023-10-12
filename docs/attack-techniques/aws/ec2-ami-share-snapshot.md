@@ -28,11 +28,11 @@ The second case shares an AMI Snapshot with an external, fictitious AWS account,
 #### Workflow Inputs: 
 Specify which user this attack should run as.   
 ```json
-# Sharing the AMI with an external fictitious account
+# Sharing the AMI with group:all
 {"case":"1","user":"user01"}
 {"case":"1","user":"user02"}
 
-# Sharing the AMI with group:all
+# Sharing the AMI with an external fictitious account
 {"case":"2","user":"user01"}
 {"case":"2","user":"user02"}
 ```

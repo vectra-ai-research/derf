@@ -16,7 +16,7 @@ resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_ami_share_snaps
 ## Attack Description
 ######################################################################################
 
-## This attack has two 'cases' - two different ways to share an EBS Snapshot externally. 
+## This attack has two 'cases' - two different ways to share a the EC2 AMI Snapshot externally. 
 ## The first option shares an AMI snapshot with {"groups":"all"} - everyone.
 ## The second case shares an AMI Snapshot with an external, fictitious AWS account, (012345678912)
 
@@ -26,11 +26,11 @@ resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_ami_share_snaps
 #####################################################################################
 ## Input
 ######################################################################################
-# Sharing the AMI with an external fictitious account
+# Sharing the AMI with group:all
 ##### INPUT: {"case":"1","user":"user01"}
 ##### INPUT: {"case":"1","user":"user02"}
 
-# Sharing the AMI with group:all
+# Sharing the AMI with an external fictitious account
 ##### INPUT: {"case":"2","user":"user01"}
 ##### INPUT: {"case":"2","user":"user02"}
 
