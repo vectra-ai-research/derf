@@ -151,7 +151,7 @@ RevertPutEventSelector:
                           SERVICE: "cloudtrail" 
                           ENDPOINT: "https://cloudtrail.us-east-1.amazonaws.com"
                           BODY: '{"TrailName": "${var.TrailName}", "EventSelectors": [{"IncludeManagementEvents": true}]}'
-                          UA: '$${"Derf-AWS-Disable-CloudTrail-EventSelector=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
+                          UA: "Derf-CloudTrail-EventSelectors-Revert"
                           CONTENT: "application/x-amz-json-1.1"
                           VERB: POST
                           TARGET: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.PutEventSelectors

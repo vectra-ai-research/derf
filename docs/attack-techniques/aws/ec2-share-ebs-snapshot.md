@@ -40,7 +40,7 @@ Specify which user this attack should run as.
 - Programmatically execute this workflow with the following cli command:
 
 ```
-gcloud workflows run aws-ec2-share-ebs-snapshot-srt `--data={"user": "user01"}` 
+gcloud workflows run aws-ec2-share-ebs-snapshot-srt --data={"user": "user01"}
 ```
 
 

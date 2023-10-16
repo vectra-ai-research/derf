@@ -131,7 +131,7 @@ Case1:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Add.1.Group=all"
+                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${data.aws_ami.amazon-2.id}&LaunchPermission.Add.1.Group=all"
                           UA: '$${"Derf-AWS-EC2-AMI-Share-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           USER: $${user}
@@ -211,7 +211,7 @@ Case2:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Add.1.UserId=012345678912"
+                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${data.aws_ami.amazon-2.id}&LaunchPermission.Add.1.UserId=012345678912"
                           UA: '$${"Derf-AWS-EC2-AMI-Share-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           USER: $${user}
@@ -292,7 +292,7 @@ Revert1:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Remove.1.Group=all"
+                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${data.aws_ami.amazon-2.id}&LaunchPermission.Remove.1.Group=all"
                           UA: 'AWS-EC2-AMI-Share-Snapshot-Revert'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           VERB: POST
@@ -372,7 +372,7 @@ Revert2:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami.ami.id}&LaunchPermission.Remove.1.UserId=123456789012"
+                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${data.aws_ami.amazon-2.id}&LaunchPermission.Remove.1.UserId=123456789012"
                           UA: 'AWS-EC2-AMI-Share-Snapshot-Revert'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           VERB: POST
