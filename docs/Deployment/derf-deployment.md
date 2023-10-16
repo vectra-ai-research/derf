@@ -60,19 +60,19 @@ terraform apply -var-file=derf.tfvars
 
 === "Terraform Installation" 
 
-    The DeRF has only been tested with Terraform version 1.4.5.  In order to manage multiple versions of Terraform on your system, install `tfenv` command line tool, allowing you to switch between different versions of terraform. 
+    The DeRF has been tested verified with Terraform version `1.6.0`.  In order to manage multiple versions of Terraform on your system, install `tfenv` command line tool, allowing you to switch between different versions of terraform. 
 
 1. Install `tfenv`
 ``` bash
 brew install tfenv
 ``` 
-2. Install Terraform version 1.4.5
+1. Install Terraform version 1.6.0
 ``` bash
-tfenv install 1.4.5
+tfenv install 1.6.0
 ```
-3. Set version 1.4.5 as your default version
+1. Set version 1.6.0 as your default version
 ``` bash
-tfenv use 1.4.5
+tfenv use 1.6.0
 ```     
 
 </div>
