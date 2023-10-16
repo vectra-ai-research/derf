@@ -7,3 +7,15 @@ data "aws_ami" "amazon-2" {
   }
   owners = ["amazon"]
 }
+
+
+resource "aws_ami_copy" "derf-amazon-2-copy" {
+  name              = "tderf-amazon-2-copy"
+  description       = "A copy of the mos recent amazon linux"
+  source_ami_id     = data.aws_ami.amazon-2.id
+  source_ami_region = data.aws_region.current.name
+
+  tags = {
+    Name = "derf-ami-share-copy"
+  }
+}
