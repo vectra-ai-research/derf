@@ -17,7 +17,7 @@ Platform: AWS
 
 This attack has two different ways to share an EBS Snapshot externally. 
 - The first option shares an AMI snapshot with {"groups":"all"} - everyone.
-- The second case shares an AMI Snapshot with an external, fictitious AWS account, (012345678912)
+- The second case shares an AMI Snapshot with an external AWS that is user defined. If none is defined the AMI snapshot is shared with account `012345678901`
 
 #### Attacker Actions: 
 
