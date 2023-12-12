@@ -32,9 +32,9 @@ Specify which user this attack should run as.
 {"case":"1","user":"user01"}
 {"case":"1","user":"user02"}
 
-# Sharing the AMI with an external fictitious account
-{"case":"2","user":"user01"}
-{"case":"2","user":"user02"}
+# Sharing the AMI with an external fictitious account. Define the fictitious account ID as the externalAccountId, a 12 digit numeric string, example below.
+{"case":"2","user":"user01","externalAccountId":"012345678901"}
+{"case":"2","user":"user02","externalAccountId":"012345678901"}
 ```
 
 #### Clean Up: 

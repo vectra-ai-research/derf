@@ -30,9 +30,10 @@ resource "google_workflows_workflow" "workflow_to_invoke_aws_ec2_ami_share_snaps
 ##### INPUT: {"case":"1","user":"user01"}
 ##### INPUT: {"case":"1","user":"user02"}
 
-# Sharing the AMI with an external fictitious account
-##### INPUT: {"case":"2","user":"user01"}
-##### INPUT: {"case":"2","user":"user02"}
+# Sharing the AMI with an external fictitious account. Define the ficticious account ID as the
+# externalAccountId, a 12 digit numeric string, example below.
+##### INPUT: {"case":"2","user":"user01","externalAccountId":"012345678901"}
+##### INPUT: {"case":"2","user":"user02","externalAccountId":"012345678901"}
 
 
 ######################################################################################
@@ -52,7 +53,20 @@ main:
         assign:
           - case: $${args.case}
           - user: $${args.user}
-          - projectID: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}  
+          - projectID: $${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+    - conditionalAssign:
+        switch:
+          - condition: '$${args.externalAccountId != null}'
+            steps:
+              - assign1:
+                  assign:
+                    - externalAccountId: '$${args.externalAccountId}'
+          - condition: '$${args.externalAccountId == null}'
+            steps: 
+              - assign2:         
+                  assign:
+                    - externalAccountId: "012345678901"
+
     - getCloudRunURL:
         call: googleapis.run.v2.projects.locations.services.get
         args:
@@ -63,6 +77,7 @@ main:
         args:
             case: $${case}
             user: $${user}
+            externalAccountId: $${externalAccountId}
             appEndpoint: $${appEndpoint.uri}
         result: response 
     - return:
@@ -73,7 +88,7 @@ main:
 ## Submodules | Sub-Workflows
 ######################################################################################
 determineCase:
-  params: [case, user, appEndpoint]
+  params: [case, user, appEndpoint, externalAccountId]
   steps:
     - determineCase:
         switch:
@@ -100,11 +115,13 @@ determineCase:
                   args:
                       user: $${user}
                       appEndpoint: $${appEndpoint}
+                      externalAccountId: $${externalAccountId}
                   result: response
               - 2revert:
                   call: Revert2
                   args:
                       appEndpoint: $${appEndpoint}
+                      externalAccountId: $${externalAccountId}
                   result: revertResponse
               - 2-returnOutput:
                   return: $${response}
@@ -193,7 +210,7 @@ Case1:
 
 
 Case2:
-  params: [user, appEndpoint]
+  params: [user, appEndpoint, externalAccountId]
   steps:  
     - ModifyImageAttribute:
         try:
@@ -211,7 +228,7 @@ Case2:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami_copy.derf-amazon-2-copy.id}&LaunchPermission.Add.1.UserId=012345678912"
+                          BODY: '$${"Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami_copy.derf-amazon-2-copy.id}&LaunchPermission.Add.1.UserId=" +externalAccountId}'
                           UA: '$${"Derf-AWS-EC2-AMI-Share-Snapshot=="+sys.get_env("GOOGLE_CLOUD_WORKFLOW_EXECUTION_ID")}'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           USER: $${user}
@@ -354,7 +371,7 @@ Revert1:
 ####### Revert the changes to AMI Attributes - Case 2 ########
 
 Revert2:
-  params: [appEndpoint]
+  params: [appEndpoint, externalAccountId]
   steps:  
     - RevertModifyImageAttribute:
         try:
@@ -372,7 +389,7 @@ Revert2:
                           REGION: ${data.aws_region.current.name}
                           SERVICE: "ec2" 
                           ENDPOINT: "https://ec2.${data.aws_region.current.name}.amazonaws.com"
-                          BODY: "Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami_copy.derf-amazon-2-copy.id}&LaunchPermission.Remove.1.UserId=123456789012"
+                          BODY: '$${"Action=ModifyImageAttribute&Version=2016-11-15&ImageId=${aws_ami_copy.derf-amazon-2-copy.id}&LaunchPermission.Remove.1.UserId=" +externalAccountId}'
                           UA: 'AWS-EC2-AMI-Share-Snapshot-Revert'
                           CONTENT: "application/x-www-form-urlencoded; charset=utf-8"
                           VERB: POST
