@@ -18,12 +18,12 @@ SQL queries in BigQuery operate asynchronously through a job submission process,
 
 #### Attacker Actions 
 
-- The attack technique first calls the [googleapis.bigquery.v2.jobs.insert](https://cloud.google.com/workflows/docs/reference/googleapis/bigquery/v2/jobs/insert) REST API, submitting a SQL query selecting all data from the `derf-target-dev.derf_dataset.derf_table1` BigQuery Table.
+The attack technique first calls the [googleapis.bigquery.v2.jobs.insert](https://cloud.google.com/workflows/docs/reference/googleapis/bigquery/v2/jobs/insert) REST API, submitting a SQL query selecting all data from the `derf-target-dev.derf_dataset.derf_table1` BigQuery Table.  
 
   - Log methodName : `jobservice.insert`
   - Required Permissions: `bigquery.jobs.create` and `bigquery.tables.getData`
 
-- Secondly, the attack technique calls the [googleapis.bigquery.v2.jobs.getQueryResults](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/getQueryResults) REST API, returning the result of the previously submitted SQL query using the JobId as reference.
+Secondly, the attack technique calls the [googleapis.bigquery.v2.jobs.getQueryResults](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/getQueryResults) REST API, returning the result of the previously submitted SQL query using the JobId as reference.
 
   - Log methodName : `jobservice.getqueryresults`
   - Required Permissions: `bigquery.jobs.create`
