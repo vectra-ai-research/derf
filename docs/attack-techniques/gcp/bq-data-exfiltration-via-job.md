@@ -39,7 +39,7 @@ None
 
 ## Execution Instructions
 
-- See User Guide for Execution Instructions via the Google Cloud Console
+- See the [User Guide](https://thederf.cloud/user-guide/getting-started/) for Execution Instructions via the Google Cloud Console
 - Programmatically execute this workflow with the following cli command:
 
 ```
@@ -49,15 +49,15 @@ gcloud workflows run gcp-bq-data-exfilration-via-job-toc
 
 ## Detection Artifacts
 
-**LogName**: `projects/-/logs/cloudaudit.googleapis.com/data_access`
-**Producer**: `bigquery.googleapis.com`
+**LogName**: `projects/-/logs/cloudaudit.googleapis.com/data_access`  
+**Producer**: `bigquery.googleapis.com`  
 
-Run SQL query with a Job: `googleapis.bigquery.v2.jobs.insert`
-![](..../../images/jobserviceInsert.png)
+Run SQL query with a Job: `googleapis.bigquery.v2.jobs.insert`  
+![](../../../images/jobserviceInsert.png)
 
-Retrieve SQL query results: `googleapis.bigquery.v2.jobs.getQueryResults`
+Retrieve SQL query results: `googleapis.bigquery.v2.jobs.getQueryResults`  
 
-![](..../../images/jobserviceGetQueryResults.png)
+![](../../../images/jobserviceGetQueryResults.png)
 
 
 ## Control Objectives
