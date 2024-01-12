@@ -82,16 +82,3 @@ resource "google_project_iam_member" "project_iam_assignment_08" {
   member = google_service_account.workflows-to-cloudrun-service-account.member
 }
 
-# # Allow the Workflows SA to actAs from the project-level  
-# resource "google_project_iam_member" "project_iam_assignment_09" {
-#   project = var.gcp_deployment_project_id
-#   role = "roles/iam.serviceAccountUser"
-#   member = google_service_account.workflows-to-cloudrun-service-account.member
-# }
-
-# # Allow the Workflows P4SA to actAs from the project-level  
-# resource "google_project_iam_member" "project_iam_assignment_10" {
-#   project = var.gcp_deployment_project_id
-#   role = "roles/iam.serviceAccountUser"
-#   member = "serviceAccount:service-${data.google_project.current.number}@gcp-sa-workflows.iam.gserviceaccount.com"
-# }

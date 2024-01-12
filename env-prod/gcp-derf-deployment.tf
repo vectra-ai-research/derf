@@ -7,7 +7,6 @@ module "gcp_bootstrapping" {
   gcp_deployment_project_id   = local.gcp_deployment_project_id
   gcp_derf_project_id         = local.gcp_derf_project_id
 
-
 }
 
 
@@ -84,6 +83,7 @@ module "gcp-derf-execution-users" {
   source = "../derf-deployment/gcp-derf-execution-users"
 
   gcp_derf_project_id                          = local.gcp_derf_project_id
+  gcp_deployment_project_id                    = local.gcp_deployment_project_id
   workflows-to-cloudrun-service-account_member = module.gcp-aws-proxy-app.workflows-to-cloudrun-service-account_member
 
     depends_on = [

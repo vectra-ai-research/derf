@@ -11,6 +11,7 @@ This page contains The DeRF attack techniques for available for GCP.
 ## Exfiltration
 
 - [Share Compute Disk](./share-compute-disk.md)
+- [Exfiltrate Data from BigQuery Table via Unauthorized Query](./bq-data-exfiltration-via-job.md)
 
 
 ## Persistence

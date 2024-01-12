@@ -1,13 +1,16 @@
 #########################################################################################
 # Common Core Modules
 ##########################################################################################
+  
 
-module "gcp_required_permissions" {
-  source = "../attack-techniques/gcp/required-permissions"
+module "gcp_impersonate_attacker_sa" {
+  source = "../attack-techniques/gcp/impersonate-attacker-sa"
 
+  projectId             = local.gcp_deployment_project_id
   gcp_derf_project_id   = local.gcp_derf_project_id
   derf-attacker-SA-01_member  = module.gcp-derf-execution-users.derf-attacker-SA-01_member
   derf-attacker-SA-02_member  = module.gcp-derf-execution-users.derf-attacker-SA-02_member
+  workflows-to-cloudrun-service-account_member = module.gcp-aws-proxy-app.workflows-to-cloudrun-service-account_member
 
   providers = {
     google          = google.derf
@@ -23,17 +26,14 @@ module "gcp_required_permissions" {
 
 }
 
-module "gcp_impersonate_attacker_sa" {
-  source = "../attack-techniques/gcp/impersonate-attacker-sa"
+module "gcp_perpetual_range_resources" {
+  source = "../attack-techniques/gcp/perpetual-range-resources"
 
-  projectId             = local.gcp_deployment_project_id
   gcp_derf_project_id   = local.gcp_derf_project_id
-  derf-attacker-SA-01_member  = module.gcp-derf-execution-users.derf-attacker-SA-01_member
-  derf-attacker-SA-02_member  = module.gcp-derf-execution-users.derf-attacker-SA-02_member
-  workflows-to-cloudrun-service-account_member = module.gcp-aws-proxy-app.workflows-to-cloudrun-service-account_member
+  project_id            = local.gcp_derf_project_id
 
   providers = {
-    google          = google.derf
+    google       = google.target
   }
 
 ## Attacks defined in Google Worksflows rely on the underlying infrastructure to be in place to
@@ -100,6 +100,25 @@ module "gcp_share_compute_disk" {
 
 }
 
+module "gcp_bq_data_exfiltration_via_job_toc" {
+  source = "../attack-techniques/gcp/exfiltration/bq-data-exfiltration-via-job-toc"
+
+  projectId             = local.gcp_deployment_project_id
+  gcp_derf_project_id   = local.gcp_derf_project_id
+  
+  providers = {
+    google       = google.derf
+  }
+
+## Attacks defined in Google Worksflows rely on the underlying infrastructure to be in place to
+## Work properly such as the Proxy App, Derf Execution Users and the Base GCP Project.  
+  depends_on = [
+    module.gcp-derf-execution-users,
+    module.gcp_bootstrapping
+
+  ]
+
+}
 
 ##########################################################################################
 # Persistence Attacks

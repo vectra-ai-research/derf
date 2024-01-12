@@ -13,4 +13,3 @@ variable "gcp_derf_project_id" {
   description = "The ID of the project which attacks will execute in"
   type        = string
 }
-
